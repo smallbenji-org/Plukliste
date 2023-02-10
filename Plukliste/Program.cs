@@ -16,8 +16,9 @@ if (!Directory.Exists("export"))
     Console.ReadLine();
     return;
 }
-
 files = Directory.EnumerateFiles("export").ToList();
+
+//ACT
 while (readKey != 'Q')
 {
     //get files
@@ -76,7 +77,8 @@ while (readKey != 'Q')
     readKey = Console.ReadKey().KeyChar;
     if (readKey >= 'a') readKey -= (char)('a' - 'A'); //To upper hack
     Console.Clear();
-    Console.ForegroundColor = ConsoleColor.Red;
+    
+    Console.ForegroundColor = ConsoleColor.Red; //status in red
     switch (readKey)
     {
         case 'G':
@@ -85,19 +87,22 @@ while (readKey != 'Q')
             Console.WriteLine("Pluklister genindlæst");
             break;
         case 'F':
-            if (index > 0) index -= 1;
+            if (index > 0) index--;
             break;
         case 'N':
-            if (index < files.Count - 1) index += 1;
+            if (index < files.Count - 1) index++;
             break;
         case 'A':
-            File.Move(files[index], "import");
+            //Move files to import directory
+            var filewithoutPath = files[index].Substring(files[index].LastIndexOf('\\'));
+            File.Move(files[index], string.Format(@"import\\{0}", filewithoutPath));
+            Console.WriteLine($"Plukseddel {files[index]} afsluttet.");
+            files.Remove(files[index]);
+            if (index == files.Count) index--;
             break;
-
     }
-    Console.ForegroundColor = standardColor;
+    Console.ForegroundColor = standardColor; //reset color
 
 }
-
 
 

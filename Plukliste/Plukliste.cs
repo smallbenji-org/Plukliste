@@ -1,16 +1,19 @@
 ﻿namespace Plukliste;
 public class Pluklist
 {
-    public List<Item> items = new List<Item>();
-    public void AddItem(Item item) { items.Add(item); }
+    public string? Name;
+    public string? Forsendelse;
+    public string? Adresse;
+    public List<Item> Lines = new List<Item>();
+    public void AddItem(Item item) { Lines.Add(item); }
 }
 
 public class Item
 {
-    public string productid;
-    public string title;
-    public ItemType type;
-    public int amount;
+    public string ProductID;
+    public string Title;
+    public ItemType Type;
+    public int Amount;
 }
 
 public enum ItemType

@@ -2,8 +2,6 @@
 //Eksempel på funktionel kodning hvor der kun bliver brugt et model lag
 
 //Arrange
-System.Xml.Serialization.XmlSerializer xmlSerializer = 
-    new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
 char readKey = ' ';
 List<string> files;
 var index = -1;
@@ -21,10 +19,9 @@ files = Directory.EnumerateFiles("export").ToList();
 //ACT
 while (readKey != 'Q')
 {
-    //get files
     if(files.Count == 0)
     {
-        Console.WriteLine("No new files found.");
+        Console.WriteLine("No files found.");
         
     } else
     {
@@ -33,11 +30,21 @@ while (readKey != 'Q')
         Console.WriteLine($"Plukliste {index+1} af {files.Count}");
         Console.WriteLine($"\nfile: {files[index]}");
         FileStream file = File.OpenRead(files[index]);
-        var plukliste = (Pluklist)xmlSerializer.Deserialize(file);
-        Console.WriteLine("\n{0,-7}{1,-9}{2,-20}{3}", "Antal", "Type", "Produktnr.", "Navn");
-        foreach(var item in plukliste.items)
+        System.Xml.Serialization.XmlSerializer xmlSerializer =
+            new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
+        var plukliste = (Pluklist?)xmlSerializer.Deserialize(file);
+        
+        if (plukliste != null && plukliste.Lines != null)
         {
-            Console.WriteLine("{0,-7}{1,-9}{2,-20}{3}", item.amount, item.type, item.productid, item.title);
+            Console.WriteLine("\n{0, -13}{1}", "Name:", plukliste.Name);
+            Console.WriteLine("{0, -13}{1}", "Forsendelse:", plukliste.Forsendelse);
+            Console.WriteLine("{0, -13}{1}", "Adresse:", plukliste.Adresse);
+
+            Console.WriteLine("\n{0,-7}{1,-9}{2,-20}{3}", "Antal", "Type", "Produktnr.", "Navn");
+            foreach (var item in plukliste.Lines)
+            {
+                Console.WriteLine("{0,-7}{1,-9}{2,-20}{3}", item.Amount, item.Type, item.ProductID, item.Title);
+            }
         }
         file.Close();
     }

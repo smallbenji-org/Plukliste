@@ -29,16 +29,19 @@ while (readKey != 'Q')
 
         Console.WriteLine($"Plukliste {index+1} af {files.Count}");
         Console.WriteLine($"\nfile: {files[index]}");
+
+        //read file
         FileStream file = File.OpenRead(files[index]);
         System.Xml.Serialization.XmlSerializer xmlSerializer =
             new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
         var plukliste = (Pluklist?)xmlSerializer.Deserialize(file);
         
+        //print plukliste
         if (plukliste != null && plukliste.Lines != null)
         {
             Console.WriteLine("\n{0, -13}{1}", "Name:", plukliste.Name);
             Console.WriteLine("{0, -13}{1}", "Forsendelse:", plukliste.Forsendelse);
-            Console.WriteLine("{0, -13}{1}", "Adresse:", plukliste.Adresse);
+            //TODO: Add adresse to screen print
 
             Console.WriteLine("\n{0,-7}{1,-9}{2,-20}{3}", "Antal", "Type", "Produktnr.", "Navn");
             foreach (var item in plukliste.Lines)
@@ -82,7 +85,7 @@ while (readKey != 'Q')
     Console.WriteLine("enindlæs pluksedler");
 
     readKey = Console.ReadKey().KeyChar;
-    if (readKey >= 'a') readKey -= (char)('a' - 'A'); //To upper hack
+    if (readKey >= 'a') readKey -= (char)('a' - 'A'); //HACK: To upper
     Console.Clear();
     
     Console.ForegroundColor = ConsoleColor.Red; //status in red

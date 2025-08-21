@@ -9,9 +9,13 @@ class PluklisteProgram
         //Arrange
         char readKey = ' ';
         List<string> files;
-        var index = -1;
+        var index = 0;
         var standardColor = Console.ForegroundColor;
-        var temp = Directory.CreateDirectory("import");
+        string templateFile = "";
+        Directory.CreateDirectory("templates");
+
+        Directory.CreateDirectory("import");
+
 
         if (!Directory.Exists("export"))
         {
@@ -24,54 +28,9 @@ class PluklisteProgram
         //ACT
         while (readKey != 'Q')
         {
-            if (files.Count == 0)
-            {
-                Console.WriteLine("No files found.");
-
-            }
-            else
-            {
-                if (index == -1) index = 0;
-
-                Console.WriteLine($"Plukliste {index + 1} af {files.Count}");
-                Console.WriteLine($"\nfile: {files[index]}");
-
-                //read file
-                FileStream file = File.OpenRead(files[index]);
-                var plukliste = FileReader.ReadPluklist(files[index]);
-
-                //print plukliste
-                if (plukliste != null && plukliste.Lines != null)
-                {
-                    Console.WriteLine("\n{0, -13}{1}", "Name:", plukliste.Name);
-                    Console.WriteLine("{0, -13}{1}", "Forsendelse:", plukliste.Forsendelse);
-                    //TODO: Add adresse to screen print
-
-                    Console.WriteLine("\n{0,-7}{1,-9}{2,-20}{3}", "Antal", "Type", "Produktnr.", "Navn");
-                    foreach (var item in plukliste.Lines)
-                    {
-                        Console.WriteLine("{0,-7}{1,-9}{2,-20}{3}", item.Amount, item.Type, item.ProductID, item.Title);
-                    }
-                }
-                file.Close();
-            }
-
-            //Print options
-            Console.WriteLine("\n\nOptions:");
-            Dialog.ColorLine(1, "Quit", ConsoleColor.Green);
-            if (index >= 0)
-            {
-                Dialog.ColorLine(1, "Afslut plukseddel", ConsoleColor.Green);
-            }
-            if (index > 0)
-            {
-                Dialog.ColorLine(1, "Forrige plukseddel", ConsoleColor.Green);
-            }
-            if (index < files.Count - 1)
-            {
-                Dialog.ColorLine(1, "Næste plukseddel", ConsoleColor.Green);
-            }
-            Dialog.ColorLine(1, "Genindlæs pluksedler", ConsoleColor.Green);
+            // Plukliste view
+            ConsoleColor highlight = ConsoleColor.Green;
+            ViewFrames.Plukliste(files, highlight, standardColor, index, templateFile);
 
             readKey = Console.ReadKey().KeyChar;
             if (readKey >= 'a') readKey -= (char)('a' - 'A'); //HACK: To upper
@@ -98,6 +57,12 @@ class PluklisteProgram
                     Console.WriteLine($"Plukseddel {files[index]} afsluttet.");
                     files.Remove(files[index]);
                     if (index == files.Count) index--;
+                    break;
+                case 'V': // Vælg template
+                    templateFile = Template.SelectTemplate(standardColor, highlight);
+                    break;
+                case 'E': // Eksporter fil med template
+
                     break;
             }
             Console.ForegroundColor = standardColor; //reset color

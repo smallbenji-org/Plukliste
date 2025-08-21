@@ -39,7 +39,7 @@ class PluklisteProgram {
                 FileStream file = File.OpenRead(files[index]);
                 System.Xml.Serialization.XmlSerializer xmlSerializer =
                     new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
-                var plukliste = (Pluklist?)xmlSerializer.Deserialize(file);
+                Pluklist plukliste = (Pluklist?)xmlSerializer.Deserialize(file);
 
                 //print plukliste
                 if (plukliste != null && plukliste.Lines != null)

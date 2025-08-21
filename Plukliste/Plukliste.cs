@@ -8,18 +8,5 @@ public class Pluklist
     public void AddItem(Item item) { Lines.Add(item); }
 }
 
-public class Item
-{
-    public string ProductID;
-    public string Title;
-    public ItemType Type;
-    public int Amount;
-}
-
-public enum ItemType
-{
-    Fysisk, Print
-}
-
 
 

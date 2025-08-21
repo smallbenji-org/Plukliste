@@ -59,20 +59,20 @@ class PluklisteProgram {
 
             //Print options
             Console.WriteLine("\n\nOptions:");
-            ConsoleFunctions.ColorPartOfLine(1, "Quit", ConsoleColor.Green);
+            Dialog.ColorLine(1, "Quit", ConsoleColor.Green);
             if (index >= 0)
             {
-                ConsoleFunctions.ColorPartOfLine(1, "Afslut plukseddel", ConsoleColor.Green);
+                Dialog.ColorLine(1, "Afslut plukseddel", ConsoleColor.Green);
             }
             if (index > 0)
             {
-                ConsoleFunctions.ColorPartOfLine(1, "Forrige plukseddel", ConsoleColor.Green);
+                Dialog.ColorLine(1, "Forrige plukseddel", ConsoleColor.Green);
             }
             if (index < files.Count - 1)
             {
-                ConsoleFunctions.ColorPartOfLine(1, "Næste plukseddel", ConsoleColor.Green);
+                Dialog.ColorLine(1, "Næste plukseddel", ConsoleColor.Green);
             }
-            ConsoleFunctions.ColorPartOfLine(1, "Genindlæs pluksedler", ConsoleColor.Green);
+            Dialog.ColorLine(1, "Genindlæs pluksedler", ConsoleColor.Green);
 
             readKey = Console.ReadKey().KeyChar;
             if (readKey >= 'a') readKey -= (char)('a' - 'A'); //HACK: To upper

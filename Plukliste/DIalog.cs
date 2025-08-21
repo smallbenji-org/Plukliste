@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Plukliste
 {
-    internal static class ConsoleFunctions
+    internal static class Dialog
     {
-        public static void ColorPartOfLine(int colorLength, string text, ConsoleColor color)
+        public static void ColorLine(int colorLength, string text, ConsoleColor color)
         // colorLength is for how many letters of the text we are coloring.
         {
             int top = Console.CursorTop;

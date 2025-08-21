@@ -1,7 +1,8 @@
 ﻿//Eksempel på funktionel kodning hvor der kun bliver brugt et model lag
 namespace Plukliste;
 
-class PluklisteProgram { 
+class PluklisteProgram
+{
 
     static void Main()
     {
@@ -14,6 +15,7 @@ class PluklisteProgram {
         Directory.CreateDirectory("templates");
 
         Directory.CreateDirectory("import");
+
 
         if (!Directory.Exists("export"))
         {
@@ -65,5 +67,7 @@ class PluklisteProgram {
             }
             Console.ForegroundColor = standardColor; //reset color
         }
+
     }
+
 }

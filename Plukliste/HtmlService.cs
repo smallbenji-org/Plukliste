@@ -42,7 +42,7 @@ namespace Plukliste
         {
             string[] temp = Directory.GetDirectories(Directory.GetCurrentDirectory());
 
-            bool printDirectoryExists = temp.Any(dir => dir == Directory.GetCurrentDirectory() + "print");
+            bool printDirectoryExists = temp.Any(dir => dir == Directory.GetCurrentDirectory() + @"\print");
 
             if (!printDirectoryExists)
             {

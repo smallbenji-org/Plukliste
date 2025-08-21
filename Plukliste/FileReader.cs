@@ -11,8 +11,8 @@ namespace Plukliste
         {
             FileStream file = File.OpenRead(filePath);
 
-            System.Xml.Serialization.XmlSerializer xmlSerializer =
-                new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
+            XmlSerializer xmlSerializer =
+                new XmlSerializer(typeof(Pluklist));
 
             var plukliste = (Pluklist?)xmlSerializer.Deserialize(file);
 

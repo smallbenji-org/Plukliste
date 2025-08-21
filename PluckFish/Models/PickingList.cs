@@ -11,7 +11,7 @@ namespace PluckFish.Models
 
     public class Item
     {
-        public Product product { get; set; }
+        public Product Product { get; set; }
         public ItemType Type;
         public int Amount;
     }

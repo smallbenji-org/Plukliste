@@ -29,7 +29,7 @@ namespace PluckFish.Components
 
         public void UpdateItemInPickingList(PickingList plukliste, Item item, int amount)
         {
-            var found = plukliste.Lines.FirstOrDefault(i => i.Equals(item));
+            Item? found = plukliste.Lines.FirstOrDefault(i => i.Equals(item));
             if (found != null)
             {
                 found.Amount = amount;

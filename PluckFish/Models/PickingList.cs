@@ -1,6 +1,6 @@
 namespace PluckFish.Models
 {
-    public class Plukliste
+    public class PickingList
     {
         public string? Name;
         public string? Forsendelse;
@@ -11,7 +11,7 @@ namespace PluckFish.Models
 
     public class Item
     {
-        Product product { get; set; }
+        public Product product { get; set; }
         public ItemType Type;
         public int Amount;
     }

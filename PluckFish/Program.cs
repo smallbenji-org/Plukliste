@@ -13,7 +13,7 @@ namespace PluckFish
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddSingleton<IProductRepository, DummyProductRepository>();
-            builder.Services.AddSingleton<IPluklisteRepository, DummyPluklisteRepository>();
+            builder.Services.AddSingleton<IPickingListRepository, DummyPickinglistRepository>();
 
             var app = builder.Build();
 

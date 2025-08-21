@@ -3,31 +3,31 @@ using PluckFish.Models;
 
 namespace PluckFish.Components
 {
-    public class DummyPluklisteRepository : IPluklisteRepository
+    public class DummyPickinglistRepository : IPickingListRepository
     {
-        private List<Plukliste> _pluklister = new List<Plukliste>();
+        private List<PickingList> _pluklister = new List<PickingList>();
 
-        public void AddPlukliste(Plukliste plukliste)
+        public void AddPickingList(PickingList plukliste)
         {
             _pluklister.Add(plukliste);
         }
 
-        public void AddProductToPlukliste(Plukliste plukliste, Item item)
+        public void AddProductToPickingList(PickingList plukliste, Item item)
         {
             plukliste.Lines.Add(item);
         }
 
-        public void DeleteProductFromPlukliste(Plukliste plukliste, Item item)
+        public void DeleteProductFromPickingList(PickingList plukliste, Item item)
         {
             plukliste.Lines.Remove(item);
         }
 
-        public void RemovePlukliste(Plukliste plukliste)
+        public void RemovePickingList(PickingList plukliste)
         {
             _pluklister.Remove(plukliste);
         }
 
-        public void UpdateItemInPlukliste(Plukliste plukliste, Item item, int amount)
+        public void UpdateItemInPickingList(PickingList plukliste, Item item, int amount)
         {
             var found = plukliste.Lines.FirstOrDefault(i => i.Equals(item));
             if (found != null)

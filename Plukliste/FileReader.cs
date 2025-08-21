@@ -1,7 +1,4 @@
-﻿using System;
-using System.Xml.Serialization;
-
-namespace Plukliste
+﻿namespace Plukliste
 {
     internal static class FileReader
     {

@@ -26,17 +26,7 @@ namespace Plukliste
             
             using (StreamWriter sw = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "print", $"{fileName}.html")))
             {
-                sw.WriteLine("<!DOCTYPE html>");
-                sw.WriteLine("<html lang=\"en\">");
-                sw.WriteLine("<head>");
-                sw.WriteLine("<meta charset=\"UTF-8\">");
-                sw.WriteLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-                sw.WriteLine("<title>Plukliste</title>");
-                sw.WriteLine("</head>");
-                sw.WriteLine("<body>");
                 sw.WriteLine(content);
-                sw.WriteLine("</body>");
-                sw.WriteLine("</html>");
             }
         }
     }

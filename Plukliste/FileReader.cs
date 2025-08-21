@@ -1,8 +1,9 @@
-﻿using Plukliste.Models;
+using Plukliste.Models;
 using System;
 using System.Xml.Serialization;
 
 namespace Plukliste
+
 {
     internal static class FileReader
     {

@@ -10,7 +10,7 @@ class PluklisteProgram {
         List<string> files;
         var index = -1;
         var standardColor = Console.ForegroundColor;
-        Directory.CreateDirectory("import");
+        var temp = Directory.CreateDirectory("import");
 
         if (!Directory.Exists("export"))
         {
@@ -54,38 +54,23 @@ class PluklisteProgram {
                 }
                 file.Close();
             }
-
+             
             //Print options
             Console.WriteLine("\n\nOptions:");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("Q");
-            Console.ForegroundColor = standardColor;
-            Console.WriteLine("uit");
+            Dialog.ColorLine(1, "Quit", ConsoleColor.Green);
             if (index >= 0)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("A");
-                Console.ForegroundColor = standardColor;
-                Console.WriteLine("fslut plukseddel");
+                Dialog.ColorLine(1, "Afslut plukseddel", ConsoleColor.Green);
             }
             if (index > 0)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("F");
-                Console.ForegroundColor = standardColor;
-                Console.WriteLine("orrige plukseddel");
+                Dialog.ColorLine(1, "Forrige plukseddel", ConsoleColor.Green);
             }
             if (index < files.Count - 1)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("N");
-                Console.ForegroundColor = standardColor;
-                Console.WriteLine("æste plukseddel");
+                Dialog.ColorLine(1, "Næste plukseddel", ConsoleColor.Green);
             }
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("G");
-            Console.ForegroundColor = standardColor;
-            Console.WriteLine("enindlæs pluksedler");
+            Dialog.ColorLine(1, "Genindlæs pluksedler", ConsoleColor.Green);
 
             readKey = Console.ReadKey().KeyChar;
             if (readKey >= 'a') readKey -= (char)('a' - 'A'); //HACK: To upper
@@ -115,7 +100,6 @@ class PluklisteProgram {
                     break;
             }
             Console.ForegroundColor = standardColor; //reset color
-
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Plukliste;
+﻿namespace Plukliste.Models;
 public class Pluklist
 {
     public string? Name;

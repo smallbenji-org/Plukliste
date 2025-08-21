@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plukliste.Models;
+using System;
 using System.Xml.Serialization;
 
 namespace Plukliste

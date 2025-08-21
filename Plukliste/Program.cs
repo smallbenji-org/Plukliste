@@ -10,7 +10,7 @@ class PluklisteProgram {
         List<string> files;
         var index = -1;
         var standardColor = Console.ForegroundColor;
-        Directory.CreateDirectory("import");
+        var temp = Directory.CreateDirectory("import");
 
         if (!Directory.Exists("export"))
         {
@@ -56,7 +56,7 @@ class PluklisteProgram {
                 }
                 file.Close();
             }
-
+             
             //Print options
             Console.WriteLine("\n\nOptions:");
             Console.ForegroundColor = ConsoleColor.Green;

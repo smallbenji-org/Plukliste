@@ -1,7 +1,8 @@
 ﻿//Eksempel på funktionel kodning hvor der kun bliver brugt et model lag
 namespace Plukliste;
 
-class PluklisteProgram { 
+class PluklisteProgram
+{
 
     static void Main()
     {
@@ -54,7 +55,7 @@ class PluklisteProgram {
                 }
                 file.Close();
             }
-             
+
             //Print options
             Console.WriteLine("\n\nOptions:");
             Dialog.ColorLine(1, "Quit", ConsoleColor.Green);
@@ -101,5 +102,7 @@ class PluklisteProgram {
             }
             Console.ForegroundColor = standardColor; //reset color
         }
+
     }
+
 }

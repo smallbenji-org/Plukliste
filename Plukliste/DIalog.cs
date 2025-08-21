@@ -8,7 +8,7 @@ namespace Plukliste
 {
     internal static class Dialog
     {
-        public static void ColorLine(int colorLength, string text, ConsoleColor color)
+        public static void PartlyColorLine(int colorLength, string text, ConsoleColor color)
         // colorLength is for how many letters of the text we are coloring.
         {
             int top = Console.CursorTop;
@@ -26,6 +26,24 @@ namespace Plukliste
                 colorLength -= 1;
             }
             Console.WriteLine(""); // add the last new line.
+        }
+
+        public static void ColorLine(string text, ConsoleColor color)
+        {
+            ConsoleColor standardColor = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            Console.WriteLine(text);
+            Console.ForegroundColor = standardColor;
+        }
+
+        public static void FormatLinesColored(string format, string coloredText, string uncoloredText, ConsoleColor color) 
+        {
+            ConsoleColor standardColor = Console.ForegroundColor;
+
+            Console.ForegroundColor = color;
+            Console.Write(format, coloredText);
+            Console.ForegroundColor = standardColor;
+            Console.Write("{0}", uncoloredText+"\n");
         }
     }
 }

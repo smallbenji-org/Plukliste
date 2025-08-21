@@ -1,0 +1,39 @@
+using PluckFish.Interfaces;
+using PluckFish.Models;
+
+namespace PluckFish.Components
+{
+    public class DummyPickinglistRepository : IPickingListRepository
+    {
+        private List<PickingList> _pluklister = new List<PickingList>();
+
+        public void AddPickingList(PickingList plukliste)
+        {
+            _pluklister.Add(plukliste);
+        }
+
+        public void AddProductToPickingList(PickingList plukliste, Item item)
+        {
+            plukliste.Lines.Add(item);
+        }
+
+        public void DeleteProductFromPickingList(PickingList plukliste, Item item)
+        {
+            plukliste.Lines.Remove(item);
+        }
+
+        public void RemovePickingList(PickingList plukliste)
+        {
+            _pluklister.Remove(plukliste);
+        }
+
+        public void UpdateItemInPickingList(PickingList plukliste, Item item, int amount)
+        {
+            Item? found = plukliste.Lines.FirstOrDefault(i => i.Equals(item));
+            if (found != null)
+            {
+                found.Amount = amount;
+            }
+        }
+    }
+}

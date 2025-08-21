@@ -1,3 +1,6 @@
+using PluckFish.Components;
+using PluckFish.Interfaces;
+
 namespace PluckFish
 {
     public class Program
@@ -8,6 +11,9 @@ namespace PluckFish
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddSingleton<IProductRepository, DummyProductRepository>();
+            builder.Services.AddSingleton<IPickingListRepository, DummyPickinglistRepository>();
 
             var app = builder.Build();
 

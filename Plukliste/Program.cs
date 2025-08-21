@@ -62,7 +62,9 @@ class PluklisteProgram
                     templateFile = Template.SelectTemplate(standardColor, highlight);
                     break;
                 case 'E': // Eksporter fil med template
-
+                    var htmlService = new HtmlService();
+                    var content = htmlService.GenerateHTML(FileReader.ReadPluklist(files[index]), templateFile);
+                    HtmlService.SaveHtmlFile(content);
                     break;
             }
             Console.ForegroundColor = standardColor; //reset color

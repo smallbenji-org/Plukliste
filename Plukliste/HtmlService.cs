@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Plukliste.Models;
 
 namespace Plukliste
 {
@@ -14,14 +8,16 @@ namespace Plukliste
         {
             string templateData = "";
 
-            string dir = Path.Combine(Directory.GetCurrentDirectory(), "templates");
+            // string dir = Path.Combine(Directory.GetCurrentDirectory(), "templates");
+            string dir = Directory.GetCurrentDirectory();
 
-            bool fileExists = Directory.GetFiles(dir).Any(file => file == Path.Combine(dir, templateFileName));
+            bool fileExists = Directory.GetFiles(Path.Combine(dir, "templates")).Any(file => file == Path.Combine(dir, templateFileName));
 
             string templatePath = Path.Combine(dir, templateFileName);
 
             if (!fileExists)
             {
+                Console.WriteLine(templatePath);
                 Console.WriteLine($"Template file \"{templateFileName}\" not found in templates directory.");
                 return null;
             }

@@ -35,16 +35,13 @@ namespace Plukliste
                 Console.WriteLine();
 
                 //read file
-                FileStream file = File.OpenRead(files[index]);
-                System.Xml.Serialization.XmlSerializer xmlSerializer =
-                    new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
-                Pluklist plukliste = (Pluklist?)xmlSerializer.Deserialize(file);
+                Pluklist plukliste = FileReader.ReadPluklist(files[index]);
 
                 //print plukliste
                 if (plukliste != null && plukliste.Lines != null)
                 {
-                    Dialog.FormatLinesColored("{0, -13}", "Name:", plukliste.Name, ConsoleColor.White);
-                    Dialog.FormatLinesColored("{0, -13}", "Forsendelse:", plukliste.Forsendelse, ConsoleColor.White);
+                    Dialog.FormatLinesColored("{0, -13}", "Name:", plukliste.Name ?? "", ConsoleColor.White);
+                    Dialog.FormatLinesColored("{0, -13}", "Forsendelse:", plukliste.Forsendelse ?? "", ConsoleColor.White);
                     //TODO: Add adresse to screen print
 
                     Console.ForegroundColor = ConsoleColor.White;
@@ -55,7 +52,6 @@ namespace Plukliste
                         Console.WriteLine("{0,-7}{1,-9}{2,-20}{3}", item.Amount, item.Type, item.ProductID, item.Title);
                     }
                 }
-                file.Close();
             }
 
             ViewFrames.Options(standardColor);

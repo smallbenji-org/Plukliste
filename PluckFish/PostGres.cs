@@ -14,13 +14,18 @@ namespace PluckFish
         }
         public IDataReader ExecuteReader(string query)
         {
-            using var conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));           
+            using var conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
             return conn.ExecuteReader(query);
         }
-        public object? ExecuteScalar(string query)
+        public object? ExecuteScalar(string query, object param = null)
         {
             using var conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
-            return conn.Execute(query);
+            return conn.ExecuteScalar(query, param);
+        }
+        public object? Execute(string query, object param = null)
+        {
+            using var conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
+            return conn.Execute(query, param);
         }
     }
 }

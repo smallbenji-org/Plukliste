@@ -12,10 +12,24 @@ namespace PluckFish
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddSingleton<IProductRepository, DummyProductRepository>();
-            builder.Services.AddSingleton<IPickingListRepository, DummyPickinglistRepository>();
+            if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString("defaultConnection")))
+            {
+                builder.Services.AddTransient<IProductRepository, PostgresProductRepository>();
+                builder.Services.AddTransient<IPickingListRepository, PostgresPickingListRepository>();
+                builder.Services.AddTransient<PostgresEnsureTables>();
+
+                builder.Services.AddTransient<PostGres>();
+            }
+            else
+            {
+                builder.Services.AddSingleton<IProductRepository, DummyProductRepository>();
+                builder.Services.AddSingleton<IPickingListRepository, DummyPickinglistRepository>();
+            }
+
 
             var app = builder.Build();
+
+            app.Services.GetRequiredService<PostgresEnsureTables>().Ensure();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

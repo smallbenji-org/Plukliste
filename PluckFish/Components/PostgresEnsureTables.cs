@@ -1,3 +1,4 @@
+using System.Data;
 using Dapper;
 using Npgsql;
 
@@ -15,7 +16,7 @@ namespace PluckFish.Components
 
         public void Ensure()
         {
-            using var conn = new NpgsqlConnection(config.GetConnectionString("defaultConnection"));
+            using IDbConnection conn = new NpgsqlConnection(config.GetConnectionString("defaultConnection"));
 
             conn.Execute(@"
                 CREATE TABLE IF NOT EXISTS picking_lists (

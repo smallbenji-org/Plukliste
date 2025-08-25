@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PluckFish.Interfaces;
+using PluckFish.Models;
 
 namespace PluckFish.Controllers
 {
@@ -14,13 +15,22 @@ namespace PluckFish.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Product> products = productRepository.getAll();
+            return View(products);
         }
 
         [HttpPost]
         public IActionResult Index([FromForm] string prodName, [FromForm] string prodID)
         {
             productRepository.AddProduct(new Models.Product { Name = prodName, ProductID = prodID });
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult Delete(string prodID)
+        {
+            productRepository.DeleteProduct(new Product { ProductID = prodID });
 
             return RedirectToAction("Index");
         }

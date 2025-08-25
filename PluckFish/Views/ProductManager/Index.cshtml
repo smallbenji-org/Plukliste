@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<PluckFish.Models.Product>
+@{
     ViewData["Title"] = "Produkt Manager";
 }
 
@@ -17,23 +18,51 @@
     <main class="container">
         <div class="table-section">
             <h2>Tilføj nyt produkt</h2>
-            <div class="form-container">
-                <form asp-action="Index" method="post">
-                    <div class="form-row">
-                        <label class="form-label">Produktnavn:</label>
-                        <input class="form-input" name="prodName"/>
+            <div class="pluklist-selector">
+                <form asp-action="Index" method="post" class="selector-controls">
+                    <div class="detail-row">
+                        <label class="label">Produktnavn:</label>
+                        <input class="list-dropdown" name="prodName" />
                         <span class="text-danger"></span>
                     </div>
-                    <div class="form-row">
-                        <label class="form-label">Produkt ID:</label>
-                        <input class="form-input" name="prodID"/>
+                    <div class="detail-row">
+                        <label class="label">Produkt ID:</label>
+                        <input class="list-dropdown" name="prodID" />
                         <span class="text-danger"></span>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row mt-3">
                         <input type="submit" value="Tilføj Produkt" class="confirm-btn" />
                     </div>
                 </form>
             </div>
+        </div>
+
+        <div class="table-section">
+            <h2>Eksisterende Produkter</h2>
+            <table class="vare-table">
+                <thead>
+                    <tr>
+                        <th>Produkt ID</th>
+                        <th>Produktnavn</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model)
+                    {
+                        <tr>
+                            <td>@product.ProductID</td>
+                            <td>@product.Name</td>
+                            <td>
+                                <form asp-action="Delete" method="post" class="remove-form">
+                                    <input type="hidden" name="prodID" value="@product.ProductID" />
+                                    <button type="submit" class="remove-btn">Fjern</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </main>
 </body>

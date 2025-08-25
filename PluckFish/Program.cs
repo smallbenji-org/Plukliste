@@ -7,7 +7,7 @@ namespace PluckFish
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -15,7 +15,7 @@ namespace PluckFish
             builder.Services.AddSingleton<IProductRepository, DummyProductRepository>();
             builder.Services.AddSingleton<IPickingListRepository, DummyPickinglistRepository>();
 
-            var app = builder.Build();
+            WebApplication app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

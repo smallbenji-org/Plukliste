@@ -14,12 +14,12 @@ namespace PluckFish
         }
         public IDataReader ExecuteReader(string query)
         {
-            using var conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));           
+            using NpgsqlConnection conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));           
             return conn.ExecuteReader(query);
         }
         public object? ExecuteScalar(string query)
         {
-            using var conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
+            using NpgsqlConnection conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
             return conn.Execute(query);
         }
     }

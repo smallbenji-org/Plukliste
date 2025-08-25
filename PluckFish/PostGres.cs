@@ -12,19 +12,22 @@ namespace PluckFish
         {
             this.configuration = configuration;
         }
+      
         public IDataReader ExecuteReader(string query)
         {
-            using var conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
+            using NpgsqlConnection conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
             return conn.ExecuteReader(query);
         }
+      
         public object? ExecuteScalar(string query, object param = null)
         {
-            using var conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
+            using NpgsqlConnection conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
             return conn.ExecuteScalar(query, param);
         }
+      
         public object? Execute(string query, object param = null)
         {
-            using var conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
+            using NpgsqlConnection conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
             return conn.Execute(query, param);
         }
     }

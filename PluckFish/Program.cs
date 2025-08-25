@@ -1,5 +1,8 @@
 using PluckFish.Components;
 using PluckFish.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using PluckFish.Models;
+using PluckFish.Auth;
 
 namespace PluckFish
 {
@@ -11,6 +14,11 @@ namespace PluckFish
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddUserStore<UserStore>()
+                .AddRoleStore<RoleStore>()
+                .AddDefaultTokenProviders();
 
             if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString("defaultConnection")))
             {

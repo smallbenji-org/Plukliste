@@ -22,7 +22,6 @@ namespace Plukliste
         }
         public static Pluklist? ReadPluklist(string filePath)
         {
-            filePath = "C:\\Users\\admin\\Desktop\\Skole\\638119645050937557_Kej_Nielsen.csv";
             Pluklist? plukliste = new Pluklist();
             if (filePath.EndsWith(".csv"))
             {

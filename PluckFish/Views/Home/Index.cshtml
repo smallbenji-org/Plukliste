@@ -1,61 +1,110 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lagersystem</title>
-</head>
-<body>
-    <input type="checkbox" id="modal-netgear" class="modal-trigger">
-    <input type="checkbox" id="modal-print" class="modal-trigger">
-    <input type="checkbox" id="modal-box" class="modal-trigger">
-    <input type="checkbox" id="modal-label" class="modal-trigger">
+﻿<input type="checkbox" id="modal-netgear" class="modal-trigger">
+<input type="checkbox" id="modal-print" class="modal-trigger">
+<input type="checkbox" id="modal-box" class="modal-trigger">
+<input type="checkbox" id="modal-label" class="modal-trigger">
 
-    <header>
-        <h1>Lagersystem</h1>
-    </header>
+<header>
+    <h1>Lagersystem</h1>
+</header>
 
-    <main class="container">
-        <div class="pluklist-selector">
-            <div class="selector-header">
-                <h2>Plukliste</h2>
-                <button class="refresh-btn">↻ Opdater</button>
+<main class="container">
+    <div class="pluklist-selector">
+        <div class="selector-header">
+            <h2>Plukliste</h2>
+            <button class="refresh-btn">↻ Opdater</button>
+        </div>
+        <div class="selector-controls">
+            <select class="list-dropdown" id="listSelector">
+                <option value="">-- Vælg en plukliste --</option>
+                <option value="638118766706624322_export.XML" selected>Hans Jensen - Post Nord</option>
+                <option value="638118766706624323_export.XML">Jorgen Jorgensen - GLS</option>
+                <option value="638118766706624324_export.XML">Peter Thomsen - Post Nord</option>
+            </select>
+        </div>
+        <div class="customer-details" id="customerInfo">
+            <div class="detail-row">
+                <span class="label">Name:</span>
+                <span class="value" id="customerName">Hans Jensen</span>
             </div>
-            <div class="selector-controls">
-                <select class="list-dropdown" id="listSelector">
-                    <option value="">-- Vælg en plukliste --</option>
-                    <option value="638118766706624322_export.XML" selected>Hans Jensen - Post Nord</option>
-                    <option value="638118766706624323_export.XML">Jorgen Jorgensen - GLS</option>
-                    <option value="638118766706624324_export.XML">Peter Thomsen - Post Nord</option>
-                </select>
+            <div class="detail-row">
+                <span class="label">Forsendelse:</span>
+                <span class="value" id="customerForsendelse">Post Nord</span>
             </div>
-            <div class="customer-details" id="customerInfo">
-                <div class="detail-row">
-                    <span class="label">Name:</span>
-                    <span class="value" id="customerName">Hans Jensen</span>
-                </div>
-                <div class="detail-row">
-                    <span class="label">Forsendelse:</span>
-                    <span class="value" id="customerForsendelse">Post Nord</span>
-                </div>
-                <div class="detail-row">
-                    <span class="label">Adresse:</span>
-                    <span class="value" id="customerAdresse">Middelfartvej 9, 5500 Middelfart</span>
-                </div>
+            <div class="detail-row">
+                <span class="label">Adresse:</span>
+                <span class="value" id="customerAdresse">Middelfartvej 9, 5500 Middelfart</span>
             </div>
         </div>
+    </div>
 
-        <div class="table-container">
-            <div class="table-section">
-                <h2>Varer</h2>
-                <table class="vare-table">
+    <div class="table-container">
+        <div class="table-section">
+            <h2>Varer</h2>
+            <table class="vare-table">
+                <thead>
+                    <tr>
+                        <th>ProductID</th>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Pluk</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>NETGEAR-CM1000</td>
+                        <td>NETGEAR DOCSIS 3.1 (CM1000)</td>
+                        <td>Fysisk</td>
+                        <td>1</td>
+                        <td>
+                            <label for="modal-netgear" class="add-btn">+</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>PRINT-OPGRADE</td>
+                        <td>Vejledning Opgradering</td>
+                        <td>Print</td>
+                        <td>1</td>
+                        <td>
+                            <label for="modal-print" class="add-btn">+</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#830012</td>
+                        <td>Papkasse 170x105x60</td>
+                        <td>Fysisk</td>
+                        <td>1</td>
+                        <td>
+                            <label for="modal-box" class="add-btn">+</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>LABEL-RETUR</td>
+                        <td>Retur label</td>
+                        <td>Fysisk</td>
+                        <td>1</td>
+                        <td>
+                            <label for="modal-label" class="add-btn">+</label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-section">
+            <div class="pluklist-header">
+                <h2>Pluklist</h2>
+                <button class="refresh-btn">Eksporter</button>
+            </div>
+            <div class="lines-section">
+                <table class="pluk-table">
                     <thead>
                         <tr>
                             <th>ProductID</th>
                             <th>Title</th>
                             <th>Type</th>
                             <th>Amount</th>
-                            <th>Pluk</th>
+                            <th>Fjern</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,200 +113,140 @@
                             <td>NETGEAR DOCSIS 3.1 (CM1000)</td>
                             <td>Fysisk</td>
                             <td>1</td>
-                            <td>
-                                <label for="modal-netgear" class="add-btn">+</label>
-                            </td>
+                            <td><button class="remove-btn">-</button></td>
                         </tr>
                         <tr>
                             <td>PRINT-OPGRADE</td>
                             <td>Vejledning Opgradering</td>
                             <td>Print</td>
                             <td>1</td>
-                            <td>
-                                <label for="modal-print" class="add-btn">+</label>
-                            </td>
+                            <td><button class="remove-btn">-</button></td>
                         </tr>
                         <tr>
                             <td>#830012</td>
                             <td>Papkasse 170x105x60</td>
                             <td>Fysisk</td>
                             <td>1</td>
-                            <td>
-                                <label for="modal-box" class="add-btn">+</label>
-                            </td>
+                            <td><button class="remove-btn">-</button></td>
                         </tr>
                         <tr>
                             <td>LABEL-RETUR</td>
                             <td>Retur label</td>
                             <td>Fysisk</td>
                             <td>1</td>
-                            <td>
-                                <label for="modal-label" class="add-btn">+</label>
-                            </td>
+                            <td><button class="remove-btn">-</button></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
-            <div class="table-section">
-                <div class="pluklist-header">
-                    <h2>Pluklist</h2>
-                    <button class="refresh-btn">Eksporter</button>
-                </div>
-                <div class="lines-section">
-                    <table class="pluk-table">
-                        <thead>
-                            <tr>
-                                <th>ProductID</th>
-                                <th>Title</th>
-                                <th>Type</th>
-                                <th>Amount</th>
-                                <th>Fjern</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>NETGEAR-CM1000</td>
-                                <td>NETGEAR DOCSIS 3.1 (CM1000)</td>
-                                <td>Fysisk</td>
-                                <td>1</td>
-                                <td><button class="remove-btn">-</button></td>
-                            </tr>
-                            <tr>
-                                <td>PRINT-OPGRADE</td>
-                                <td>Vejledning Opgradering</td>
-                                <td>Print</td>
-                                <td>1</td>
-                                <td><button class="remove-btn">-</button></td>
-                            </tr>
-                            <tr>
-                                <td>#830012</td>
-                                <td>Papkasse 170x105x60</td>
-                                <td>Fysisk</td>
-                                <td>1</td>
-                                <td><button class="remove-btn">-</button></td>
-                            </tr>
-                            <tr>
-                                <td>LABEL-RETUR</td>
-                                <td>Retur label</td>
-                                <td>Fysisk</td>
-                                <td>1</td>
-                                <td><button class="remove-btn">-</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <div class="modal" id="modal-netgear-content">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Tilføj til Plukliste</h3>
-                <label for="modal-netgear" class="close">&times;</label>
-            </div>
-            <div class="modal-body">
-                <div class="product-info">
-                    <p><strong>Produkt:</strong> NETGEAR DOCSIS 3.1 (CM1000)</p>
-                    <p><strong>ProductID:</strong> NETGEAR-CM1000</p>
-                    <p><strong>Type:</strong> Fysisk</p>
-                    <p><strong>Tilgængelig:</strong> 1</p>
-                </div>
-                <div class="quantity-selector">
-                    <label>Antal at tilføje:</label>
-                    <div class="quantity-controls">
-                        <input type="number" value="1" min="1" max="1" class="quantity-input">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <label for="modal-netgear" class="cancel-btn">Annuller</label>
-                <button class="confirm-btn">Tilføj til Plukliste</button>
-            </div>
         </div>
     </div>
+</main>
 
-    <div class="modal" id="modal-print-content">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Tilføj til Plukliste</h3>
-                <label for="modal-print" class="close">&times;</label>
+<div class="modal" id="modal-netgear-content">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Tilføj til Plukliste</h3>
+            <label for="modal-netgear" class="close">&times;</label>
+        </div>
+        <div class="modal-body">
+            <div class="product-info">
+                <p><strong>Produkt:</strong> NETGEAR DOCSIS 3.1 (CM1000)</p>
+                <p><strong>ProductID:</strong> NETGEAR-CM1000</p>
+                <p><strong>Type:</strong> Fysisk</p>
+                <p><strong>Tilgængelig:</strong> 1</p>
             </div>
-            <div class="modal-body">
-                <div class="product-info">
-                    <p><strong>Produkt:</strong> Vejledning Opgradering</p>
-                    <p><strong>ProductID:</strong> PRINT-OPGRADE</p>
-                    <p><strong>Type:</strong> Print</p>
-                    <p><strong>Tilgængelig:</strong> 1</p>
+            <div class="quantity-selector">
+                <label>Antal at tilføje:</label>
+                <div class="quantity-controls">
+                    <input type="number" value="1" min="1" max="1" class="quantity-input">
                 </div>
-                <div class="quantity-selector">
-                    <label>Antal at tilføje:</label>
-                    <div class="quantity-controls">
-                        <input type="number" value="1" min="1" max="1" class="quantity-input">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <label for="modal-print" class="cancel-btn">Annuller</label>
-                <button class="confirm-btn">Tilføj til Plukliste</button>
             </div>
         </div>
-    </div>
-
-    <div class="modal" id="modal-box-content">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Tilføj til Plukliste</h3>
-                <label for="modal-box" class="close">&times;</label>
-            </div>
-            <div class="modal-body">
-                <div class="product-info">
-                    <p><strong>Produkt:</strong> Papkasse 170x105x60</p>
-                    <p><strong>ProductID:</strong> #830012</p>
-                    <p><strong>Type:</strong> Fysisk</p>
-                    <p><strong>Tilgængelig:</strong> 1</p>
-                </div>
-                <div class="quantity-selector">
-                    <label>Antal at tilføje:</label>
-                    <div class="quantity-controls">
-                        <input type="number" value="1" min="1" max="1" class="quantity-input">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <label for="modal-box" class="cancel-btn">Annuller</label>
-                <button class="confirm-btn">Tilføj til Plukliste</button>
-            </div>
+        <div class="modal-footer">
+            <label for="modal-netgear" class="cancel-btn">Annuller</label>
+            <button class="confirm-btn">Tilføj til Plukliste</button>
         </div>
     </div>
+</div>
 
-    <div class="modal" id="modal-label-content">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Tilføj til Plukliste</h3>
-                <label for="modal-label" class="close">&times;</label>
+<div class="modal" id="modal-print-content">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Tilføj til Plukliste</h3>
+            <label for="modal-print" class="close">&times;</label>
+        </div>
+        <div class="modal-body">
+            <div class="product-info">
+                <p><strong>Produkt:</strong> Vejledning Opgradering</p>
+                <p><strong>ProductID:</strong> PRINT-OPGRADE</p>
+                <p><strong>Type:</strong> Print</p>
+                <p><strong>Tilgængelig:</strong> 1</p>
             </div>
-            <div class="modal-body">
-                <div class="product-info">
-                    <p><strong>Produkt:</strong> Retur label</p>
-                    <p><strong>ProductID:</strong> LABEL-RETUR</p>
-                    <p><strong>Type:</strong> Fysisk</p>
-                    <p><strong>Tilgængelig:</strong> 1</p>
+            <div class="quantity-selector">
+                <label>Antal at tilføje:</label>
+                <div class="quantity-controls">
+                    <input type="number" value="1" min="1" max="1" class="quantity-input">
                 </div>
-                <div class="quantity-selector">
-                    <label>Antal at tilføje:</label>
-                    <div class="quantity-controls">
-                        <input type="number" value="1" min="1" max="1" class="quantity-input">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <label for="modal-label" class="cancel-btn">Annuller</label>
-                <button class="confirm-btn">Tilføj til Plukliste</button>
             </div>
         </div>
+        <div class="modal-footer">
+            <label for="modal-print" class="cancel-btn">Annuller</label>
+            <button class="confirm-btn">Tilføj til Plukliste</button>
+        </div>
     </div>
+</div>
 
-</body>
-</html>
+<div class="modal" id="modal-box-content">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Tilføj til Plukliste</h3>
+            <label for="modal-box" class="close">&times;</label>
+        </div>
+        <div class="modal-body">
+            <div class="product-info">
+                <p><strong>Produkt:</strong> Papkasse 170x105x60</p>
+                <p><strong>ProductID:</strong> #830012</p>
+                <p><strong>Type:</strong> Fysisk</p>
+                <p><strong>Tilgængelig:</strong> 1</p>
+            </div>
+            <div class="quantity-selector">
+                <label>Antal at tilføje:</label>
+                <div class="quantity-controls">
+                    <input type="number" value="1" min="1" max="1" class="quantity-input">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <label for="modal-box" class="cancel-btn">Annuller</label>
+            <button class="confirm-btn">Tilføj til Plukliste</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modal-label-content">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Tilføj til Plukliste</h3>
+            <label for="modal-label" class="close">&times;</label>
+        </div>
+        <div class="modal-body">
+            <div class="product-info">
+                <p><strong>Produkt:</strong> Retur label</p>
+                <p><strong>ProductID:</strong> LABEL-RETUR</p>
+                <p><strong>Type:</strong> Fysisk</p>
+                <p><strong>Tilgængelig:</strong> 1</p>
+            </div>
+            <div class="quantity-selector">
+                <label>Antal at tilføje:</label>
+                <div class="quantity-controls">
+                    <input type="number" value="1" min="1" max="1" class="quantity-input">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <label for="modal-label" class="cancel-btn">Annuller</label>
+            <button class="confirm-btn">Tilføj til Plukliste</button>
+        </div>
+    </div>
+</div>

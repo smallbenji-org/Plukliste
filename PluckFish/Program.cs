@@ -39,37 +39,6 @@ namespace PluckFish
 
             app.Services.GetRequiredService<PostgresEnsureTables>().Ensure();
 
-            //app.Services.GetRequiredService<IPickingListRepository>().AddPickingList(new Models.PickingList
-            //{
-            //    Name = "Name",
-            //    Adresse = "Adresse",
-            //    Forsendelse = "GLS",
-            //    Lines = new List<Models.Item>
-            //    {
-            //        new Models.Item
-            //        {
-            //            Amount = 1,
-            //            Product = new Models.Product
-            //            {
-            //                Name = "Spand",
-            //                ProductID = "test-spand"
-            //            },
-            //            Type = Models.ItemType.Fysisk
-            //        }
-            //    } 
-            //});
-
-            //app.Services.GetRequiredService<IPickingListRepository>().AddProductToPickingList(new Models.PickingList
-            //{
-            //    Id = 1
-            //}, new Models.Item
-            //{
-            //    Product = new Models.Product { ProductID = "test-spand"},
-            //    Amount = 2,
-            //    Type = Models.ItemType.Fysisk
-            //});
-            app.Services.GetRequiredService<IPickingListRepository>().GetAllPickingList();
-
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {

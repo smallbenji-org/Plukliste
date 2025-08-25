@@ -22,6 +22,16 @@ namespace PluckFish.Components
             plukliste.Lines.Remove(item);
         }
 
+        public List<PickingList> GetAllPickingList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public PickingList GetPickingList(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public void RemovePickingList(PickingList plukliste)
         {
             _pluklister.Remove(plukliste);

@@ -16,5 +16,15 @@ namespace PluckFish.Components
         {
             products.Remove(product);
         }
+
+        public IEnumerable<Product> getAll()
+        {
+            return products;
+        }
+
+        public Product getProduct(string productId)
+        {
+            return products.Where(x => x.ProductID.Equals(productId)).FirstOrDefault();
+        }
     }
 }

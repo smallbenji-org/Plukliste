@@ -7,20 +7,28 @@ namespace PluckFish
     public class PostGres
     {
         private readonly IConfiguration configuration;
-        
+
         public PostGres(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
+      
         public IDataReader ExecuteReader(string query)
         {
-            using NpgsqlConnection conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));           
+            using NpgsqlConnection conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
             return conn.ExecuteReader(query);
         }
-        public object? ExecuteScalar(string query)
+      
+        public object? ExecuteScalar(string query, object param = null)
         {
             using NpgsqlConnection conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
-            return conn.Execute(query);
+            return conn.ExecuteScalar(query, param);
+        }
+      
+        public object? Execute(string query, object param = null)
+        {
+            using NpgsqlConnection conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
+            return conn.Execute(query, param);
         }
     }
 }

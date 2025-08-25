@@ -11,7 +11,7 @@
         <div class="login-header">
             <h2>Login</h2>
         </div>
-        <form asp-action="Login" method="post">
+        <form asp-action="FormLogin" asp-controller="Auth" method="post">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" class="form-control" required />

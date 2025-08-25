@@ -48,14 +48,9 @@ namespace PluckFish.Components
             });
         }
 
-        public List<PickingList> GetAllPickingList()
+        private List<PickingList> getPickingLists(DataTable tb)
         {
             List<PickingList> pickingLists = new List<PickingList>();
-            string sql = "SELECT id, name, forsendelse, adresse FROM picking_lists";
-            using IDbConnection db = dbConnection;
-            var reader = db.ExecuteReader(sql);
-            DataTable tb = new DataTable();
-            tb.Load(reader);
             foreach (DataRow row in tb.Rows)
             {
                 PickingList pickingList = new PickingList();
@@ -70,9 +65,28 @@ namespace PluckFish.Components
             return pickingLists;
         }
 
+        private DataTable loadTb(string sql)
+        {
+            using IDbConnection db = dbConnection;
+            var reader = db.ExecuteReader(sql);
+            DataTable tb = new DataTable();
+            tb.Load(reader);
+            return tb;
+        }
+
+        public List<PickingList> GetAllPickingList()
+        {
+            string sql = "SELECT id, name, forsendelse, adresse FROM picking_lists";
+            DataTable tb = loadTb(sql);
+            return getPickingLists(tb);
+        }
+
         public PickingList GetPickingList(int id)
         {
-            throw new NotImplementedException();
+            string sql = "SELECT id, name, forsendelse, adresse FROM picking_lists";
+            DataTable tb = loadTb(sql);
+            List<PickingList> pickingLists = getPickingLists(tb);
+            return pickingLists[0];
         }
 
         public List<Item> GetPickingListItems(int id)

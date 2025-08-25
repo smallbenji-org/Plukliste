@@ -9,5 +9,7 @@ namespace PluckFish.Interfaces
         void AddProductToPickingList(PickingList plukliste, Item item);
         void DeleteProductFromPickingList(PickingList plukliste, Item item);
         void UpdateItemInPickingList(PickingList plukliste, Item item, int amount);
+        List<PickingList> GetAllPickingList();
+        PickingList GetPickingList(int id);
     }
 }

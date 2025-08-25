@@ -48,6 +48,59 @@ namespace PluckFish.Components
             });
         }
 
+        public List<PickingList> GetAllPickingList()
+        {
+            List<PickingList> pickingLists = new List<PickingList>();
+            string sql = "SELECT id, name, forsendelse, adresse FROM picking_lists";
+            using IDbConnection db = dbConnection;
+            var reader = db.ExecuteReader(sql);
+            DataTable tb = new DataTable();
+            tb.Load(reader);
+            foreach (DataRow row in tb.Rows)
+            {
+                PickingList pickingList = new PickingList();
+                pickingList.Id = int.Parse(row["id"].ToString());
+                pickingList.Name = row["name"].ToString();
+                pickingList.Adresse = row["adresse"].ToString();
+                pickingList.Forsendelse = row["forsendelse"].ToString();
+                pickingList.Lines = GetPickingListItems(pickingList.Id);
+
+                pickingLists.Add(pickingList);
+            }
+            return pickingLists;
+        }
+
+        public PickingList GetPickingList(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Item> GetPickingListItems(int id)
+        {
+            List<Item> Items = new List<Item>();
+            string sql = "SELECT t1.picking_list_id, t1.product_id, t1.type, t1.amount, t2.name FROM picking_list_items t1 INNER JOIN products t2 ON t2.productId = t1.product_id WHERE t1.picking_list_id = @id";
+            using IDbConnection db = dbConnection;
+            var reader = db.ExecuteReader(sql, new
+            {
+                picking_list_id = id,
+            });
+
+            DataTable tb = new DataTable();
+            tb.Load(reader);
+            foreach(DataRow row in tb.Rows)
+            {
+                Item item = new Item();
+                Product product = new Product();
+                product.ProductID = row["product_id"].ToString();
+                product.Name = row["name"].ToString();
+                item.Product = product;
+                item.Amount = int.Parse(row["amount"].ToString());
+
+                Items.Add(item);
+            }
+            return Items;
+        }
+
         public void RemovePickingList(PickingList plukliste)
         {
             string sql = "DELETE FROM picking_lists WHERE id = @id";

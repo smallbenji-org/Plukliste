@@ -201,7 +201,8 @@ h1 {
     display: none;
 }
 
-.add-btn, .remove-btn {
+.add-btn,
+.remove-btn {
     width: 24px;
     height: 24px;
     border: none;
@@ -352,7 +353,8 @@ h1 {
     border-top: 1px solid var(--border-color);
 }
 
-.cancel-btn, .confirm-btn {
+.cancel-btn,
+.confirm-btn {
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 6px;
@@ -537,3 +539,69 @@ h1 {
     margin: 0 auto;
     display: block;
 }
+
+.login-container {
+    max-width: 450px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: var(--secondary-bg);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+    .login-header h2 {
+        font-size: 1.8rem;
+        color: var(--text-primary);
+        margin: 0;
+    }
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.3);
+    }
+
+.btn-login {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-login:hover {
+        background-color: #357abd;
+    }

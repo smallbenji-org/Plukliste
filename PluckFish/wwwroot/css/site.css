@@ -36,6 +36,10 @@ header {
     border-radius: 8px;
 }
 
+header h1, p {
+    margin-bottom: 0;
+}
+
 h1 {
     font-size: 2rem;
     font-weight: 600;

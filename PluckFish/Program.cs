@@ -20,6 +20,11 @@ namespace PluckFish
                 .AddRoleStore<RoleStore>()
                 .AddDefaultTokenProviders();
 
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Auth/Login";
+            });
+
             if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString("defaultConnection")))
             {
                 builder.Services.AddTransient<IProductRepository, PostgresProductRepository>();
@@ -57,6 +62,8 @@ namespace PluckFish
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
+
+            Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
             app.Run();
         }

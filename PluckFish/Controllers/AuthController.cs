@@ -18,6 +18,17 @@ namespace PluckFish.Controllers
             this.userManager = userManager;
         }
 
+        [HttpGet("Login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpGet("Register")]
+        public IActionResult Register()
+        {
+            return View();
+        }
 
         [HttpPost]
         [Route("Login")]
@@ -35,14 +46,19 @@ namespace PluckFish.Controllers
         [HttpPost("FormLogin")]
         public async Task<IActionResult> FormLogin([FromForm] string username, [FromForm] string password)
         {
-            Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(username, password, isPersistent: true, lockoutOnFailure: false);
+            var result = await signInManager.PasswordSignInAsync(username, password, isPersistent: true, lockoutOnFailure: false);
 
             if (!result.Succeeded)
             {
-                return Unauthorized("Invalid login attempt.");
+                var errors = new List<string>();
+                if (result.IsLockedOut) errors.Add("Locked out");
+                if (result.IsNotAllowed) errors.Add("Not allowed");
+                if (result.RequiresTwoFactor) errors.Add("Requires two factor");
+                errors.Add("Invalid login attempt.");
+                return Unauthorized(errors);
             }
 
-            return Ok("Logged in");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -63,6 +79,25 @@ namespace PluckFish.Controllers
             }
 
             return Ok("User registered");
+        }
+
+        [HttpPost("FormRegister")]
+        public async Task<IActionResult> FormRegister([FromForm] string username, [FromForm] string password)
+        {
+            ApplicationUser user = new ApplicationUser
+            {
+                UserName = username,
+                FullName = "Benjamin Falch",
+                Email = username
+            };
+            IdentityResult result = await userManager.CreateAsync(user, password);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+            
+            return RedirectToAction("Login");
         }
 
         [HttpGet]

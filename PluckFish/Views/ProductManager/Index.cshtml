@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produkthåndtering</title>
+</head>
+<body>
+    <header>
+        <h1>Produkthåndtering</h1>
+    </header>
+
+    <main class="container">
+        <div class="table-section">
+            <h2>Tilføj nyt produkt</h2>
+            <div class="form-container">
+                <form asp-action="Index" method="post">
+                    <div class="form-row">
+                        <label class="form-label">Produktnavn:</label>
+                        <input class="form-input" name="prodName"/>
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">Produkt ID:</label>
+                        <input class="form-input" name="prodID"/>
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-row">
+                        <input type="submit" value="Tilføj Produkt" class="confirm-btn" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

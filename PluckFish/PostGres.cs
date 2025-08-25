@@ -7,7 +7,7 @@ namespace PluckFish
     public class PostGres
     {
         private readonly IConfiguration configuration;
-
+        
         public PostGres(IConfiguration configuration)
         {
             this.configuration = configuration;

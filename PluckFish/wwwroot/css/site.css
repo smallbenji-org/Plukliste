@@ -24,7 +24,7 @@ body {
 
 main {
     margin: auto;
-    width: 80%;
+    width: 70%;
     box-sizing: border-box;
 }
 
@@ -436,6 +436,40 @@ header {
     header h1 {
         color: var(--text-primary);
         font-size: 1.5rem;
+        margin: 0;
+    }
+
+    header nav {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    header .nav-link {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 0.25rem 0;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+        header .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        header .nav-link.active {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+    .user-info p {
         margin: 0;
     }
 

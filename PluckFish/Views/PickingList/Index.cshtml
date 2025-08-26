@@ -1,0 +1,195 @@
+﻿@model PluckFish.Controllers.PickingListViewModel;
+<meta charset="UTF-8">
+<header>
+    <h1>PluckFish</h1>
+</header>
+
+<div class="selector-controls">
+    @using (Html.BeginForm("HandlePickingList", "PickingList", FormMethod.Post))
+    {
+        <select class="list-dropdown" id="listSelector" name="id">
+            <option value="" selected>-- Vælg en plukliste --</option>
+
+            @if (Model.PickingListSelected)
+            {
+                <option value="" selected>@Model.SelectedPickingList.Name - @Model.SelectedPickingList.Forsendelse</option>
+
+            }
+
+            @foreach (var list in Model.PickingLists)
+            {
+                <option value="@list.Id">
+                    @list.Name - @list.Forsendelse
+                </option>
+            }
+        </select>
+    }
+</div>
+
+<script>
+    document.getElementById("listSelector").addEventListener("change", function () {
+        if (this.value) {
+            this.form.submit();
+        }
+    });
+</script>
+
+@if (Model.PickingListSelected)
+{
+    <div class="customer-details" id="customerInfo">
+        <div class="detail-row">
+            <span class="label">Name:</span>
+            <span class="value" id="customerName">@Model.SelectedPickingList.Name</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Forsendelse:</span>
+            <span class="value" id="customerForsendelse">@Model.SelectedPickingList.Forsendelse</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Adresse:</span>
+            <span class="value" id="customerAdresse">@Model.SelectedPickingList.Adresse</span>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <div class="table-section">
+            <div class="pluklist-header">
+                <h2>Pluklist</h2>
+                <button class="refresh-btn">Eksporter</button>
+            </div>
+            <div class="lines-section">
+                <table class="pluk-table">
+                    <thead>
+                        <tr>
+                            <th>ProductID</th>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Fjern</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.SelectedPickingList.Lines)
+                        {
+                            <tr>
+                                <td>@item.Product.ProductID</td>
+                                <td>@item.Product.Name/td>
+                                <td>@item.Type</td>
+                                <td>@item.Amount</td>
+                                <td><button class="remove-btn">-</button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @*     <div class="modal" id="modal-netgear-content">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Tilføj til Plukliste</h3>
+                <label for="modal-netgear" class="close">&times;</label>
+            </div>
+            <div class="modal-body">
+                <div class="product-info">
+                    <p><strong>Produkt:</strong> NETGEAR DOCSIS 3.1 (CM1000)</p>
+                    <p><strong>ProductID:</strong> NETGEAR-CM1000</p>
+                    <p><strong>Type:</strong> Fysisk</p>
+                    <p><strong>Tilgængelig:</strong> 1</p>
+                </div>
+                <div class="quantity-selector">
+                    <label>Antal at tilføje:</label>
+                    <div class="quantity-controls">
+                        <input type="number" value="1" min="1" max="1" class="quantity-input">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <label for="modal-netgear" class="cancel-btn">Annuller</label>
+                <button class="confirm-btn">Tilføj til Plukliste</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-print-content">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Tilføj til Plukliste</h3>
+                <label for="modal-print" class="close">&times;</label>
+            </div>
+            <div class="modal-body">
+                <div class="product-info">
+                    <p><strong>Produkt:</strong> Vejledning Opgradering</p>
+                    <p><strong>ProductID:</strong> PRINT-OPGRADE</p>
+                    <p><strong>Type:</strong> Print</p>
+                    <p><strong>Tilgængelig:</strong> 1</p>
+                </div>
+                <div class="quantity-selector">
+                    <label>Antal at tilføje:</label>
+                    <div class="quantity-controls">
+                        <input type="number" value="1" min="1" max="1" class="quantity-input">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <label for="modal-print" class="cancel-btn">Annuller</label>
+                <button class="confirm-btn">Tilføj til Plukliste</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-box-content">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Tilføj til Plukliste</h3>
+                <label for="modal-box" class="close">&times;</label>
+            </div>
+            <div class="modal-body">
+                <div class="product-info">
+                    <p><strong>Produkt:</strong> Papkasse 170x105x60</p>
+                    <p><strong>ProductID:</strong> #830012</p>
+                    <p><strong>Type:</strong> Fysisk</p>
+                    <p><strong>Tilgængelig:</strong> 1</p>
+                </div>
+                <div class="quantity-selector">
+                    <label>Antal at tilføje:</label>
+                    <div class="quantity-controls">
+                        <input type="number" value="1" min="1" max="1" class="quantity-input">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <label for="modal-box" class="cancel-btn">Annuller</label>
+                <button class="confirm-btn">Tilføj til Plukliste</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-label-content">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Tilføj til Plukliste</h3>
+                <label for="modal-label" class="close">&times;</label>
+            </div>
+            <div class="modal-body">
+                <div class="product-info">
+                    <p><strong>Produkt:</strong> Retur label</p>
+                    <p><strong>ProductID:</strong> LABEL-RETUR</p>
+                    <p><strong>Type:</strong> Fysisk</p>
+                    <p><strong>Tilgængelig:</strong> 1</p>
+                </div>
+                <div class="quantity-selector">
+                    <label>Antal at tilføje:</label>
+                    <div class="quantity-controls">
+                        <input type="number" value="1" min="1" max="1" class="quantity-input">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <label for="modal-label" class="cancel-btn">Annuller</label>
+                <button class="confirm-btn">Tilføj til Plukliste</button>
+            </div>
+        </div>
+    </div> *@
+}

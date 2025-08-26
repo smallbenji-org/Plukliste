@@ -10,8 +10,14 @@
     <link rel="stylesheet" href="~/PluckFish.styles.css" asp-append-version="true" />
 </head>
 <body>
-    
     <div class="container">
+        <header>
+            <h1>@ViewData["Title"]</h1>
+            @if(User.Identity.IsAuthenticated) {
+                <p>Logged in as @User.Identity.Name</p>
+            }
+        </header>
+        
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

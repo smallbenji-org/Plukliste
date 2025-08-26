@@ -1,69 +1,55 @@
-﻿@model IEnumerable<PluckFish.Models.Product>
+@model IEnumerable<PluckFish.Models.Product>
 @{
-    ViewData["Title"] = "Produkt Manager";
+    ViewData["Title"] = "Produkthåndtering";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produkthåndtering</title>
-</head>
-<body>
-    <header>
-        <h1>Produkthåndtering</h1>
-    </header>
-
-    <main class="container">
-        <div class="table-section">
-            <h2>Tilføj nyt produkt</h2>
-            <div class="pluklist-selector">
-                <form asp-action="Index" method="post" class="selector-controls">
-                    <div class="detail-row">
-                        <label class="label">Produktnavn:</label>
-                        <input class="list-dropdown" name="prodName" />
-                        <span class="text-danger"></span>
-                    </div>
-                    <div class="detail-row">
-                        <label class="label">Produkt ID:</label>
-                        <input class="list-dropdown" name="prodID" />
-                        <span class="text-danger"></span>
-                    </div>
-                    <div class="form-row mt-3">
-                        <input type="submit" value="Tilføj Produkt" class="confirm-btn" />
-                    </div>
-                </form>
-            </div>
+<main class="container">
+    <div class="table-section">
+        <h2>Tilføj nyt produkt</h2>
+        <div class="pluklist-selector">
+            <form asp-action="Index" method="post" class="selector-controls">
+                <div class="detail-row">
+                    <label class="label">Produktnavn:</label>
+                    <input class="list-dropdown" name="prodName" />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="detail-row">
+                    <label class="label">Produkt ID:</label>
+                    <input class="list-dropdown" name="prodID" />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-row mt-3">
+                    <input type="submit" value="Tilføj Produkt" class="confirm-btn" />
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="table-section">
-            <h2>Eksisterende Produkter</h2>
-            <table class="vare-table">
-                <thead>
+    <div class="table-section">
+        <h2>Eksisterende Produkter</h2>
+        <table class="vare-table">
+            <thead>
+                <tr>
+                    <th>Produkt ID</th>
+                    <th>Produktnavn</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
                     <tr>
-                        <th>Produkt ID</th>
-                        <th>Produktnavn</th>
-                        <th></th>
+                        <td>@product.ProductID</td>
+                        <td>@product.Name</td>
+                        <td>
+                            <form asp-action="Delete" method="post" class="remove-form">
+                                <input type="hidden" name="prodID" value="@product.ProductID" />
+                                <button type="submit" class="remove-btn">Fjern</button>
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var product in Model)
-                    {
-                        <tr>
-                            <td>@product.ProductID</td>
-                            <td>@product.Name</td>
-                            <td>
-                                <form asp-action="Delete" method="post" class="remove-form">
-                                    <input type="hidden" name="prodID" value="@product.ProductID" />
-                                    <button type="submit" class="remove-btn">Fjern</button>
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </main>
-</body>
-</html>
+                }
+            </tbody>
+        </table>
+    </div>
+</main>

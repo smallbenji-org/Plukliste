@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PluckFish.Interfaces;
 using PluckFish.Models;
 
 namespace PluckFish.Controllers
 {
+    [Authorize]
     public class ProductManagerController : Controller
     {
         private readonly IProductRepository productRepository;

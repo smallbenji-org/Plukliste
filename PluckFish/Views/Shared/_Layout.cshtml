@@ -13,17 +13,25 @@
     <div class="container">
         <header>
             <h1>@ViewData["Title"]</h1>
-            @if(User.Identity.IsAuthenticated) {
+            <nav>
+                <a class="nav-link" asp-controller="Home" asp-action="Index">Forside</a>
+                <a class="nav-link" asp-controller="PickingManager" asp-action="Index">Pluklister</a>
+                <a class="nav-link" asp-controller="StockManager" asp-action="Index">Lagersystem</a>
+                <a class="nav-link" asp-controller="ProductManager" asp-action="Index">Produktstyring</a>
+            </nav>
+
+            @if (User.Identity.IsAuthenticated)
+            {
                 <p>Logged in as @User.Identity.Name</p>
             }
         </header>
-        
+
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -65,33 +65,23 @@ namespace PluckFish.Components
             return pickingLists;
         }
 
-        private DataTable loadTb(string sql)
-        {
-            using IDbConnection db = dbConnection;
-            var reader = db.ExecuteReader(sql);
-            DataTable tb = new DataTable();
-            tb.Load(reader);
-            return tb;
-        }
-
         public List<PickingList> GetAllPickingList()
         {
             string sql = "SELECT id, name, forsendelse, adresse FROM picking_lists";
-            DataTable tb = loadTb(sql);
+            DataTable tb = DapperHelper.loadTb(sql, dbConnection);
             return getPickingLists(tb);
         }
 
         public PickingList GetPickingList(int id)
         {
             string sql = "SELECT id, name, forsendelse, adresse FROM picking_lists";
-            DataTable tb = loadTb(sql);
+            DataTable tb = DapperHelper.loadTb(sql, dbConnection);
             List<PickingList> pickingLists = getPickingLists(tb);
             return pickingLists[0];
         }
 
         public List<Item> GetPickingListItems(int id)
-        {
-            List<Item> Items = new List<Item>();
+        {          
             string sql = "SELECT t1.picking_list_id, t1.product_id, t1.type, t1.amount, t2.name FROM picking_list_items t1 INNER JOIN products t2 ON t2.productId = t1.product_id WHERE t1.picking_list_id = @id";
             using IDbConnection db = dbConnection;
             var reader = db.ExecuteReader(sql, new
@@ -101,17 +91,7 @@ namespace PluckFish.Components
 
             DataTable tb = new DataTable();
             tb.Load(reader);
-            foreach(DataRow row in tb.Rows)
-            {
-                Item item = new Item();
-                Product product = new Product();
-                product.ProductID = row["product_id"].ToString();
-                product.Name = row["name"].ToString();
-                item.Product = product;
-                item.Amount = int.Parse(row["amount"].ToString());
-
-                Items.Add(item);
-            }
+            List<Item> Items = DapperHelper.fillItemListFromTb(tb);           
             return Items;
         }
 

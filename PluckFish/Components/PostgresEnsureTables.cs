@@ -54,6 +54,11 @@ namespace PluckFish.Components
                     password_hash TEXT,
                     full_name TEXT
                 );
+
+                CREATE TABLE IF NOT EXISTS stock (
+                    product_id TEXT PRIMARY KEY REFERENCES products(productId) ON DELETE CASCADE,
+                    amount INTEGER NOT NULL DEFAULT 0
+                );
             ");
         }
     }

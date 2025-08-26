@@ -13,9 +13,12 @@
     display: none !important;
 }
 
+html {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
     background-color: var(--primary-bg);
-    font-family: Arial, Helvetica, sans-serif;
     margin-top: 2vh;
 }
 
@@ -416,7 +419,6 @@ main {
         transform: scale(1.02);
     }
 
-
 header {
     width: 80%;
     height: 10vh;
@@ -431,7 +433,6 @@ header {
     z-index: 1000;
     margin: auto;
 }
-
     header h1 {
         color: var(--text-primary);
         font-size: 1.5rem;

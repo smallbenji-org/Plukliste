@@ -1,5 +1,7 @@
 using PluckFish.Components;
 using PluckFish.Interfaces;
+using System;
+using System.Collections;
 
 namespace PluckFish
 {
@@ -60,7 +62,10 @@ namespace PluckFish
             //    Amount = 2,
             //    Type = Models.ItemType.Fysisk
             //});
-            app.Services.GetRequiredService<IPickingListRepository>().GetAllPickingList();
+            //app.Services.GetRequiredService<IPickingListRepository>().GetAllPickingList();
+
+
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -80,6 +85,11 @@ namespace PluckFish
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
+
+            //app.MapGet("/api/getPickLists", (IPickingListRepository repo) =>
+            //{
+            //    return Results.Json(lists);
+            //});
 
             app.Run();
         }

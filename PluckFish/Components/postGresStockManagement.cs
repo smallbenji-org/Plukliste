@@ -21,7 +21,7 @@ namespace PluckFish.Components
 
         public List<Item> getStock()
         {
-            string sql = "SELECT t1.product_id, t1.amount FROM stock t1 INNER JOIN products t2 ON t2.productId = t1.product_id";
+            string sql = "SELECT t1.productId AS \"product_id\", t1.name, COALESCE(t2.amount, 0) AS \"amount\" FROM products t1 LEFT JOIN stock t2 ON t2.product_id = t1.productId";
             DataTable tb = DapperHelper.loadTb(sql, dbConnection);
             List<Item> items = DapperHelper.fillItemListFromTb(tb);
             return items;
@@ -32,18 +32,15 @@ namespace PluckFish.Components
             throw new NotImplementedException();
         }
 
-        public void saveStock(List<Item> savedStock)
+        public void saveStock(Item savedStock)
         {
-            foreach (Item item in savedStock) 
-            {
-                string sql = $"UPDATE stock SET amount = @amount WHERE product_id = @product_id";
-                using IDbConnection db = dbConnection;
-                db.Execute(sql, new
-                {                  
-                    product_id = item.Product.ProductID,
-                    amount = item.Amount
-                });
-            }
+            string sql = $"UPDATE stock SET amount = @amount WHERE product_id = @product_id";
+            using IDbConnection db = dbConnection;
+            db.Execute(sql, new
+            {                  
+                product_id = savedStock.Product.ProductID,
+                amount = savedStock.Amount
+            });
         }
     }
 }

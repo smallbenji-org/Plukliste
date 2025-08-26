@@ -1,4 +1,5 @@
-﻿@{
+@model PluckFish.Controllers.StockViewModel;
+@{
     ViewData["Title"] = "Lagersystem";
 }
 
@@ -24,28 +25,30 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>product.ProductID</td>
-                    <td>product.Name</td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <form asp-action="Edit" method="post">
-                            <input type="hidden" name="prodID" value="product.ProductID" />
-                            <button type="submit" class="edit-btn">Rediger</button>
-                        </form>
-                    </td>
-                </tr>
+            <tbody>              
+                 @foreach (Item item in Model.stockInventory)
+                 {
+                     <tr>
+                         <td>@item.Product.ProductID</td>
+                         <td>@item.Product.Name</td>
+                         <td>@item.Type</td>
+                         <td>@item.Amount</td>
+                         <td>
+                            <button type="button" class="edit-btn" data-productid="@item.Product.ProductID">Rediger</button>
+                         </td>
+                     </tr>
+                 }            
             </tbody>
         </table>
     </div>
-    <div class="card ">
+
+    <div class="card" id="tomForm">
         <h2>Rediger vare</h2>
         <p class="edit-placeholder">Vælg en vare fra listen for at redigere.</p>
     </div>
-    <div class="card ">
-        <h2>Rediger vare</h2>
+
+    <div class="card hidden" id="redigerForm">
+        <h2 id="redigerTitel">Rediger vare ()</h2>
         <form class="edit-form">
             <div class="form-group">
                 <label for="vare-maengde">Vare mængde</label>
@@ -58,4 +61,31 @@
             <button type="submit" class="confirm-btn">Gem ændringer</button>
         </form>
     </div>
+
+
+    <script>
+        const editButtons = document.querySelectorAll(".edit-btn");
+        const redigerForm = document.getElementById("redigerForm");
+        const redigerFormTitel = document.getElementById("redigerTitel");
+        const tomForm = document.getElementById("tomForm");
+
+        editButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const productId = btn.dataset.productid; 
+                console.log("Editing product:", productId);
+
+                redigerForm.dataset.productId = productId;
+
+                tomForm.classList.add("hidden");
+                redigerFormTitel.innerText = "Rediger vare ("+productId+")";
+                redigerForm.classList.remove("hidden");
+            });
+        });
+
+        redigerForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            console.log(redigerForm.dataset.productId);
+        });
+    </script>
 </main>

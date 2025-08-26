@@ -1,10 +1,10 @@
 @model IEnumerable<PluckFish.Models.Product>
 @{
-    ViewData["Title"] = "Produkthåndtering";
+    ViewData["Title"] = "Lagersystem";
 }
 
 <main class="container">
-    <div class="table-section">
+    <div class="card">
         <h2>Tilføj nyt produkt</h2>
         <div class="pluklist-selector">
             <form asp-action="Index" method="post" class="selector-controls">
@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <div class="table-section">
+    <div class="card">
         <h2>Eksisterende Produkter</h2>
         <table class="vare-table">
             <thead>

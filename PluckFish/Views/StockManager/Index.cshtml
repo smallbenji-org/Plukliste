@@ -1,0 +1,57 @@
+﻿<main>
+    <div class="card">
+        <div class="area">
+            <div class="sort-options">
+                <button class="sort-btn active">Alle Varer</button>
+                <button class="sort-btn">Vis kun rest vare</button>
+                <button class="sort-btn">Vis kun ikke rest vare</button>
+            </div>
+            <div class="selector-header">
+                <button class="refresh-btn">↻ Opdater</button>
+            </div>
+        </div>
+        <table class="vare-table">
+            <thead>
+                <tr>
+                    <th>Produkt ID</th>
+                    <th>Produktnavn</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>product.ProductID</td>
+                    <td>product.Name</td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <form asp-action="Edit" method="post">
+                            <input type="hidden" name="prodID" value="product.ProductID" />
+                            <button type="submit" class="edit-btn">Rediger</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card ">
+        <h2>Rediger vare</h2>
+        <p class="edit-placeholder">Vælg en vare fra listen for at redigere.</p>
+    </div>
+    <div class="card ">
+        <h2>Rediger vare</h2>
+        <form class="edit-form">
+            <div class="form-group">
+                <label for="vare-maengde">Vare mængde</label>
+                <input type="number" id="vare-maengde" class="form-control" value="1" min="0">
+            </div>
+            <div class="form-group-inline">
+                <input type="checkbox" id="rest-vare" class="form-checkbox">
+                <label for="rest-vare">Rest vare</label>
+            </div>
+            <button type="submit" class="confirm-btn">Gem ændringer</button>
+        </form>
+    </div>
+</main>

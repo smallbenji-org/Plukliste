@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Pluksystem";
+}
+
+<main>
+    <div class="card">
+        <div class="pluklist-selector">
+            <div class="selector-controls">
+                <select class="list-dropdown" id="listSelector">
+                    <option value="" selected>-- Vælg en plukliste --</option>
+                    <option value="638118766706624322_export.XML">Hans Jensen - Post Nord</option>
+                    <option value="638118766706624323_export.XML">Jorgen Jorgensen - GLS</option>
+                    <option value="638118766706624324_export.XML">Peter Thomsen - Post Nord</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="card quarter-size">
+            <div class="customer-details" id="customerInfo">
+                <div class="detail-row">
+                    <span class="label">Name:</span>
+                    <span class="value" id="customerName">Hans Jensen</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Forsendelse:</span>
+                    <span class="value" id="customerForsendelse">Post Nord</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Adresse:</span>
+                    <span class="value" id="customerAdresse">Middelfartvej 9, 5500 Middelfart</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card three-quarters-size">
+            <div class="pluk-table-container">
+                <table class="pluk-table">
+                    <thead>
+                        <tr>
+                            <th>Prod ID</th>
+                            <th>Prodvare</th>
+                            <th>Lagerstatus</th>
+                            <th>Tjek</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>123</td>
+                            <td>Eksempel Vare</td>
+                            <td>På lager</td>
+                            <td><input type="checkbox" class="form-checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>Eksempel Vare</td>
+                            <td>På lager</td>
+                            <td><input type="checkbox" class="form-checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>Eksempel Vare</td>
+                            <td>På lager</td>
+                            <td><input type="checkbox" class="form-checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>Eksempel Vare</td>
+                            <td>På lager</td>
+                            <td><input type="checkbox" class="form-checkbox"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="action-buttons">
+                <button class="action-btn btn-secondary">Anuller</button>
+                <button class="action-btn btn-primary">Færdig</button>
+            </div>
+        </div>
+    </div>
+</main>

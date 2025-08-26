@@ -11,6 +11,7 @@ namespace PluckFish.Components
         public static DataTable loadTb(string sql, IDbConnection dbConn)
         {
             using IDbConnection db = dbConn;
+            
             var reader = db.ExecuteReader(sql);
             DataTable tb = new DataTable();
             tb.Load(reader);
@@ -27,6 +28,7 @@ namespace PluckFish.Components
                 product.ProductID = row["product_id"].ToString();
                 product.Name = row["name"].ToString();
                 item.Product = product;
+                
                 item.Amount = int.Parse(row["amount"].ToString());
 
                 items.Add(item);

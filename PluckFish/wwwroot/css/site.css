@@ -264,7 +264,7 @@ main {
 }
 
 .list-dropdown {
-    width: 100%;
+    width: 465%;
     padding: 0.75rem;
     background-color: var(--primary-bg);
     color: var(--text-primary);
@@ -279,10 +279,12 @@ main {
     }
 
 .selector-controls {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
 
 .detail-row {
     display: flex;

@@ -74,8 +74,8 @@ namespace PluckFish.Components
 
         public PickingList GetPickingList(int id)
         {
-            string sql = "SELECT id, name, forsendelse, adresse FROM picking_lists";
-            DataTable tb = DapperHelper.loadTb(sql, dbConnection);
+            string sql = "SELECT id, name, forsendelse, adresse FROM picking_lists WHERE id = @id";
+            DataTable tb = DapperHelper.loadTb(sql, dbConnection, new { id = id });
             List<PickingList> pickingLists = getPickingLists(tb);
             return pickingLists[0];
         }

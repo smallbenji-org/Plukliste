@@ -28,7 +28,7 @@ namespace PluckFish.Components
                 product.Name = row["name"].ToString();
                 item.Product = product;
          
-                if (row["restVare"] != null && row["restVare"].ToString().ToLower() == "true")
+                if (row.Table.Columns.Contains("restVare") && row["restVare"] != null && row["restVare"].ToString().ToLower() == "true")
                 {
                     item.RestVare = true;
                 }

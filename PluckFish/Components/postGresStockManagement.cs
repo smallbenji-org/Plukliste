@@ -3,6 +3,8 @@ using Npgsql;
 using PluckFish.Interfaces;
 using PluckFish.Models;
 using System.Data;
+using System.Data.Common;
+using System.Net.NetworkInformation;
 
 namespace PluckFish.Components
 {
@@ -27,6 +29,25 @@ namespace PluckFish.Components
             return items;
         }
 
+        public bool stockExist(string prodId)
+        {
+            string sql = "SELECT 1 FROM stock WHERE product_id = @product_id";
+            using IDbConnection db = dbConnection;
+            var reader = db.ExecuteReader(sql, new
+            {
+                product_id = prodId
+            });
+            DataTable tb = new DataTable();
+            tb.Load(reader);
+
+            if (tb.Rows.Count > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public void orderStock(List<Item> orderedStock)
         {
             throw new NotImplementedException();
@@ -35,6 +56,11 @@ namespace PluckFish.Components
         public void saveStock(Item savedStock)
         {
             string sql = $"UPDATE stock SET amount = @amount WHERE product_id = @product_id";
+            if (!stockExist(savedStock.Product.ProductID))
+            {
+                sql = "INSERT INTO stock (product_id, amount) VALUES (@product_id, @amount)";
+            }
+               
             using IDbConnection db = dbConnection;
             db.Execute(sql, new
             {                  

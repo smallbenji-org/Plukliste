@@ -49,7 +49,7 @@
 
     <div class="card hidden" id="redigerForm">
         <h2 id="redigerTitel">Rediger vare ()</h2>
-        <form class="edit-form">
+        <form class="edit-form" method="post" action="/StockManager/Result">
             <div class="form-group">
                 <label for="vare-maengde">Vare mængde</label>
                 <input type="number" id="vare-maengde" class="form-control" value="1" min="0">
@@ -65,27 +65,40 @@
 
     <script>
         const editButtons = document.querySelectorAll(".edit-btn");
-        const redigerForm = document.getElementById("redigerForm");
+        const redigerFormContainer = document.getElementById("redigerForm");
+        const redigerForm = redigerFormContainer.querySelector("form");
         const redigerFormTitel = document.getElementById("redigerTitel");
         const tomForm = document.getElementById("tomForm");
 
         editButtons.forEach(btn => {
             btn.addEventListener("click", () => {
                 const productId = btn.dataset.productid; 
-                console.log("Editing product:", productId);
 
-                redigerForm.dataset.productId = productId;
+                redigerFormContainer.dataset.productId = productId;
 
                 tomForm.classList.add("hidden");
                 redigerFormTitel.innerText = "Rediger vare ("+productId+")";
-                redigerForm.classList.remove("hidden");
+                redigerFormContainer.classList.remove("hidden");
             });
         });
 
-        redigerForm.addEventListener("submit", (e) => {
+        redigerForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            console.log(redigerForm.dataset.productId);
-        });
+            const productId = redigerFormContainer.dataset.productId;
+
+            const formData = new FormData(redigerForm);
+            formData.append("prodId", productId);
+            const vareForm = document.getElementById("vare-maengde");
+            formData.append("amount", vareForm.value);
+
+            const response = await fetch(redigerForm.action, {
+                method: redigerForm.method,
+                body: formData
+            });
+
+            const result = await response.text();
+            location.reload();
+            });
     </script>
 </main>

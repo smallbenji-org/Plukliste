@@ -1,4 +1,18 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿document.addEventListener('DOMContentLoaded', function () {
+    const burgerMenu = document.querySelector('.burger-menu');
+    const navContainer = document.querySelector('.nav-container');
 
-// Write your JavaScript code.
+    if (burgerMenu && navContainer) {
+        burgerMenu.addEventListener('click', function () {
+            const isVisible = navContainer.classList.toggle('show');
+
+            if (isVisible) {
+                burgerMenu.innerHTML = '&times;';
+                burgerMenu.style.fontSize = '3rem';
+            } else {
+                burgerMenu.innerHTML = '&#9776;';
+                burgerMenu.style.fontSize = '2.5rem';
+            }
+        });
+    }
+});

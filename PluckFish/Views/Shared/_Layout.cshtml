@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PluckFish</title>
+    <title>@ViewData["Title"] - PlukMineNumseHår</title>
     <script type="importmap"></script>
     @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -13,20 +13,24 @@
     <div class="container">
         <header>
             <h1>@ViewData["Title"]</h1>
-            <nav>
-                <a class="nav-link" asp-controller="Home" asp-action="Index">Forside</a>
-                <a class="nav-link" asp-controller="PickingManager" asp-action="Index">Pluklister</a>
-                <a class="nav-link" asp-controller="StockManager" asp-action="Index">Lagersystem</a>
-                <a class="nav-link" asp-controller="ProductManager" asp-action="Index">Produktstyring</a>
-            </nav>
-
-            @if (User.Identity.IsAuthenticated)
-            {
-                <p>Logged in as @User.Identity.Name</p>
-            }
+            <div class="nav-container">
+                <nav>
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">Forside</a>
+                    <a class="nav-link" asp-controller="PickingManager" asp-action="Index">Pluklister</a>
+                    <a class="nav-link" asp-controller="StockManager" asp-action="Index">Lagersystem</a>
+                    <a class="nav-link" asp-controller="ProductManager" asp-action="Index">Produktstyring</a>
+                </nav>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="user-info">
+                        <p>Logged in as @User.Identity.Name</p>
+                    </div>
+                }
+            </div>
+            <div class="burger-menu">&#9776;</div>
         </header>
 
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 @(ViewData["Title"].ToString() == "Pluksystem" ? "picking-manager-page" : "")">
             @RenderBody()
         </main>
     </div>

@@ -13,14 +13,27 @@
     display: none !important;
 }
 
+.container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: stretch;
+}
+
 html {
     font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
 }
 
 body {
     background-color: var(--primary-bg);
     margin-top: 2vh;
     transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    margin: 0;
 }
 
     body.no-scroll {
@@ -29,7 +42,7 @@ body {
 
 main {
     margin: auto;
-    width: 70%;
+    width: 65%;
     box-sizing: border-box;
 }
 
@@ -44,11 +57,11 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100%;
+    width: 96.75%;
 }
 
     .card.half-size {
-        width: 50%;
+        width: 47.75%;
     }
 
     .card.quarter-size {
@@ -58,7 +71,7 @@ main {
     }
 
     .card.three-quarters-size {
-        width: 75%;
+        width: 64%;
     }
 
 .vare-table {
@@ -168,7 +181,7 @@ main {
     }
 
 .form-control {
-    width: 4vw;
+    width: 97.5%;
     padding: 0.75rem;
     background-color: var(--primary-bg);
     color: var(--text-primary);
@@ -182,14 +195,20 @@ main {
         border-color: var(--accent-color);
     }
 
+.checkbox-cell {
+    text-align: center !important;
+    vertical-align: middle;
+}
+
 .form-checkbox {
     width: 1vw;
     height: 1vw;
-    accent-color: var(--accent-color);
+    accent-color: rgb(53, 122, 189);
     cursor: pointer;
+    vertical-align: middle;
 }
 
-.confirm-btn {
+    .confirm-btn {
     padding: 0.75rem;
     background-color: var(--accent-color);
     color: white;
@@ -416,8 +435,77 @@ main {
         transform: scale(1.02);
     }
 
+.login-container {
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5vw;
+    color: var(--text-primary);
+    box-shadow: var(--shadow);
+    margin: 5vh auto;
+    padding: 2vw;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+    .login-header h2 {
+        font-size: 1.5rem;
+        color: var(--text-primary);
+        margin: 0;
+    }
+
+.login-container .form-group {
+    margin-bottom: 1rem;
+}
+
+    .login-container .form-group label {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+    }
+
+.login-container .form-control {
+    width: 93.5%;
+    font-size: 1rem;
+    padding: 0.75rem;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 0.5vw;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+    .btn-login:hover {
+        background-color: #357abd;
+    }
+
+.login-container a {
+    color: var(--accent-color);
+    text-decoration: none;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+    .login-container a:hover {
+        text-decoration: underline;
+    }
+
 header {
-    width: 80%;
+    width: 65%;
     height: 10vh;
     background-color: var(--secondary-bg);
     box-shadow: var(--shadow);
@@ -429,6 +517,7 @@ header {
     box-sizing: border-box;
     z-index: 1000;
     margin: auto;
+    margin-top: 3vh;
 }
 
     header h1 {
@@ -463,7 +552,7 @@ header {
         }
 
         header .nav-link.active {
-            color: var(--accent-color);
+            color: var(--text-primary);
             border-bottom-color: var(--accent-color);
         }
 
@@ -619,4 +708,51 @@ h2 {
         width: 1.5rem;
         height: 1.5rem;
     }
+}
+
+.stats-container {
+    width: 90%;
+    justify-self: center;
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.stat-card {
+    background-color: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    flex-grow: 1;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.25s;
+}
+
+    .stat-card:hover {
+        transform: scale(1.02);
+    }
+
+.stat-card-header {
+    font-size: 1.2em;
+    color: var(--accent-color);
+    margin-bottom: 1vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25vw;
+}
+
+    .stat-card-header svg {
+        width: 1.2em;
+        height: 1.2em;
+        margin: 0;
+    }
+
+.stat-card-value {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--text-primary);
 }

@@ -33,16 +33,16 @@
                          <td>@item.Product.ProductID</td>
                          <td>@item.Product.Name</td>
                          <td>@item.Type</td>
-                         <td>@item.Amount</td>                       
-                         <td>@if(item.RestVare)
+                         <td>@item.Amount</td>
+                        <td class="checkbox-cell">
+                            @if (item.RestVare)
                             {
-                                <input type="checkbox" checked disabled />
+                                <input type="checkbox" class="form-checkbox" checked onclick="return false"/>
                             }
                             else
                             {
-                                <input type="checkbox" disabled />
+                                <input type="checkbox" class="form-checkbox" onclick="return false"/>
                             }
-                        </td>
                          <td>
                             <button type="button" class="edit-btn" data-productid="@item.Product.ProductID" data-amount="@item.Amount" data-restvare=@item.RestVare>Rediger</button>
                          </td>

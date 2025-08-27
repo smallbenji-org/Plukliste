@@ -23,7 +23,7 @@ namespace PluckFish.Components
 
         public List<Item> getStock()
         {
-            string sql = "SELECT t1.productId AS \"product_id\", t1.name, COALESCE(t2.amount, 0) AS \"amount\" FROM products t1 LEFT JOIN stock t2 ON t2.product_id = t1.productId";
+            string sql = "SELECT t1.productId AS \"product_id\", t1.name, COALESCE(t2.amount, 0) AS \"amount\", COALESCE(t2.restVare, false) AS \"restVare\" FROM products t1 LEFT JOIN stock t2 ON t2.product_id = t1.productId";
             DataTable tb = DapperHelper.loadTb(sql, dbConnection);
             List<Item> items = DapperHelper.fillItemListFromTb(tb);
             return items;
@@ -55,17 +55,18 @@ namespace PluckFish.Components
 
         public void saveStock(Item savedStock)
         {
-            string sql = $"UPDATE stock SET amount = @amount WHERE product_id = @product_id";
+            string sql = $"UPDATE stock SET amount = @amount, restVare = @restVare WHERE product_id = @product_id";
             if (!stockExist(savedStock.Product.ProductID))
             {
-                sql = "INSERT INTO stock (product_id, amount) VALUES (@product_id, @amount)";
+                sql = "INSERT INTO stock (product_id, amount, restVare) VALUES (@product_id, @amount, @restVare)";
             }
                
             using IDbConnection db = dbConnection;
             db.Execute(sql, new
             {                  
                 product_id = savedStock.Product.ProductID,
-                amount = savedStock.Amount
+                amount = savedStock.Amount,
+                restVare = savedStock.RestVare
             });
         }
     }

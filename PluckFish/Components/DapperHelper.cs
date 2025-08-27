@@ -28,6 +28,11 @@ namespace PluckFish.Components
                 product.ProductID = row["product_id"].ToString();
                 product.Name = row["name"].ToString();
                 item.Product = product;
+         
+                if (row["restVare"] != null && row["restVare"].ToString().ToLower() == "true")
+                {
+                    item.RestVare = true;
+                }
                 
                 item.Amount = int.Parse(row["amount"].ToString());
 

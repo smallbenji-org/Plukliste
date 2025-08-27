@@ -57,7 +57,8 @@ namespace PluckFish.Components
 
                 CREATE TABLE IF NOT EXISTS stock (
                     product_id TEXT PRIMARY KEY REFERENCES products(productId) ON DELETE CASCADE,
-                    amount INTEGER NOT NULL DEFAULT 0
+                    amount INTEGER NOT NULL DEFAULT 0,
+                    restVare BOOLEAN NOT NULL DEFAULT FALSE
                 );
             ");
         }

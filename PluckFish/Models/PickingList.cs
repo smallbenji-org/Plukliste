@@ -15,6 +15,7 @@ namespace PluckFish.Models
     public Product? Product { get; set; }
         public ItemType Type;
         public int Amount;
+        public bool RestVare = false;
     }
 
     public enum ItemType

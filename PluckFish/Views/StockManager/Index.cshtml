@@ -19,6 +19,7 @@
                     <th>Produktnavn</th>
                     <th>Type</th>
                     <th>Amount</th>
+                    <th>RestVare</th>
                     <th></th>
                 </tr>
             </thead>
@@ -29,9 +30,18 @@
                          <td>@item.Product.ProductID</td>
                          <td>@item.Product.Name</td>
                          <td>@item.Type</td>
-                         <td>@item.Amount</td>
+                         <td>@item.Amount</td>                       
+                         <td>@if(item.RestVare)
+                            {
+                                <input type="checkbox" checked disabled />
+                            }
+                            else
+                            {
+                                <input type="checkbox" disabled />
+                            }
+                        </td>
                          <td>
-                            <button type="button" class="edit-btn" data-productid="@item.Product.ProductID">Rediger</button>
+                            <button type="button" class="edit-btn" data-productid="@item.Product.ProductID" data-amount="@item.Amount" data-restvare=@item.RestVare>Rediger</button>
                          </td>
                      </tr>
                  }            
@@ -70,8 +80,18 @@
         editButtons.forEach(btn => {
             btn.addEventListener("click", () => {
                 const productId = btn.dataset.productid; 
+                const amount = btn.dataset.amount;
+                const restVare = btn.dataset.restvare;
 
                 redigerFormContainer.dataset.productId = productId;
+                vareForm = document.getElementById("vare-maengde").value = amount;
+
+                const checkbox = document.getElementById("rest-vare");
+                if (restVare == "True"){                  
+                    checkbox.checked = true;
+                }else{
+                    checkbox.checked = false;
+                }
 
                 tomForm.classList.add("hidden");
                 redigerFormTitel.innerText = "Rediger vare ("+productId+")";
@@ -83,11 +103,13 @@
             e.preventDefault();
 
             const productId = redigerFormContainer.dataset.productId;
-
+        
             const formData = new FormData(redigerForm);
             formData.append("prodId", productId);
             const vareForm = document.getElementById("vare-maengde");
             formData.append("amount", vareForm.value);
+            const checkbox = document.getElementById("rest-vare");
+            formData.append("restVare", checkbox.checked);
 
             const response = await fetch(redigerForm.action, {
                 method: redigerForm.method,

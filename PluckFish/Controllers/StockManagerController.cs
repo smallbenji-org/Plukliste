@@ -18,19 +18,21 @@ namespace PluckFish.Controllers
         public IActionResult Index()
         {
             StockViewModel retval = new StockViewModel();
-            retval.stockInventory = stockRepository.getStock();
+            retval.stockInventory = stockRepository.getStock();          
             return View(retval);
         }
 
         [HttpPost]
-        public IActionResult Result(string prodId, int amount)
+        public IActionResult Result(string prodId, int amount, bool restVare)
         {
             Item item = new Item();
             item.Product = new Product();
 
+            item.RestVare = restVare;
+
             item.Product.ProductID = prodId;
             item.Amount = amount;
-            stockRepository.saveStock(item);
+            stockRepository.saveStock(item);   
 
             StockViewModel retval = new StockViewModel();
             retval.stockInventory = stockRepository.getStock();

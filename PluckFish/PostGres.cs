@@ -19,13 +19,13 @@ namespace PluckFish
             return conn.ExecuteReader(query);
         }
       
-        public object? ExecuteScalar(string query, object param = null)
+        public object ExecuteScalar(string query, object param = null)
         {
             using NpgsqlConnection conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
             return conn.ExecuteScalar(query, param);
         }
       
-        public object? Execute(string query, object param = null)
+        public object Execute(string query, object param = null)
         {
             using NpgsqlConnection conn = new NpgsqlConnection(configuration.GetConnectionString("defaultConnection"));
             return conn.Execute(query, param);

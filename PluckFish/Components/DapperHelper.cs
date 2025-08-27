@@ -8,7 +8,7 @@ namespace PluckFish.Components
 {
     public static class DapperHelper
     {
-        public static DataTable loadTb(string sql, IDbConnection dbConn, object? param = null)
+        public static DataTable loadTb(string sql, IDbConnection dbConn, object param = null)
         {
             using IDbConnection db = dbConn;
             var reader = db.ExecuteReader(sql, param);

@@ -11,24 +11,33 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>@ViewData["Title"]</h1>
-            <div class="nav-container">
-                <nav>
-                    <a class="nav-link" asp-controller="Home" asp-action="Index">Forside</a>
-                    <a class="nav-link" asp-controller="PickingManager" asp-action="Index">Pluklister</a>
-                    <a class="nav-link" asp-controller="StockManager" asp-action="Index">Lagersystem</a>
-                    <a class="nav-link" asp-controller="ProductManager" asp-action="Index">Produktstyring</a>
-                </nav>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="user-info">
-                        <p>Logged in as @User.Identity.Name</p>
-                    </div>
-                }
-            </div>
-            <div class="burger-menu">&#9776;</div>
-        </header>
+        @if (ViewData["Title"]?.ToString() != "Login" && ViewData["Title"]?.ToString() != "Register")
+        {
+            <header>
+                <div class="left">
+                    <h1>@ViewData["Title"]</h1>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="user-info">
+                            <p>Logged in as @User.Identity.Name</p>
+                        </div>
+                    }
+                </div>
+                <div class="nav-container">
+                    <nav>
+                        @{
+                            var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+                        }
+                        <a class="nav-link @(currentController == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">Forside</a>
+                        <a class="nav-link @(currentController == "PickingManager" ? "active" : "")" asp-controller="PickingManager" asp-action="Index">Pluklister</a>
+                        <a class="nav-link @(currentController == "StockManager" ? "active" : "")" asp-controller="StockManager" asp-action="Index">Lagersystem</a>
+                        <a class="nav-link @(currentController == "ProductManager" ? "active" : "")" asp-controller="ProductManager" asp-action="Index">Produktstyring</a>
+                    </nav>
+
+                </div>
+                <div class="burger-menu">&#9776;</div>
+            </header>
+        }
 
         <main role="main" class="pb-3 @(ViewData["Title"].ToString() == "Pluksystem" ? "picking-manager-page" : "")">
             @RenderBody()

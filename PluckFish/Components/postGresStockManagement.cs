@@ -21,9 +21,9 @@ namespace PluckFish.Components
 
         private IDbConnection dbConnection => new NpgsqlConnection(config.GetConnectionString("defaultConnection"));
 
-        public List<Item> getStock()
+        public List<Item> getStock(string whereClause = "")
         {
-            string sql = "SELECT t1.productId AS \"product_id\", t1.name, COALESCE(t2.amount, 0) AS \"amount\", COALESCE(t2.restVare, false) AS \"restVare\" FROM products t1 LEFT JOIN stock t2 ON t2.product_id = t1.productId";
+            string sql = "SELECT t1.productId AS \"product_id\", t1.name, COALESCE(t2.amount, 0) AS \"amount\", COALESCE(t2.restVare, false) AS \"restVare\" FROM products t1 LEFT JOIN stock t2 ON t2.product_id = t1.productId"+whereClause;
             DataTable tb = DapperHelper.loadTb(sql, dbConnection);
             List<Item> items = DapperHelper.fillItemListFromTb(tb);
             return items;

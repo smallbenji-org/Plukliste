@@ -21,11 +21,25 @@ namespace PluckFish.Controllers
             retval.stockInventory = stockRepository.getStock();
             return View(retval);
         }
+
+        [HttpPost]
+        public IActionResult Result(string prodId, int amount)
+        {
+            Item item = new Item();
+            item.Product = new Product();
+
+            item.Product.ProductID = prodId;
+            item.Amount = amount;
+            stockRepository.saveStock(item);
+
+            StockViewModel retval = new StockViewModel();
+            retval.stockInventory = stockRepository.getStock();
+            return View(retval);
+        }
     }
 
     public class StockViewModel()
     {
         public List<Item> stockInventory;
-        public string ProdId = null;
     }
 }

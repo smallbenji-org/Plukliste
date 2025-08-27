@@ -29,6 +29,7 @@ namespace PluckFish
             {
                 builder.Services.AddTransient<IProductRepository, PostgresProductRepository>();
                 builder.Services.AddTransient<IPickingListRepository, PostgresPickingListRepository>();
+                builder.Services.AddTransient<IStockRepository, postGresStockManagement>();
                 builder.Services.AddTransient<PostgresEnsureTables>();
 
                 builder.Services.AddTransient<PostGres>();

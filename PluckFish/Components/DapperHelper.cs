@@ -27,6 +27,7 @@ namespace PluckFish.Components
                 product.ProductID = row["product_id"].ToString();
                 product.Name = row["name"].ToString();
                 item.Product = product;
+                
                 item.Amount = int.Parse(row["amount"].ToString());
 
                 items.Add(item);

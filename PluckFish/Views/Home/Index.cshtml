@@ -1,3 +1,21 @@
-﻿@{
+﻿@model PluckFish.Controllers.HomeViewModel;
+@{
     ViewData["Title"] = "Lagersystem";
 }
+
+<table class="vare-table">
+    <thead>
+        <tr>
+            <th>Brugere</th>
+            <th>Pluklister</th>
+            <th>Produkter</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Users</td>
+            <td>@Model.PickingLists</td>
+            <td>@Model.Products</td>
+        </tr>
+    </tbody>
+</table>

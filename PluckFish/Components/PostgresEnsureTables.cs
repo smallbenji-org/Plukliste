@@ -23,7 +23,8 @@ namespace PluckFish.Components
                     id SERIAL PRIMARY KEY,
                     name TEXT,
                     forsendelse TEXT,
-                    adresse TEXT
+                    adresse TEXT,
+                    isDone BOOLEAN DEFAULT FALSE
                 );
 
                 CREATE TABLE IF NOT EXISTS picking_list_items (

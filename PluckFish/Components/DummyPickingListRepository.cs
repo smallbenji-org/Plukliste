@@ -32,6 +32,11 @@ namespace PluckFish.Components
             throw new NotImplementedException();
         }
 
+        public List<Item> GetPickingListItems(int pickingListId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void RemovePickingList(PickingList plukliste)
         {
             _pluklister.Remove(plukliste);
@@ -44,6 +49,11 @@ namespace PluckFish.Components
             {
                 found.Amount = amount;
             }
+        }
+
+        public void UpdatePickingList(PickingList plukliste)
+        {
+            throw new NotImplementedException();
         }
     }
 }

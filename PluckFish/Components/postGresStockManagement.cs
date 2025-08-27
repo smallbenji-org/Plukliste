@@ -77,6 +77,17 @@ namespace PluckFish.Components
             throw new NotImplementedException();
         }
 
+        public void RetractStock(string prodId, int retractNum)
+        {
+            string sql = $"UPDATE stock SET amount = amount-@retractNum WHERE product_id = @product_id";
+            using IDbConnection db = dbConnection;
+            db.Execute(sql, new
+            {
+                product_id = prodId,
+                retractNum = retractNum
+            });
+        }
+
         public void saveStock(Item savedStock)
         {
             string sql = $"UPDATE stock SET amount = @amount, restVare = @restVare WHERE product_id = @product_id";
@@ -84,10 +95,10 @@ namespace PluckFish.Components
             {
                 sql = "INSERT INTO stock (product_id, amount, restVare) VALUES (@product_id, @amount, @restVare)";
             }
-               
+
             using IDbConnection db = dbConnection;
             db.Execute(sql, new
-            {                  
+            {
                 product_id = savedStock.Product.ProductID,
                 amount = savedStock.Amount,
                 restVare = savedStock.RestVare

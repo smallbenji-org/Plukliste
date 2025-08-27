@@ -21,9 +21,9 @@ namespace PluckFish.Components
 
         public void AddPickingList(PickingList plukliste)
         {
-            string sql = "INSERT INTO picking_lists (name, forsendelse, adresse) VALUES (@name, @forsendelse, @adresse) RETURNING id";
+            string sql = "INSERT INTO picking_lists (name, forsendelse, adresse, isDone) VALUES (@name, @forsendelse, @adresse, @isDone) RETURNING id";
             using IDbConnection db = dbConnection;
-            plukliste.Id = db.QuerySingle<int>(sql, new { name = plukliste.Name, forsendelse = plukliste.Forsendelse, adresse = plukliste.Adresse });
+            plukliste.Id = db.QuerySingle<int>(sql, new { name = plukliste.Name, forsendelse = plukliste.Forsendelse, adresse = plukliste.Adresse , isDone = plukliste.IsDone});
         }
 
         public void AddProductToPickingList(PickingList plukliste, Item item)
@@ -58,7 +58,8 @@ namespace PluckFish.Components
                 pickingList.Name = row["name"].ToString();
                 pickingList.Adresse = row["adresse"].ToString();
                 pickingList.Forsendelse = row["forsendelse"].ToString();
-                pickingList.Lines = GetPickingListItems(pickingList.Id);
+                pickingList.IsDone = bool.Parse(row["isDone"].ToString());
+                //pickingList.Lines = GetPickingListItems(pickingList.Id);
 
                 pickingLists.Add(pickingList);
             }
@@ -67,14 +68,14 @@ namespace PluckFish.Components
 
         public List<PickingList> GetAllPickingList()
         {
-            string sql = "SELECT id, name, forsendelse, adresse FROM picking_lists";
+            string sql = "SELECT id, name, forsendelse, adresse, isDone FROM picking_lists";
             DataTable tb = DapperHelper.loadTb(sql, dbConnection);
             return getPickingLists(tb);
         }
 
         public PickingList GetPickingList(int id)
         {
-            string sql = "SELECT id, name, forsendelse, adresse FROM picking_lists WHERE id = @id";
+            string sql = "SELECT id, name, forsendelse, adresse, isDone FROM picking_lists WHERE id = @id";
             DataTable tb = DapperHelper.loadTb(sql, dbConnection, new { id = id });
             List<PickingList> pickingLists = getPickingLists(tb);
             return pickingLists[0];
@@ -110,6 +111,19 @@ namespace PluckFish.Components
                 listId = plukliste.Id,
                 productId = item.Product?.ProductID,
                 amount = amount
+            });
+        }
+
+        public void UpdatePickingList(PickingList plukliste)
+        {
+            string sql = "UPDATE picking_lists SET name = @name, forsendelse = @forsendelse, adresse = @adresse, isDone = @isDone WHERE id = @id";
+            using IDbConnection db = dbConnection;
+            db.Execute(sql, new { 
+                id = plukliste.Id,
+                name = plukliste.Name,
+                forsendelse = plukliste.Forsendelse,
+                adresse = plukliste.Adresse,
+                isDone = plukliste.IsDone
             });
         }
     }

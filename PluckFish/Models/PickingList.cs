@@ -2,10 +2,11 @@ namespace PluckFish.Models
 {
     public class PickingList
     {
-        public int Id { get; set; }
+        public int Id { get; set; }        
         public string Name;
         public string Forsendelse;
         public string Adresse;
+        public bool IsDone;
         public List<Item> Lines = new List<Item>();
         public void AddItem(Item item) { Lines.Add(item); }
     }

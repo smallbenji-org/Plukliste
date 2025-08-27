@@ -34,9 +34,7 @@ namespace PluckFish.Controllers
             item.Amount = amount;
             stockRepository.saveStock(item);   
 
-            StockViewModel retval = new StockViewModel();
-            retval.stockInventory = stockRepository.getStock();
-            return View(retval);
+            return View();
         }
     }
 

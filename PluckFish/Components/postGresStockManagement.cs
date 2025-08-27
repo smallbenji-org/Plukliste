@@ -29,6 +29,30 @@ namespace PluckFish.Components
             return items;
         }
 
+        public Item getItemStock(string prodId)
+        {
+            string sql = "SELECT t1.productId AS \"product_id\", t1.name, COALESCE(t2.amount, 0) AS \"amount\", COALESCE(t2.restVare, false) AS \"restVare\" FROM products t1 LEFT JOIN stock t2 ON t2.product_id = t1.productId WHERE t1.productId = @product_id";
+            using IDbConnection db = dbConnection;
+            var reader = db.ExecuteReader(sql, new
+            {
+                product_id = prodId
+            });
+            DataTable tb = new DataTable();
+            tb.Load(reader);
+
+            DataRow row = tb.Rows[0];
+            Item item = new Item();
+            item.Amount = int.Parse(row["amount"].ToString());
+            if (row["restVare"].ToString().ToLower() == "true")
+            {
+                item.RestVare = true;
+            }
+            item.Product = new Product();
+            item.Product.ProductID = prodId;
+            item.Product.Name = row["name"].ToString();
+
+            return item;
+        }
         public bool stockExist(string prodId)
         {
             string sql = "SELECT 1 FROM stock WHERE product_id = @product_id";
@@ -53,6 +77,17 @@ namespace PluckFish.Components
             throw new NotImplementedException();
         }
 
+        public void RetractStock(string prodId, int retractNum)
+        {
+            string sql = $"UPDATE stock SET amount = amount-@retractNum WHERE product_id = @product_id";
+            using IDbConnection db = dbConnection;
+            db.Execute(sql, new
+            {
+                product_id = prodId,
+                retractNum = retractNum
+            });
+        }
+
         public void saveStock(Item savedStock)
         {
             string sql = $"UPDATE stock SET amount = @amount, restVare = @restVare WHERE product_id = @product_id";
@@ -60,10 +95,10 @@ namespace PluckFish.Components
             {
                 sql = "INSERT INTO stock (product_id, amount, restVare) VALUES (@product_id, @amount, @restVare)";
             }
-               
+
             using IDbConnection db = dbConnection;
             db.Execute(sql, new
-            {                  
+            {
                 product_id = savedStock.Product.ProductID,
                 amount = savedStock.Amount,
                 restVare = savedStock.RestVare

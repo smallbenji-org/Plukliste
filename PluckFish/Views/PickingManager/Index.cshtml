@@ -1,6 +1,8 @@
 ﻿@model PluckFish.Controllers.PickingListViewModel;
 @{
     ViewData["Title"] = "Pluksystem";
+
+    List<PickingList> notDoneLists = Model.PickingLists.FindAll(lists => lists.IsDone == false);
 }
 
 <main>
@@ -15,14 +17,13 @@
                             <option value="" selected>-- Vælg en plukliste --</option>
                         }
 
-                        @foreach (var list in Model.PickingLists)
+                        @foreach (var list in notDoneLists)
                         {
                             if (Model.SelectedPickingList != null && list.Id.Equals(Model.SelectedPickingList.Id))
                             {
                                 <option value="@list.Id" selected>@list.Id - @list.Name - @list.Forsendelse</option>
                                 continue;
                             }
-
                             <option value="@list.Id">@list.Id - @list.Name - @list.Forsendelse</option>
                         }
                     </select>
@@ -86,8 +87,11 @@
                     </table>
                 </div>
                 <div class="action-buttons">
-                    <button class="action-btn btn-secondary">Anuller</button>
-                    <button class="action-btn btn-primary">Færdig</button>
+                    <form asp-action="Toggle" method="post">
+                        <input type="hidden" name="id" value="@Model.SelectedPickingList.Id" />
+                        <button class="action-btn btn-secondary">Anuller</button>
+                        <button type="submit" class="action-btn btn-primary">Færdig</button>
+                    </form>
                 </div>
             </div>
         </div>

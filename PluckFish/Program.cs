@@ -41,6 +41,8 @@ namespace PluckFish
                 builder.Services.AddSingleton<IPickingListRepository, DummyPickinglistRepository>();
             }
 
+            builder.Services.AddTransient<StockHelper>();
+
 
             WebApplication app = builder.Build();
 

@@ -6,6 +6,7 @@ namespace PluckFish.Models
         public string? Name;
         public string? Forsendelse;
         public string? Adresse;
+        public bool? IsDone;
         public List<Item> Lines = new List<Item>();
         public void AddItem(Item item) { Lines.Add(item); }
     }

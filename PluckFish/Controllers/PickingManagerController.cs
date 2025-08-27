@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PluckFish.Components;
 using PluckFish.Interfaces;
 using PluckFish.Models;
 using System.Diagnostics;
@@ -9,12 +10,19 @@ namespace PluckFish.Controllers
     public class PickingManagerController : Controller
     {
         private readonly ILogger<PickingManagerController> _logger;
+        private readonly StockHelper stockHelper;
         private readonly IPickingListRepository pickingListRepository;
         private readonly IProductRepository productRepository;
 
-        public PickingManagerController(ILogger<PickingManagerController> logger, IPickingListRepository pickingListRepository, IProductRepository productRepository)
+        public PickingManagerController(
+            ILogger<PickingManagerController> logger,
+            StockHelper stockHelper,
+            IPickingListRepository pickingListRepository,
+            IProductRepository productRepository
+        )
         {
             _logger = logger;
+            this.stockHelper = stockHelper;
             this.pickingListRepository = pickingListRepository;
             this.productRepository = productRepository;
         }
@@ -40,7 +48,27 @@ namespace PluckFish.Controllers
             retval.PickingListSelected = true;
             retval.SelectedPickingList = pickingListRepository.GetPickingList(Id);
 
+            retval.SelectedPickingList.Lines = pickingListRepository.GetPickingListItems(retval.SelectedPickingList.Id);
+
             return View("Index", retval);
+        }
+
+        [HttpPost]
+        public IActionResult Toggle(int id)
+        {
+            var pickingList = pickingListRepository.GetPickingList(id);
+            pickingList.Lines = pickingListRepository.GetPickingListItems(pickingList.Id);
+            if (pickingList == null)
+            {
+                return NotFound();
+            }
+            pickingList.IsDone = !pickingList.IsDone;
+
+            pickingListRepository.UpdatePickingList(pickingList); // safe isDone state
+
+            stockHelper.RemoveStockFromPickingList(pickingList);
+            
+            return RedirectToAction("Index");
         }
 
         [Route("HandlePickingList")]

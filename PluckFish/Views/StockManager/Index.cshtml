@@ -6,13 +6,20 @@
 <main>
     <div class="card">
         <div class="area">
+            @{
+                var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+            }
+
             <div class="sort-options">
-                <button class="sort-btn active">Alle Varer</button>
-                <button class="sort-btn">Vis kun rest vare</button>
-                <button class="sort-btn">Vis kun ikke rest vare</button>
-            </div>
-            <div class="selector-header">
-                <button class="refresh-btn">↻ Opdater</button>
+                <form asp-action="Index">
+                    <button class="sort-btn @(currentAction == "Index" ? "active" : "")">Alle Varer</button>
+                </form>
+                <form asp-action="VisRestVare">
+                    <button class="sort-btn @(currentAction == "VisRestVare" ? "active" : "")">Vis kun rest vare</button>
+                </form>
+                <form asp-action="VisVare">
+                    <button class="sort-btn @(currentAction == "VisVare" ? "active" : "")">Vis kun ikke rest vare</button>
+                </form>
             </div>
         </div>
         <table class="vare-table">

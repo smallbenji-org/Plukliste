@@ -4,7 +4,7 @@ namespace PluckFish.Interfaces
 {
     public interface IStockRepository
     {
-        List<Item> getStock();
+        List<Item> getStock(string whereClause = "");
         Item getItemStock(string prodId);
         bool stockExist(string prodId);
         void saveStock(Item savedStock);

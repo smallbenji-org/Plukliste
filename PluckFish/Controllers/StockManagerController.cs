@@ -9,7 +9,7 @@ namespace PluckFish.Controllers
     public class StockManagerController : Controller
     {
         private readonly IStockRepository stockRepository;
-        
+
         public StockManagerController(IStockRepository stockRepository)
         {
             this.stockRepository = stockRepository;
@@ -18,7 +18,7 @@ namespace PluckFish.Controllers
         public IActionResult Index()
         {
             StockViewModel retval = new StockViewModel();
-            retval.stockInventory = stockRepository.getStock();          
+            retval.stockInventory = stockRepository.getStock();
             return View(retval);
         }
 
@@ -32,12 +32,25 @@ namespace PluckFish.Controllers
 
             item.Product.ProductID = prodId;
             item.Amount = amount;
-            stockRepository.saveStock(item);   
+            stockRepository.saveStock(item);
 
             return View();
         }
-    }
 
+        public IActionResult VisVare(string prodId, int amount, bool restVare)
+        {
+            StockViewModel retval = new StockViewModel();
+            retval.stockInventory = stockRepository.getStock(" WHERE COALESCE(t2.restVare, false) = false");
+            return View("Index", retval);
+        }
+        public IActionResult VisRestVare(string prodId, int amount, bool restVare)
+        {
+            StockViewModel retval = new StockViewModel();
+            retval.stockInventory = stockRepository.getStock(" WHERE COALESCE(t2.restVare, false) = true");
+            return View("Index", retval);
+        }
+
+    }
     public class StockViewModel()
     {
         public List<Item> stockInventory;

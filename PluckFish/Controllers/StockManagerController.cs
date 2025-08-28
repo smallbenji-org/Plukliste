@@ -14,12 +14,44 @@ namespace PluckFish.Controllers
         {
             this.stockRepository = stockRepository;
         }
+        private (List<Item>, int) getPage(int nextPage, string filter = "All")
+        {
+            List<Item> items = stockRepository.getStock();
+            if (filter == "VisVare")
+            {
+                items = items.Where(x => !x.RestVare).ToList();
+            }
+            else if (filter == "VisRestVare")
+            {
+                items = items.Where(x => x.RestVare).ToList();
+            }
+
+            int pageSize = 25;
+            int totalPages = (int)Math.Ceiling(decimal.Divide(items.Count, pageSize));
+
+            if (nextPage > totalPages) { nextPage = totalPages; } else if (nextPage <= 0) { nextPage = 1; }
+
+            int startIndex = (nextPage - 1) * pageSize;
+            var pageItems = items
+            .Skip(startIndex)
+            .Take(pageSize)
+            .ToList();
+            return (pageItems, nextPage);
+        }
 
         public IActionResult Index()
         {
             StockViewModel retval = new StockViewModel();
-            retval.stockInventory = stockRepository.getStock();
+            (retval.stockInventory, retval.currentPage) = getPage(0);
             return View(retval);
+        }
+
+        public IActionResult ScrollPage(int nextPage, string filter = "All")
+        {
+            StockViewModel retval = new StockViewModel();
+            (retval.stockInventory, retval.currentPage) = getPage(nextPage, filter);
+            retval.filter = filter;
+            return View("Index", retval);
         }
 
         [HttpPost]
@@ -40,21 +72,23 @@ namespace PluckFish.Controllers
         public IActionResult VisVare(string prodId, int amount, bool restVare)
         {
             StockViewModel retval = new StockViewModel();
-            // retval.stockInventory = stockRepository.getStock(" WHERE COALESCE(t2.restVare, false) = false");
-            retval.stockInventory = stockRepository.getStock().Where(x => !x.RestVare).ToList();
+            retval.filter = "VisVare";
+            (retval.stockInventory, retval.currentPage) = getPage(retval.currentPage, retval.filter);
             return View("Index", retval);
         }
         public IActionResult VisRestVare(string prodId, int amount, bool restVare)
         {
             StockViewModel retval = new StockViewModel();
-            // retval.stockInventory = stockRepository.getStock(" WHERE COALESCE(t2.restVare, false) = true");
-            retval.stockInventory = stockRepository.getStock().Where(x => x.RestVare).ToList();
+            retval.filter = "VisRestVare";
+            (retval.stockInventory, retval.currentPage) = getPage(retval.currentPage, retval.filter);
             return View("Index", retval);
         }
 
-    }
+        }
     public class StockViewModel()
     {
-        public List<Item> stockInventory;
+        public List<Item> stockInventory { get; set; } = new List<Item>();
+        public int currentPage { get; set; } = 1;
+        public string filter { get; set; } = "All";
     }
 }

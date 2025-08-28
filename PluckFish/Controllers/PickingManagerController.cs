@@ -12,18 +12,21 @@ namespace PluckFish.Controllers
         private readonly ILogger<PickingManagerController> _logger;
         private readonly StockHelper stockHelper;
         private readonly IPickingListRepository pickingListRepository;
+        private readonly IStockRepository stockRepository;
         private readonly IProductRepository productRepository;
 
         public PickingManagerController(
             ILogger<PickingManagerController> logger,
             StockHelper stockHelper,
             IPickingListRepository pickingListRepository,
+            IStockRepository stockRepository,
             IProductRepository productRepository
         )
         {
             _logger = logger;
             this.stockHelper = stockHelper;
             this.pickingListRepository = pickingListRepository;
+            this.stockRepository = stockRepository;
             this.productRepository = productRepository;
         }
 
@@ -67,7 +70,7 @@ namespace PluckFish.Controllers
             pickingListRepository.UpdatePickingList(pickingList); // safe isDone state
 
             stockHelper.RemoveStockFromPickingList(pickingList);
-            
+
             return RedirectToAction("Index");
         }
 
@@ -75,6 +78,39 @@ namespace PluckFish.Controllers
         public IActionResult HandlePickingList([FromForm] string id)
         {
             return RedirectToAction(nameof(GetPickingList), new { Id = id });
+        }
+
+        [Route("CreatePickinglist")]
+        public IActionResult CreatePickingList()
+        {
+            return View();
+        }
+
+        [HttpPost("CreatePickinglist")]
+        public IActionResult CreatePickingList([FromForm] string name, [FromForm] string shipping, [FromForm] string address)
+        {
+            PickingList pickingList = new PickingList();
+
+            pickingList.Name = name;
+            pickingList.Forsendelse = shipping;
+            pickingList.Adresse = address;
+
+            pickingListRepository.AddPickingList(pickingList);
+            int lastId = pickingListRepository.GetAllPickingList().Last().Id;
+
+            return RedirectToAction(nameof(GetPickingList), new { Id = lastId });
+        }
+
+        [Route("EditPickinglist/{id}")]
+        public IActionResult EditPickingList(int id)
+        {
+            EditPickingListViewModel retval = new EditPickingListViewModel();
+
+            retval.CurrentPickingList = pickingListRepository.GetPickingList(id);
+            retval.Items = pickingListRepository.GetPickingListItems(id);
+            retval.Products = productRepository.getAll().ToList();
+
+            return View(retval);
         }
 
         public IActionResult Test()
@@ -95,5 +131,12 @@ namespace PluckFish.Controllers
         public List<PickingList> PickingLists { get; set; }
         public bool PickingListSelected { get; set; } = false;
         public PickingList SelectedPickingList { get; set; }
+    }
+
+    public class EditPickingListViewModel
+    {
+        public List<Product> Products { get; set; }
+        public List<Item> Items { get; set; }
+        public PickingList CurrentPickingList { get; set; }
     }
 }

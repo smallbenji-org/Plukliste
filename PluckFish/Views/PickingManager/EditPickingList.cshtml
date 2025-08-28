@@ -1,0 +1,57 @@
+@model PluckFish.Controllers.EditPickingListViewModel;
+@{
+    ViewData["Title"] = "Opret plukliste";
+}
+
+<div class="card">
+    <div>
+        <h2>
+            Editing: <span>@Model.CurrentPickingList.Name</span>
+        </h2>
+        <p>
+            Address: @Model.CurrentPickingList.Adresse
+        </p>
+        <p>
+            Shipping: @Model.CurrentPickingList.Forsendelse
+        </p>
+    </div>
+    <div style="display: flex;">
+        <div style="flex: 1; width: 50%;">
+            <p>Products:</p>
+            @foreach (var prod in Model.Products)
+            {
+                <div style="display: flex;">
+
+                    <div>
+                        @prod.Name
+                    </div>
+                    <div style="flex: 1;"></div>
+                    <a style="color: green; padding-right: 10px;">
+                        Add
+                    </a>
+                </div>
+            }
+        </div>
+        <div style="flex: 1; width: 50%;">
+            <p>Items:</p>
+            @foreach (var item in Model.Items)
+            {
+                <div style="display: flex;">
+                    <div>
+                        @item.Product.Name
+                    </div>
+                    <div style="flex: 1;"></div>
+                    <div style="margin-right: 10px;">
+                        <form>
+                            <input type="number" style="max-width: 100px;" value="0" />
+                            <input type="submit" value="save" />
+                        </form>
+                    </div>
+                    <div style="color: red; padding-right: 10px;">
+                        Remove
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

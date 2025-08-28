@@ -1,0 +1,10 @@
+@{
+    ViewData["Title"] = "Opret plukliste";
+}
+
+<form method="post" asp-action="CreatePickingList">
+    <input type="text" name="name" placeholder="Navn" />
+    <input type="text" name="shipping" placeholder="Forsendelse" />
+    <input type="text" name="address" placeholder="Addresse" />
+    <input type="submit" value="Opret" />
+</form>

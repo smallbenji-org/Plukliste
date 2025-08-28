@@ -17,10 +17,11 @@ namespace PluckFish.Components
 
         public void RemoveStockFromPickingList(PickingList pickingList)
         {
-            foreach (var item in pickingList.Lines)
-            {
-                stockRepository.RetractStock(item.Product.ProductID, item.Amount);
-            }
+            bool status = stockRepository.RetractMultiStock(pickingList.Lines);
+            //foreach (var item in pickingList.Lines)
+            //{
+            //    stockRepository.RetractStock(item.Product.ProductID, item.Amount);
+            //}
         }
     }
 }

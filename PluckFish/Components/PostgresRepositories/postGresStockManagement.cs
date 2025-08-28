@@ -112,6 +112,9 @@ namespace PluckFish.Components
             sql += ")";
 
             DataTable tb = DapperHelper.loadTb(sql, dbConnection);
+
+            if (retractItems.Count != tb.Rows.Count) { return false; } // Some stock items arent creating. We need to handle this somehow.
+
             foreach (DataRow dr in tb.Rows) 
             {
                 bool restVare = bool.Parse(dr["restVare"].ToString());

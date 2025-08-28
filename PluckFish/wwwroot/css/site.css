@@ -23,6 +23,7 @@
 html {
     font-family: Arial, Helvetica, sans-serif;
     height: 100%;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -81,7 +82,7 @@ main {
     background-color: var(--primary-bg);
     border-radius: 0.5vw;
     overflow: hidden;
-    font-size: 0.75vw;
+    font-size: .85em;
     border: 1px solid var(--border-color);
 }
 
@@ -100,7 +101,7 @@ main {
         background-color: var(--secondary-bg);
         font-weight: 600;
         padding: 0.75rem 0.5rem;
-        font-size: 0.75vw;
+        font-size: 0.85em;
     }
 
     .vare-table tr:last-child td {
@@ -126,7 +127,7 @@ main {
     border: none;
     border-radius: 0.5vw;
     cursor: pointer;
-    font-size: 0.7vw;
+    font-size: 0.85em;
     font-weight: bold;
     display: block;
     margin: 0 auto;
@@ -144,7 +145,7 @@ main {
     color: white;
     border: none;
     border-radius: 0.5vw;
-    font-size: 0.8vw;
+    font-size: 0.8em;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -177,7 +178,7 @@ main {
     .form-group-inline label {
         margin-bottom: 0.25rem;
         color: var(--text-secondary);
-        font-size: 1vw;
+        font-size: .9em;
     }
 
 .form-control {
@@ -187,7 +188,7 @@ main {
     color: var(--text-primary);
     border: 1px solid var(--border-color);
     border-radius: 0.5vw;
-    font-size: 1vw;
+    font-size: 1em;
 }
 
     .form-control:focus {
@@ -214,7 +215,7 @@ main {
     color: white;
     border: none;
     border-radius: 0.5vw;
-    font-size: 0.8vw;
+    font-size: 0.8em;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -229,7 +230,7 @@ main {
     text-align: center;
     color: var(--text-secondary);
     margin-top: 2rem;
-    font-size: 1vw;
+    font-size: 1em;
 }
 
 .sort-options {
@@ -245,7 +246,7 @@ main {
     border: none;
     color: var(--text-secondary);
     cursor: pointer;
-    font-size: 0.9vw;
+    font-size: 1em;
     padding: 0.25rem 0;
     transition: color 0.3s ease;
     border-bottom: 2px solid transparent;
@@ -275,8 +276,7 @@ main {
     color: var(--text-primary);
     border: 1px solid var(--border-color);
     border-radius: 0.5vw;
-    font-size: 1vw;
-    margin-bottom: 1rem;
+    font-size: 1em;
 }
 
     .list-dropdown:focus {
@@ -285,7 +285,7 @@ main {
     }
 
 .selector-controls {
-    width: 100%;
+    width: 102%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -320,11 +320,17 @@ main {
     color: var(--accent-color);
     margin-right: 1rem;
     flex-shrink: 0;
-    font-size: 1vw;
+    font-size: 0.9em;
 }
 
 #customerName {
-    font-size: 1vw;
+    font-size: 0.9em;
+}
+#customerForsendelse {
+    font-size: 0.9em;
+}
+#customerAdresse {
+    font-size: 0.9em;
 }
 
 .value {
@@ -348,7 +354,7 @@ main {
     border-collapse: collapse;
     background-color: var(--primary-bg);
     border: 1px solid var(--border-color);
-    font-size: .8vw;
+    font-size: 0.9em;
 }
 
     .pluk-table th,
@@ -381,7 +387,7 @@ main {
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 0.5vw;
-    font-size: 0.8vw;
+    font-size: 0.9em;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -424,7 +430,7 @@ main {
     border: none;
     border-radius: 0.5vw;
     cursor: pointer;
-    font-size: 0.8vw;
+    font-size: 1em;
     font-weight: bold;
     display: block;
     margin: 0 auto;
@@ -455,7 +461,7 @@ main {
 }
 
     .login-header h2 {
-        font-size: 1.5rem;
+        font-size: 1.5em;
         color: var(--text-primary);
         margin: 0;
     }
@@ -465,13 +471,13 @@ main {
 }
 
     .login-container .form-group label {
-        font-size: 0.9rem;
+        font-size: 0.9em;
         color: var(--text-secondary);
     }
 
 .login-container .form-control {
     width: 93.5%;
-    font-size: 1rem;
+    font-size: 1em;
     padding: 0.75rem;
 }
 
@@ -523,7 +529,7 @@ header {
 
     header h1 {
         color: var(--text-primary);
-        font-size: 1.4vw;
+        font-size: 1.5em;
         margin: 0;
     }
 
@@ -541,7 +547,7 @@ header {
     header .nav-link {
         color: var(--text-secondary);
         text-decoration: none;
-        font-size: 1vw;
+        font-size: 1em;
         font-weight: 500;
         padding: 0.25rem 0;
         border-bottom: 2px solid transparent;
@@ -566,16 +572,16 @@ header {
     .user-info p {
         margin: 0;
         color: var(--text-secondary);
-        font-size: 0.8vw;
+        font-size: 0.85em;
     }
 
 h2 {
-    font-size: 1.3vw;
+    font-size: 1.3em;
 }
 
 .burger-menu {
     display: none;
-    font-size: 2rem;
+    font-size: 2em;
     cursor: pointer;
     color: var(--text-primary);
 }
@@ -661,17 +667,17 @@ h2 {
     }
 
     header h1 {
-        font-size: 5vw;
+        font-size: 2.5em;
     }
 
     header .nav-link {
-        font-size: 6vw;
+        font-size: 3em;
         font-weight: bold;
-        padding: 0.5rem 1rem;
+        padding: 1.5rem 1rem;
     }
 
     .user-info p {
-        font-size: 3.5vw;
+        font-size: 1.3em;
     }
 
     main.picking-manager-page .row {
@@ -686,13 +692,15 @@ h2 {
     }
 
     main.picking-manager-page .pluk-table {
-        font-size: 3vw;
+        font-size: 1.2em;
     }
 
     main.picking-manager-page .label,
     main.picking-manager-page #customerName,
+    main.picking-manager-page #customerForsendelse,
+    main.picking-manager-page #customerAdresse,
     main.picking-manager-page .value {
-        font-size: 3.5vw;
+        font-size: 1.2em;
     }
 
     main.picking-manager-page .action-buttons {
@@ -703,7 +711,7 @@ h2 {
 
     main.picking-manager-page .action-btn {
         width: 100%;
-        font-size: 4vw;
+        font-size: 2em;
         padding: 1rem;
         min-height: 48px;
         border-radius: 8px;
@@ -711,7 +719,7 @@ h2 {
     }
 
     main.picking-manager-page .list-dropdown {
-        font-size: 3.5vw;
+        font-size: 1.8em;
     }
 
     main.picking-manager-page .form-checkbox {
@@ -720,7 +728,7 @@ h2 {
     }
 
     main.product-manager-page h2 {
-        font-size: 5.5vw;
+        font-size: 3em;
         font-weight: 600;
         color: var(--text-primary);
         margin-bottom: 1rem;
@@ -744,14 +752,14 @@ h2 {
     }
 
     main.product-manager-page .label {
-        font-size: 4vw;
+        font-size: 1.5em;
         font-weight: normal;
         color: var(--text-secondary);
         margin-right: 0;
     }
 
     main.product-manager-page .list-dropdown {
-        font-size: 4vw;
+        font-size: 2em;
         padding: 0.75rem;
         width: 100%;
         box-sizing: border-box;
@@ -760,24 +768,24 @@ h2 {
 
     main.product-manager-page .confirm-btn {
         width: 100%;
-        font-size: 4.5vw;
+        font-size: 0.7em;
         padding: 1rem;
         border-radius: 8px;
         margin-top: 0.5rem;
     }
 
     main.product-manager-page .vare-table {
-        font-size: 3.5vw;
+        font-size: 1.2em;
     }
 
         main.product-manager-page .vare-table th,
         main.product-manager-page .vare-table td {
-            font-size: 3.5vw;
+            font-size: 1.2em;
             padding: 0.75rem 0.5rem;
         }
 
     main.product-manager-page .remove-btn {
-        font-size: 3.5vw;
+        font-size: 1em;
         padding: 0.5rem;
         height: auto;
         border-radius: 8px;
@@ -811,7 +819,7 @@ h2 {
         }
 
     main.stock-manager-page .sort-btn {
-        font-size: 3.5vw;
+        font-size: 1.5em;
         padding: 0.5rem 0.75rem;
         border: 1px solid var(--border-color);
         border-radius: 20px;
@@ -853,7 +861,7 @@ h2 {
             padding: 0.75rem;
             text-align: right;
             border-bottom: 1px solid var(--border-color);
-            font-size: 4vw;
+            font-size: 1.5em;
         }
 
             main.stock-manager-page .vare-table td:last-child {
@@ -890,7 +898,7 @@ h2 {
             }
 
         main.stock-manager-page .vare-table .edit-btn {
-            font-size: 4vw;
+            font-size: 1em;
             padding: .75rem 1.75rem;
             border-radius: 8px;
             margin-top: 1rem;
@@ -898,22 +906,22 @@ h2 {
         }
 
     main.stock-manager-page h2 {
-        font-size: 5.5vw;
+        font-size: 2em;
         font-weight: 600;
         color: var(--text-primary);
         margin-bottom: 1rem;
     }
 
     main.stock-manager-page .edit-placeholder {
-        font-size: 4vw;
+        font-size: 2em;
     }
 
     main.stock-manager-page .edit-form label {
-        font-size: 4vw;
+        font-size: 1.5em;
     }
 
     main.stock-manager-page .edit-form .form-control {
-        font-size: 4vw;
+        font-size: 1.5em;
         padding: 0.75rem;
         width: 100%;
         box-sizing: border-box;
@@ -926,7 +934,7 @@ h2 {
 
     main.stock-manager-page .edit-form .confirm-btn {
         width: 100%;
-        font-size: 4.5vw;
+        font-size: 2em;
         padding: 1rem;
         border-radius: 8px;
         margin-top: 0.5rem;

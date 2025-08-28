@@ -91,7 +91,7 @@
 
         editButtons.forEach(btn => {
             btn.addEventListener("click", () => {
-                const productId = btn.dataset.productid; 
+                const productId = btn.dataset.productid;
                 const amount = btn.dataset.amount;
                 const restVare = btn.dataset.restvare;
 
@@ -99,17 +99,17 @@
                 vareForm = document.getElementById("vare-maengde").value = amount;
 
                 const checkbox = document.getElementById("rest-vare");
-                if (restVare == "True"){                  
+                if (restVare == "True"){
                     checkbox.checked = true;
                 }else{
                     checkbox.checked = false;
                 }
 
-                redigerFormTitel.scrollIntoView();
-
                 tomForm.classList.add("hidden");
                 redigerFormTitel.innerText = "Rediger vare ("+productId+")";
                 redigerFormContainer.classList.remove("hidden");
+
+                redigerFormTitel.scrollIntoView({ behavior: 'smooth' });
             });
         });
 
@@ -117,7 +117,7 @@
             e.preventDefault();
 
             const productId = redigerFormContainer.dataset.productId;
-        
+
             const formData = new FormData(redigerForm);
             formData.append("prodId", productId);
             const vareForm = document.getElementById("vare-maengde");
@@ -130,10 +130,9 @@
                 body: formData
             });
 
-            document.body.scrollTop = 0; // For Safari (W3Schools)
-            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera (W3Schools)
-
-            location.reload();
+            if (response.ok) {
+                window.location.href = "/StockManager/Index";
+            }
             });
     </script>
 </main>

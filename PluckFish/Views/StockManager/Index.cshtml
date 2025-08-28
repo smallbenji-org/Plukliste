@@ -130,6 +130,9 @@
                 body: formData
             });
 
+            document.body.scrollTop = 0; // For Safari (W3Schools)
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera (W3Schools)
+
             location.reload();
             });
     </script>

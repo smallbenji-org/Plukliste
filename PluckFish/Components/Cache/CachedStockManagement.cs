@@ -15,7 +15,7 @@ namespace PluckFish.Components.Cache
             this.cache = cache;
         }
 
-        Item IStockRepository.getItemStock(string prodId)
+        public Item getItemStock(string prodId)
         {
             return cache.GetOrCreate($"itemStock_{prodId}", entry =>
             {
@@ -33,12 +33,12 @@ namespace PluckFish.Components.Cache
             });
         }
 
-        void IStockRepository.orderStock(List<Item> orderedStock)
+        public void orderStock(List<Item> orderedStock)
         {
             throw new NotImplementedException();
         }
 
-        bool IStockRepository.RetractMultiStock(List<Item> items)
+        public bool RetractMultiStock(List<Item> items)
         {
             cache.Remove("getStock_all");
             foreach(Item item in items)
@@ -49,21 +49,21 @@ namespace PluckFish.Components.Cache
             return stockRepository.RetractMultiStock(items);
         }
 
-        void IStockRepository.RetractStock(string prodId, int retractNum)
+        public void RetractStock(string prodId, int retractNum)
         {
             cache.Remove($"itemStock_{prodId}");
             cache.Remove("getStock_all");
             stockRepository.RetractStock(prodId, retractNum);
         }
 
-        void IStockRepository.saveStock(Item savedStock)
+        public void saveStock(Item savedStock)
         {
             cache.Remove($"itemStock_{savedStock.Product.ProductID}");
             cache.Remove("getStock_all");
             stockRepository.saveStock(savedStock);
         }
 
-        bool IStockRepository.stockExist(string prodId)
+        public bool stockExist(string prodId)
         {
             return stockRepository.stockExist(prodId);
         }

@@ -3,51 +3,49 @@
     ViewData["Title"] = "Produktstyring";
 }
 
-    <div class="card">
-        <h2>Tilføj nyt produkt</h2>
-        <div class="pluklist-selector">
-            <form asp-action="Index" method="post" class="selector-controls">
-                <div class="detail-row">
-                    <label class="label">Produktnavn:</label>
-                    <input class="list-dropdown" name="prodName" />
-                    <span class="text-danger"></span>
-                </div>
-                <div class="detail-row">
-                    <label class="label">Produkt ID:</label>
-                    <input class="list-dropdown" name="prodID" />
-                    <span class="text-danger"></span>
-                </div>
-                <div class="form-row mt-3">
-                    <input type="submit" value="Tilføj Produkt" class="confirm-btn" />
-                </div>
-            </form>
+<div class="card">
+    <h2>Tilføj nyt produkt</h2>
+    <form asp-action="Index" method="post" class="add-product-form">
+        <div class="form-group">
+            <label class="label" for="prodName">Produktnavn:</label>
+            <input class="list-dropdown" id="prodName" name="prodName" />
+            <span class="text-danger"></span>
         </div>
-    </div>
+        <div class="form-group">
+            <label class="label" for="prodID">Produkt ID:</label>
+            <input class="list-dropdown" id="prodID" name="prodID" />
+            <span class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Tilføj Produkt" class="confirm-btn" />
+        </div>
+    </form>
+</div>
 
-    <div class="card">
-        <h2>Eksisterende Produkter</h2>
-        <table class="vare-table">
-            <thead>
+<div class="card">
+    <h2>Eksisterende Produkter</h2>
+    <table class="vare-table">
+        <thead>
+            <tr>
+                <th>Produkt ID</th>
+                <th>Produktnavn</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
                 <tr>
-                    <th>Produkt ID</th>
-                    <th>Produktnavn</th>
-                    <th></th>
+                    <td>@product.ProductID</td>
+                    <td>@product.Name</td>
+                    <td>
+                        <form asp-action="Delete" method="post" class="remove-form">
+                            <input type="hidden" name="prodID" value="@product.ProductID" />
+                            <button type="submit" class="remove-btn">Fjern</button>
+                        </form>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var product in Model)
-                {
-                    <tr>
-                        <td>@product.ProductID</td>
-                        <td>@product.Name</td>
-                        <td>
-                            <form asp-action="Delete" method="post" class="remove-form">
-                                <input type="hidden" name="prodID" value="@product.ProductID" />
-                                <button type="submit" class="remove-btn">Fjern</button>
-                            </form>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
+</div>

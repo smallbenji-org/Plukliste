@@ -5,30 +5,36 @@
     List<PickingList> notDoneLists = Model.PickingLists.FindAll(lists => lists.IsDone == false);
 }
 
-    <div class="card">
-        <div class="pluklist-selector">
-            <div class="selector-controls">
-                @using (Html.BeginForm("HandlePickingList", "PickingManager", FormMethod.Post))
-                {
-                    <select class="list-dropdown" id="listSelector" name="id">
-                        @if (!Model.PickingListSelected)
-                        {
-                            <option value="" selected>-- Vælg en plukliste --</option>
-                        }
-
-                        @foreach (var list in notDoneLists)
-                        {
-                            if (Model.SelectedPickingList != null && list.Id.Equals(Model.SelectedPickingList.Id))
+    <div class="top-bar-container">
+        <div class="card eighty-percent">
+            <div class="pluklist-selector">
+                <div class="selector-controls">
+                    @using (Html.BeginForm("HandlePickingList", "PickingManager", FormMethod.Post))
+                    {
+                        <select class="list-dropdown" id="listSelector" name="id">
+                            @if (!Model.PickingListSelected)
                             {
-                                <option value="@list.Id" selected>@list.Id - @list.Name - @list.Forsendelse</option>
-                                continue;
+                                <option value="" selected>-- Vælg en plukliste --</option>
                             }
-                            <option value="@list.Id">@list.Id - @list.Name - @list.Forsendelse</option>
-                        }
-                    </select>
-                }
+
+                            @foreach (var list in notDoneLists)
+                            {
+                                if (Model.SelectedPickingList != null && list.Id.Equals(Model.SelectedPickingList.Id))
+                                {
+                                    <option value="@list.Id" selected>@list.Id - @list.Name - @list.Forsendelse</option>
+                                    continue;
+                                }
+                                <option value="@list.Id">@list.Id - @list.Name - @list.Forsendelse</option>
+                            }
+                        </select>
+                    }
+                </div>
             </div>
         </div>
+        <a href="@Url.Action("CreatePickingList", "PickingManager")" class="card-button twenty-percent">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
+            <span>Opret Plukliste</span>
+        </a>
     </div>
 
     <script>
@@ -89,6 +95,7 @@
                     <form asp-action="Toggle" method="post">
                         <input type="hidden" name="id" value="@Model.SelectedPickingList.Id" />
                         <button class="action-btn btn-secondary">Anuller</button>
+                        <button type="submit" class="action-btn btn-edit">Rediger</button>
                         <button type="submit" class="action-btn btn-primary">Færdig</button>
                     </form>
                 </div>

@@ -15,43 +15,90 @@
             Shipping: @Model.CurrentPickingList.Forsendelse
         </p>
     </div>
-    <div style="display: flex;">
-        <div style="flex: 1; width: 50%;">
-            <p>Products:</p>
-            @foreach (var prod in Model.Products)
-            {
-                <div style="display: flex;">
 
-                    <div>
-                        @prod.Name
-                    </div>
-                    <div style="flex: 1;"></div>
-                    <a style="color: green; padding-right: 10px;">
-                        Add
-                    </a>
-                </div>
-            }
+    <div class="form-group search-container" style="margin-top: 1rem;">
+        <input type="text" id="productSearch" class="form-control" placeholder="Search products...">
+        <div class="search-icon">
+            <svg data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
+            </svg>
         </div>
-        <div style="flex: 1; width: 50%;">
-            <p>Items:</p>
-            @foreach (var item in Model.Items)
-            {
-                <div style="display: flex;">
-                    <div>
-                        @item.Product.Name
-                    </div>
-                    <div style="flex: 1;"></div>
-                    <div style="margin-right: 10px;">
-                        <form>
-                            <input type="number" style="max-width: 100px;" value="0" />
-                            <input type="submit" value="save" />
-                        </form>
-                    </div>
-                    <div style="color: red; padding-right: 10px;">
-                        Remove
-                    </div>
-                </div>
-            }
+    </div>
+
+    <div class="table-container">
+        <div class="table-wrapper">
+            <h3>Produkter</h3>
+            <table class="pluk-table">
+                <thead>
+                    <tr>
+                        <th>Produkt</th>
+                        <th>Handling</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var prod in Model.Products)
+                    {
+                        <tr>
+                            <td>@prod.Name</td>
+                            <td>
+                                <button class="action-btn btn-add">Tilføj</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="table-wrapper">
+            <h3>Varer</h3>
+            <table class="pluk-table">
+                <thead>
+                    <tr>
+                        <th>Produkt</th>
+                        <th>Mængde</th>
+                        <th>Handling</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td>@item.Product.Name</td>
+                            <td>
+                                <form class="quantity-form">
+                                    <input type="number" class="form-control quantity-input" value="0" />
+                                </form>
+                            </td>
+                            <td class="action-cell">
+                                <button type="submit" class="action-btn btn-save">Gem</button>
+                                <button class="action-btn remove-btn">Fjern</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const itemRows = document.querySelectorAll('.table-wrapper:last-child tbody tr');
+            itemRows.forEach(row => {
+                const input = row.querySelector('.quantity-input');
+                const saveBtn = row.querySelector('.btn-save');
+                const initialValue = input.value;
+
+                saveBtn.disabled = true;
+
+                input.addEventListener('input', () => {
+                    if (input.value !== initialValue) {
+                        saveBtn.disabled = false;
+                    } else {
+                        saveBtn.disabled = true;
+                    }
+                });
+            });
+        });
+    </script>
+}

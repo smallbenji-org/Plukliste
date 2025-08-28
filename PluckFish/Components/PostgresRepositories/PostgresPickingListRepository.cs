@@ -87,7 +87,7 @@ namespace PluckFish.Components
             using IDbConnection db = dbConnection;
             var reader = db.ExecuteReader(sql, new
             {
-                picking_list_id = id,
+                id = id,
             });
 
             DataTable tb = new DataTable();

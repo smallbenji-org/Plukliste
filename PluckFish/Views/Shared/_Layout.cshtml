@@ -39,7 +39,7 @@
             </header>
         }
 
-        <main role="main" class="pb-3 @(ViewData["Title"].ToString() == "Pluksystem" ? "picking-manager-page" : "")">
+        <main role="main" class="pb-3 @(ViewData["Title"].ToString() == "Pluksystem" ? "picking-manager-page" : "") @(ViewData["Title"].ToString() == "Produktstyring" ? "product-manager-page" : "") @(ViewData["Title"].ToString() == "Lagersystem" ? "stock-manager-page" : "")">
             @RenderBody()
         </main>
     </div>

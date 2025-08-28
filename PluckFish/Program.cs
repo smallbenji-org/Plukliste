@@ -3,6 +3,7 @@ using PluckFish.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using PluckFish.Models;
 using PluckFish.Auth;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace PluckFish
 {
@@ -25,13 +26,18 @@ namespace PluckFish
                 options.LoginPath = "/Auth/Login";
             });
 
+            builder.Services.AddMemoryCache();
+
             if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString("defaultConnection")))
             {
                 builder.Services.AddTransient<IProductRepository, PostgresProductRepository>();
-                builder.Services.AddTransient<IPickingListRepository, PostgresPickingListRepository>();
+                // builder.Services.AddTransient<IPickingListRepository, PostgresPickingListRepository>();
                 builder.Services.AddTransient<IStockRepository, postGresStockManagement>();
                 builder.Services.AddTransient<IAuthRepository, PostgresAuthRepository>();
                 builder.Services.AddTransient<PostgresEnsureTables>();
+
+                builder.Services.AddScoped<IPickingListRepository, PostgresPickingListRepository>();
+                builder.Services.Decorate<IPickingListRepository, CachedPickingListRepository>();
 
                 builder.Services.AddTransient<PostGres>();
             }

@@ -58,6 +58,24 @@
                     }
                 </tbody>
             </table>
+            <form asp-action="ScrollPage" method="get">
+                <input type="hidden" name="nextPage" value="@(Model.currentPage+1)" />
+                <input type="hidden" name="filter" value="@Model.filter" />
+
+                <button type="submit" class="sort-btn @(currentAction == "VisRestVare" ? "active" : "")">
+                    Næste Page
+                </button>
+            </form>
+            
+            <form asp-action="ScrollPage" method="get">
+                <input type="hidden" name="nextPage" value="@(Model.currentPage-1)" />
+                <input type="hidden" name="filter" value="@Model.filter" />
+
+                <button type="submit" class="sort-btn @(currentAction == "VisRestVare" ? "active" : "")">
+                    Forrige Page
+                </button>
+            </form>
+
         </div>
     </div>
 

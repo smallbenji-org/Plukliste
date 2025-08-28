@@ -2,9 +2,15 @@
     ViewData["Title"] = "Opret plukliste";
 }
 
-<form method="post" asp-action="CreatePickingList">
-    <input type="text" name="name" placeholder="Navn" />
-    <input type="text" name="shipping" placeholder="Forsendelse" />
-    <input type="text" name="address" placeholder="Addresse" />
-    <input type="submit" value="Opret" />
+<form method="post" asp-action="CreatePickingList" class="login-container">
+    <div class="form-group">
+        <input class="form-control" type="text" name="name" placeholder="Navn" />
+    </div>
+    <div class="form-group">
+        <input class="form-control" type="text" name="shipping" placeholder="Forsendelse" />
+    </div>
+    <div class="form-group">
+        <input class="form-control" type="text" name="address" placeholder="Addresse" />
+    </div>
+    <input class="btn-login" type="submit" value="Opret" />
 </form>

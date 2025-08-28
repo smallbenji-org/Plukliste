@@ -10,5 +10,6 @@ namespace PluckFish.Interfaces
         void saveStock(Item savedStock);
         void orderStock(List<Item> orderedStock);
         void RetractStock(string prodId, int retractNum);
+        bool RetractMultiStock(List<Item> items);
     }
 }

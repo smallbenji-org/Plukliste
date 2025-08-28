@@ -26,7 +26,7 @@ namespace PluckFish.Controllers
                 items = items.Where(x => x.RestVare).ToList();
             }
 
-            int pageSize = 25;
+            int pageSize = 15;
             int totalPages = (int)Math.Ceiling(decimal.Divide(items.Count, pageSize));
 
             if (nextPage > totalPages) { nextPage = totalPages; } else if (nextPage <= 0) { nextPage = 1; }

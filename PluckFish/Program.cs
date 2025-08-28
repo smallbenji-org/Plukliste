@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using PluckFish.Models;
 using PluckFish.Auth;
 using Microsoft.Extensions.Caching.Memory;
+using PluckFish.Components.Cache;
 
 namespace PluckFish
 {
@@ -32,12 +33,15 @@ namespace PluckFish
             {
                 builder.Services.AddTransient<IProductRepository, PostgresProductRepository>();
                 // builder.Services.AddTransient<IPickingListRepository, PostgresPickingListRepository>();
-                builder.Services.AddTransient<IStockRepository, postGresStockManagement>();
+                //builder.Services.AddTransient<IStockRepository, postGresStockManagement>();
                 builder.Services.AddTransient<IAuthRepository, PostgresAuthRepository>();
                 builder.Services.AddTransient<PostgresEnsureTables>();
 
                 builder.Services.AddScoped<IPickingListRepository, PostgresPickingListRepository>();
                 builder.Services.Decorate<IPickingListRepository, CachedPickingListRepository>();
+
+                builder.Services.AddScoped<IStockRepository, postGresStockManagement>();
+                builder.Services.Decorate<IStockRepository, CachedStockManagement>();
 
                 builder.Services.AddTransient<PostGres>();
             }

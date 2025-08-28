@@ -29,6 +29,8 @@ namespace PluckFish.Controllers
             retval.Users = authRepository.GetAll().Count;
             retval.PickingLists = pickingListRepository.GetAllPickingList().Count;
             retval.Products = stockRepository.getStock().Count;
+            retval.TotalStock = stockRepository.getStock().Sum(x => x.Amount);
+
             return View(retval);
         }
 
@@ -44,5 +46,6 @@ namespace PluckFish.Controllers
         public int Users { get; set; }
         public int PickingLists { get; set; }
         public int Products { get; set; }
+        public int TotalStock { get; set; }
     }
 }

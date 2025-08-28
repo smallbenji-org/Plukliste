@@ -24,7 +24,7 @@ namespace PluckFish.Components.Cache
             });
         }
 
-        List<Item> IStockRepository.getStock(string whereClause)
+        public List<Item> getStock(string whereClause = "")
         {
             return cache.GetOrCreate($"getStock_all", entry =>
             {
@@ -40,6 +40,7 @@ namespace PluckFish.Components.Cache
 
         bool IStockRepository.RetractMultiStock(List<Item> items)
         {
+            cache.Remove("getStock_all");
             foreach(Item item in items)
             {
                 cache.Remove($"itemStock_{item.Product.ProductID}");
@@ -51,12 +52,14 @@ namespace PluckFish.Components.Cache
         void IStockRepository.RetractStock(string prodId, int retractNum)
         {
             cache.Remove($"itemStock_{prodId}");
+            cache.Remove("getStock_all");
             stockRepository.RetractStock(prodId, retractNum);
         }
 
         void IStockRepository.saveStock(Item savedStock)
         {
             cache.Remove($"itemStock_{savedStock.Product.ProductID}");
+            cache.Remove("getStock_all");
             stockRepository.saveStock(savedStock);
         }
 

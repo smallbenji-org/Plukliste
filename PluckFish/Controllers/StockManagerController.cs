@@ -34,19 +34,21 @@ namespace PluckFish.Controllers
             item.Amount = amount;
             stockRepository.saveStock(item);
 
-            return View();
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult VisVare(string prodId, int amount, bool restVare)
         {
             StockViewModel retval = new StockViewModel();
-            retval.stockInventory = stockRepository.getStock(" WHERE COALESCE(t2.restVare, false) = false");
+            // retval.stockInventory = stockRepository.getStock(" WHERE COALESCE(t2.restVare, false) = false");
+            retval.stockInventory = stockRepository.getStock().Where(x => !x.RestVare).ToList();
             return View("Index", retval);
         }
         public IActionResult VisRestVare(string prodId, int amount, bool restVare)
         {
             StockViewModel retval = new StockViewModel();
-            retval.stockInventory = stockRepository.getStock(" WHERE COALESCE(t2.restVare, false) = true");
+            // retval.stockInventory = stockRepository.getStock(" WHERE COALESCE(t2.restVare, false) = true");
+            retval.stockInventory = stockRepository.getStock().Where(x => x.RestVare).ToList();
             return View("Index", retval);
         }
 

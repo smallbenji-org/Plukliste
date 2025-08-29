@@ -8,74 +8,23 @@
         <div class="area">
             @{
                 var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+                var filter = Model.filter;
             }
 
             <div class="sort-options">
-                <form asp-action="Index">
-                    <button class="sort-btn @(currentAction == "Index" ? "active" : "")">Alle Varer</button>
+                <form asp-action="Index" data-filter="All">
+                    <button type="submit" class="sort-btn @(filter == "All" ? "active" : "")">Alle Varer</button>
                 </form>
-                <form asp-action="VisRestVare">
-                    <button class="sort-btn @(currentAction == "VisRestVare" ? "active" : "")">Vis kun rest vare</button>
+                <form asp-action="VisRestVare" data-filter="VisRestVare">
+                    <button type="submit" class="sort-btn @(filter == "VisRestVare" ? "active" : "")">Vis kun rest vare</button>
                 </form>
-                <form asp-action="VisVare">
-                    <button class="sort-btn @(currentAction == "VisVare" ? "active" : "")">Vis kun ikke rest vare</button>
+                <form asp-action="VisVare" data-filter="VisVare">
+                    <button type="submit" class="sort-btn @(filter == "VisVare" ? "active" : "")">Vis kun ikke rest vare</button>
                 </form>
             </div>
         </div>
-        <div class="table-responsive">
-            <table class="vare-table">
-                <thead>
-                    <tr>
-                        <th>Produkt Id</th>
-                        <th>Produkt navn</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Rest vare</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (Item item in Model.stockInventory)
-                    {
-                        <tr>
-                            <td data-label="Produkt Id">@item.Product.ProductID</td>
-                            <td data-label="Produkt navn">@item.Product.Name</td>
-                            <td data-label="Type">@item.Type</td>
-                            <td data-label="Amount">@item.Amount</td>
-                            <td class="checkbox-cell" data-label="Rest vare">
-                                @if (item.RestVare)
-                                {
-                                    <input type="checkbox" class="form-checkbox" checked onclick="return false" />
-                                }
-                                else
-                                {
-                                    <input type="checkbox" class="form-checkbox" onclick="return false" />
-                                }
-                            <td data-label="Rediger">
-                                <button type="button" class="edit-btn" data-productid="@item.Product.ProductID" data-amount="@item.Amount" data-restvare=@item.RestVare>Rediger</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <form asp-action="ScrollPage" method="get">
-                <input type="hidden" name="nextPage" value="@(Model.currentPage+1)" />
-                <input type="hidden" name="filter" value="@Model.filter" />
-
-                <button type="submit" class="sort-btn @(currentAction == "VisRestVare" ? "active" : "")">
-                    Næste Page
-                </button>
-            </form>
-            
-            <form asp-action="ScrollPage" method="get">
-                <input type="hidden" name="nextPage" value="@(Model.currentPage-1)" />
-                <input type="hidden" name="filter" value="@Model.filter" />
-
-                <button type="submit" class="sort-btn @(currentAction == "VisRestVare" ? "active" : "")">
-                    Forrige Page
-                </button>
-            </form>
-
+        <div id="stock-table-container">
+            @await Html.PartialAsync("_StockTablePartial", Model)
         </div>
     </div>
 
@@ -99,35 +48,63 @@
         </form>
     </div>
 
-
     <script>
-        const editButtons = document.querySelectorAll(".edit-btn");
         const redigerFormContainer = document.getElementById("redigerForm");
         const redigerForm = redigerFormContainer.querySelector("form");
         const redigerFormTitel = document.getElementById("redigerTitel");
         const tomForm = document.getElementById("tomForm");
+        const tableContainer = document.getElementById("stock-table-container");
 
-        editButtons.forEach(btn => {
-            btn.addEventListener("click", () => {
-                const productId = btn.dataset.productid;
-                const amount = btn.dataset.amount;
-                const restVare = btn.dataset.restvare;
+        function initializeEditButtons() {
+            const editButtons = tableContainer.querySelectorAll(".edit-btn");
+            editButtons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const productId = btn.dataset.productid;
+                    const amount = btn.dataset.amount;
+                    const restVare = btn.dataset.restvare === "True";
 
-                redigerFormContainer.dataset.productId = productId;
-                vareForm = document.getElementById("vare-maengde").value = amount;
+                    redigerFormContainer.dataset.productId = productId;
+                    document.getElementById("vare-maengde").value = amount;
+                    document.getElementById("rest-vare").checked = restVare;
 
-                const checkbox = document.getElementById("rest-vare");
-                if (restVare == "True"){
-                    checkbox.checked = true;
-                }else{
-                    checkbox.checked = false;
-                }
+                    tomForm.classList.add("hidden");
+                    redigerFormTitel.innerText = "Rediger vare (" + productId + ")";
+                    redigerFormContainer.classList.remove("hidden");
 
-                tomForm.classList.add("hidden");
-                redigerFormTitel.innerText = "Rediger vare ("+productId+")";
-                redigerFormContainer.classList.remove("hidden");
+                    redigerFormTitel.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        }
 
-                redigerFormTitel.scrollIntoView({ behavior: 'smooth' });
+        async function loadTable(url) {
+            try {
+                const response = await fetch(url);
+                const html = await response.text();
+                tableContainer.innerHTML = html;
+                initializeEditButtons();
+                window.history.pushState({ path: url }, '', url.replace('GetStockTable', 'ScrollPage'));
+            } catch (error) {
+                console.error('Failed to load table content:', error);
+            }
+        }
+
+        tableContainer.addEventListener("click", function (e) {
+            if (e.target.closest('.pagination a')) {
+                e.preventDefault();
+                const link = e.target.closest('.pagination a');
+                loadTable(link.href);
+            }
+        });
+
+        document.querySelectorAll('.sort-options form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const filter = this.dataset.filter;
+                const url = `@Url.Action("GetStockTable", "StockManager")?nextPage=1&filter=${filter}`;
+                loadTable(url);
+
+                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                this.querySelector('.sort-btn').classList.add('active');
             });
         });
 
@@ -135,13 +112,10 @@
             e.preventDefault();
 
             const productId = redigerFormContainer.dataset.productId;
-
-            const formData = new FormData(redigerForm);
+            const formData = new FormData();
             formData.append("prodId", productId);
-            const vareForm = document.getElementById("vare-maengde");
-            formData.append("amount", vareForm.value);
-            const checkbox = document.getElementById("rest-vare");
-            formData.append("restVare", checkbox.checked);
+            formData.append("amount", document.getElementById("vare-maengde").value);
+            formData.append("restVare", document.getElementById("rest-vare").checked);
 
             const response = await fetch(redigerForm.action, {
                 method: redigerForm.method,
@@ -149,8 +123,18 @@
             });
 
             if (response.ok) {
-                window.location.href = "/StockManager/Index";
+                const currentUrl = new URL(window.location.href);
+                const nextPage = currentUrl.searchParams.get('nextPage') || '1';
+                const filter = currentUrl.searchParams.get('filter') || 'All';
+                const reloadUrl = `@Url.Action("GetStockTable", "StockManager")?nextPage=${nextPage}&filter=${filter}`;
+                await loadTable(reloadUrl);
+
+                redigerFormContainer.classList.add("hidden");
+                tomForm.classList.remove("hidden");
             }
-            });
+        });
+
+        // Initial setup
+        initializeEditButtons();
     </script>
 </main>

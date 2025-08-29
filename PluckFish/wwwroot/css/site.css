@@ -1121,3 +1121,50 @@ h2 {
     .card-button svg {
         color: var(--accent-color);
     }
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5rem;
+}
+
+.pagination a, .pagination span {
+    display: block;
+    padding: 0.75rem 1rem;
+    background-color: var(--secondary-bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5vw;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+}
+
+.pagination a:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-primary);
+    border-color: var(--accent-color);
+}
+
+.pagination .active a {
+    background-color: var(--accent-color);
+    color: var(--text-primary);
+    border-color: var(--accent-color);
+    cursor: default;
+}
+
+.pagination .disabled span {
+    background-color: var(--primary-bg);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+    opacity: 0.6;
+}

@@ -1,0 +1,98 @@
+@model PluckFish.Controllers.StockViewModel
+
+<div class="table-responsive" id="table-content">
+    <table class="vare-table">
+        <thead>
+            <tr>
+                <th>Produkt Id</th>
+                <th>Produkt navn</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Rest vare</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Item item in Model.stockInventory)
+            {
+                <tr>
+                    <td data-label="Produkt Id">@item.Product.ProductID</td>
+                    <td data-label="Produkt navn">@item.Product.Name</td>
+                    <td data-label="Type">@item.Type</td>
+                    <td data-label="Amount">@item.Amount</td>
+                    <td class="checkbox-cell" data-label="Rest vare">
+                        @if (item.RestVare)
+                        {
+                            <input type="checkbox" class="form-checkbox" checked onclick="return false" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-checkbox" onclick="return false" />
+                        }
+                    </td>
+                    <td data-label="Rediger">
+                        <button type="button" class="edit-btn" data-productid="@item.Product.ProductID" data-amount="@item.Amount" data-restvare="@item.RestVare.ToString()">Rediger</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (Model.TotalPages > 1)
+    {
+        <div class="pagination-container">
+            <ul class="pagination">
+                <li class="@(Model.currentPage == 1 ? "disabled" : "")">
+                    @if (Model.currentPage > 1)
+                    {
+                        <a href="@Url.Action("GetStockTable", new { nextPage = Model.currentPage - 1, filter = Model.filter })">&laquo;</a>
+                    }
+                    else
+                    {
+                        <span>&laquo;</span>
+                    }
+                </li>
+
+                @{
+                    int startPage = Math.Max(1, Model.currentPage - 2);
+                    int endPage = Math.Min(Model.TotalPages, Model.currentPage + 2);
+
+                    if (startPage > 1)
+                    {
+                        <li><a href="@Url.Action("GetStockTable", new { nextPage = 1, filter = Model.filter })">1</a></li>
+                        @if (startPage > 2)
+                        {
+                            <li><span>...</span></li>
+                        }
+                    }
+
+                    for (int i = startPage; i <= endPage; i++)
+                    {
+                        <li class="@(i == Model.currentPage ? "active" : "")">
+                            <a href="@Url.Action("GetStockTable", new { nextPage = i, filter = Model.filter })">@i</a>
+                        </li>
+                    }
+
+                    if (endPage < Model.TotalPages)
+                    {
+                        @if (endPage < Model.TotalPages - 1)
+                        {
+                            <li><span>...</span></li>
+                        }
+                        <li><a href="@Url.Action("GetStockTable", new { nextPage = Model.TotalPages, filter = Model.filter })">@Model.TotalPages</a></li>
+                    }
+                }
+
+                <li class="@(Model.currentPage == Model.TotalPages ? "disabled" : "")">
+                    @if (Model.currentPage < Model.TotalPages)
+                    {
+                        <a href="@Url.Action("GetStockTable", new { nextPage = Model.currentPage + 1, filter = Model.filter })">&raquo;</a>
+                    }
+                    else
+                    {
+                        <span>&raquo;</span>
+                    }
+                </li>
+            </ul>
+        </div>
+    }
+</div>

@@ -14,7 +14,7 @@ namespace PluckFish.Controllers
         {
             this.stockRepository = stockRepository;
         }
-        private (List<Item>, int) getPage(int nextPage, string filter = "All")
+        private (List<Item> pageItems, int currentPage, int totalPages) getPage(int nextPage, string filter = "All")
         {
             List<Item> items = stockRepository.getStock();
             if (filter == "VisVare")
@@ -36,20 +36,28 @@ namespace PluckFish.Controllers
             .Skip(startIndex)
             .Take(pageSize)
             .ToList();
-            return (pageItems, nextPage);
+            return (pageItems, nextPage, totalPages);
         }
 
         public IActionResult Index()
         {
             StockViewModel retval = new StockViewModel();
-            (retval.stockInventory, retval.currentPage) = getPage(0);
+            (retval.stockInventory, retval.currentPage, retval.TotalPages) = getPage(0);
             return View(retval);
+        }
+
+        public IActionResult GetStockTable(int nextPage, string filter = "All")
+        {
+            var model = new StockViewModel();
+            (model.stockInventory, model.currentPage, model.TotalPages) = getPage(nextPage, filter);
+            model.filter = filter;
+            return PartialView("_StockTablePartial", model);
         }
 
         public IActionResult ScrollPage(int nextPage, string filter = "All")
         {
             StockViewModel retval = new StockViewModel();
-            (retval.stockInventory, retval.currentPage) = getPage(nextPage, filter);
+            (retval.stockInventory, retval.currentPage, retval.TotalPages) = getPage(nextPage, filter);
             retval.filter = filter;
             return View("Index", retval);
         }
@@ -73,14 +81,14 @@ namespace PluckFish.Controllers
         {
             StockViewModel retval = new StockViewModel();
             retval.filter = "VisVare";
-            (retval.stockInventory, retval.currentPage) = getPage(retval.currentPage, retval.filter);
+            (retval.stockInventory, retval.currentPage, retval.TotalPages) = getPage(retval.currentPage, retval.filter);
             return View("Index", retval);
         }
         public IActionResult VisRestVare(string prodId, int amount, bool restVare)
         {
             StockViewModel retval = new StockViewModel();
             retval.filter = "VisRestVare";
-            (retval.stockInventory, retval.currentPage) = getPage(retval.currentPage, retval.filter);
+            (retval.stockInventory, retval.currentPage, retval.TotalPages) = getPage(retval.currentPage, retval.filter);
             return View("Index", retval);
         }
 
@@ -90,5 +98,6 @@ namespace PluckFish.Controllers
         public List<Item> stockInventory { get; set; } = new List<Item>();
         public int currentPage { get; set; } = 1;
         public string filter { get; set; } = "All";
+        public int TotalPages { get; set; }
     }
 }

@@ -92,10 +92,10 @@
                     </table>
                 </div>
                 <div class="action-buttons">
-                    <form asp-action="Toggle" method="post">
+                    <a href="@Url.Action("Index", "PickingManager")" class="action-btn btn-secondary">Anuller</a>
+                    <a href="@Url.Action("EditPickingList", "PickingManager", new { id = Model.SelectedPickingList.Id })" class="action-btn btn-edit">Rediger</a>
+                    <form asp-action="Toggle" method="post" style="display: inline;">
                         <input type="hidden" name="id" value="@Model.SelectedPickingList.Id" />
-                        <button class="action-btn btn-secondary">Anuller</button>
-                        <button type="submit" class="action-btn btn-edit">Rediger</button>
                         <button type="submit" class="action-btn btn-primary">Færdig</button>
                     </form>
                 </div>

@@ -67,7 +67,10 @@ namespace PluckFish.Components
             cache.Remove("pickinglist_all");
             cache.Remove($"pickinglist_{plukliste.Id}");
         }
-
+        public int GetSumOfItemInAllPickingLists(string productId)
+        {
+            return pickingListRepository.GetSumOfItemInAllPickingLists(productId);
+        }
         public void UpdateItemInPickingList(PickingList plukliste, Item item, int amount)
         {
             pickingListRepository.UpdateItemInPickingList(plukliste, item, amount);

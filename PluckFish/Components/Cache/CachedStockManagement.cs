@@ -17,6 +17,8 @@ namespace PluckFish.Components.Cache
 
         public Item getItemStock(string prodId)
         {
+            return stockRepository.getItemStock(prodId);
+            // CACHE VIRKER IKKE
             return cache.GetOrCreate($"itemStock_{prodId}", entry =>
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);

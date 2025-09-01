@@ -28,14 +28,33 @@ namespace PluckFish.Components
 
         public void AddProductToPickingList(PickingList plukliste, Item item)
         {
-            string sql = "INSERT INTO picking_list_items (picking_list_id, product_id, type, amount) VALUES (@listId, @productId, @type, @amount)";
+            List<Item> pickingListItems = GetPickingListItems(plukliste.Id);
+            var selectedItems = pickingListItems
+            .Where(x => x.Product.ProductID == item.Product.ProductID)
+            .ToList();
+
             using IDbConnection db = dbConnection;
-            db.Execute(sql, new {
-                listId = plukliste.Id,
-                productId = item.Product?.ProductID,
-                type = (int)item.Type,
-                amount = item.Amount
-            });
+            if (selectedItems.Count > 0) 
+            {
+                string sql = "UPDATE picking_list_items SET amount = amount+@amount WHERE picking_list_id = @listId AND product_Id = @productId";
+                db.Execute(sql, new
+                {
+                    listId = plukliste.Id,
+                    productId = item.Product?.ProductID,
+                    amount = item.Amount
+                });
+            }
+            else
+            {
+                string sql = "INSERT INTO picking_list_items (picking_list_id, product_id, type, amount) VALUES (@listId, @productId, @type, @amount)";
+                db.Execute(sql, new
+                {
+                    listId = plukliste.Id,
+                    productId = item.Product?.ProductID,
+                    type = (int)item.Type,
+                    amount = item.Amount
+                });
+            }           
         }
 
         public void DeleteProductFromPickingList(PickingList plukliste, Item item)
@@ -71,6 +90,28 @@ namespace PluckFish.Components
             string sql = "SELECT id, name, forsendelse, adresse, isDone FROM picking_lists";
             DataTable tb = DapperHelper.loadTb(sql, dbConnection);
             return getPickingLists(tb);
+        }
+
+        public int GetSumOfItemInAllPickingLists(string productId)
+        {
+            string sql = "SELECT SUM(amount) AS \"sum\" FROM picking_list_items WHERE product_id = @productId";
+            using IDbConnection db = dbConnection;
+            var reader = db.ExecuteReader(sql, new
+            {
+                productId = productId
+            });
+
+            DataTable tb = new DataTable();
+            tb.Load(reader);
+
+            if (tb.Rows.Count > 0) {
+                DataRow row = tb.Rows[0];
+                string test = row["sum"].ToString();
+                int.TryParse(row["sum"].ToString(), out int sum);
+                return sum;
+            }
+
+            return 0;
         }
 
         public PickingList GetPickingList(int id)

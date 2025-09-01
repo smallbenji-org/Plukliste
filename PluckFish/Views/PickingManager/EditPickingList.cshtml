@@ -35,13 +35,13 @@
                         <th>Handling</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="produkter">
                     @foreach (var prod in Model.Products)
                     {
                         <tr>
                             <td>@prod.Name</td>
                             <td>
-                                <button class="action-btn btn-add">Tilføj</button>
+                                <button class="action-btn btn-add" data-productid="@prod.ProductID">Tilføj</button>
                             </td>
                         </tr>
                     }
@@ -103,6 +103,26 @@
                     }
                 });
             });
+        });
+
+        const productContainer = document.getElementById("produkter");
+        const productButtons = productContainer.querySelectorAll("button");
+        productButtons.forEach(btn => {
+            btn.addEventListener('click', async function (e)
+            {
+                const productId = this.dataset.productid;
+                console.log("Tilføjer "+productId);
+
+                const formData = new FormData();
+                formData.append("prodId", productId);
+                formData.append("listId", @Model.CurrentPickingList.Id);
+                const response = await fetch("/EditPickinglist/AddProductToPickingList", {
+                    method: "post",
+                    body: formData
+                });
+
+                if (response.ok) {document.location.reload()};
+            })
         });
     </script>
 }

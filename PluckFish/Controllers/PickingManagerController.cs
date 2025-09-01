@@ -74,6 +74,17 @@ namespace PluckFish.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost("EditPickinglist/AddProductToPickingList")]
+        public IActionResult AddProductToPickingList(string prodId, int listId)
+        {
+            PickingList pickingList = pickingListRepository.GetPickingList(listId);
+            Item item = stockRepository.getItemStock(prodId);
+            item.Amount = 1;
+            pickingListRepository.AddProductToPickingList(pickingList, item);
+
+            return Ok();
+        }
+
         [Route("HandlePickingList")]
         public IActionResult HandlePickingList([FromForm] string id)
         {

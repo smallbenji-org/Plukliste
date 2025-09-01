@@ -1251,3 +1251,60 @@ h2 {
         opacity: 1;
     }
 }
+
+.margin {
+    margin-top: 1vh;
+}
+
+.wide {
+    max-width: 558px;
+}
+
+.checkout-container {
+    margin-top: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5vw;
+    padding: 1rem;
+    background-color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+}
+
+.checkout-list {
+    flex-grow: 1;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    overflow-y: auto;
+}
+
+.checkout-placeholder {
+    color: var(--text-secondary);
+}
+
+.checkout-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0;
+    color: var(--text-primary);
+}
+
+.checkout-footer {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-checkout {
+    background-color: #28a745;
+    color: white;
+}
+
+    .btn-checkout:hover {
+        background-color: #218838;
+    }
+
+span.antal {
+    margin-right: 28%;
+}

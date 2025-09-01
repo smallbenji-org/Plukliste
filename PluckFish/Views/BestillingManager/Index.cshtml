@@ -1,0 +1,89 @@
+﻿@model PluckFish.ViewModels.BestillingManagerViewModel
+@{
+    ViewData["Title"] = "Bestilling";
+}
+
+<div class="card">
+
+    <div class="table-container">
+        <div class="table-wrapper">
+            <h3>Varer</h3>
+            <div class="form-group search-container wide" style="margin-top: 1rem;">
+                <input type="text" id="productSearch" class="form-control" placeholder="Søg Varer...">
+                <div class="search-icon">
+                    <svg data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
+                    </svg>
+                </div>
+            </div>
+            <table class="pluk-table margin">
+                <thead>
+                    <tr>
+                        <th>Vare</th>
+                        <th>Handling</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var vare in Model.Varer)
+                    {
+                        <tr>
+                            <td>@vare.Product.Name</td>
+                            <td>
+                                <button class="action-btn btn-add">Tilføj</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="table-wrapper">
+            <h3>Valgte Varer</h3>
+            <table class="pluk-table">
+                <thead>
+                    <tr>
+                        <th>Vare</th>
+                        <th>Mængde</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td>@item.Product.Name</td>
+                            <td>
+                                <form class="quantity-form">
+                                    <input type="number" class="form-control quantity-input" value="0" />
+                                </form>
+                            </td>
+                        </tr>
+                    } *@
+                </tbody>
+            </table>
+            <div class="checkout-container">
+                <div class="checkout-list">
+                    <p class="checkout-placeholder">Ingen varer valgt...</p>
+                    @* eksempel: *@
+                    <div class="checkout-item">
+                        <span>Mock Produkt 1</span>
+                        <span class="antal">x1</span>
+                    </div>
+                    <div class="checkout-item">
+                        <span>Mock Produkt 2</span>
+                        <span class="antal">x2</span>
+                    </div>
+                    <div class="checkout-item">
+                        <span>Mock Produkt 3</span>
+                        <span class="antal">x7</span>
+                    </div>
+                    <div class="checkout-item">
+                        <span>Mock Produkt 4</span>
+                        <span class="antal">x16</span>
+                    </div>
+                </div>
+                <div class="checkout-footer">
+                    <button class="action-btn btn-checkout">Bestil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

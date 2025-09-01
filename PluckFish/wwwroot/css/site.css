@@ -1027,6 +1027,20 @@ h2 {
         margin-top: 0.5rem;
     }
 
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .pagination a, .pagination span {
+        padding: 0.5rem 0.75rem;
+        font-size: 1.2em;
+        border-radius: 8px;
+    }
+
+    .pagination li {
+        margin-bottom: 0.5rem;
+    }
 }
 
 .stats-container {
@@ -1167,4 +1181,73 @@ h2 {
     color: var(--text-secondary);
     cursor: not-allowed;
     opacity: 0.6;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+.modal-content {
+    background-color: var(--secondary-bg);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5vw;
+    width: 80%;
+    max-width: 400px;
+    color: var(--text-primary);
+    box-shadow: var(--shadow);
+    text-align: center;
+    animation: slideIn 0.25s ease-in-out;
+}
+
+    .modal-content h2 {
+        color: var(--accent-color);
+        margin-top: 0;
+    }
+
+.close-button {
+    color: var(--text-secondary);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+}
+
+    .close-button:hover,
+    .close-button:focus {
+        color: var(--text-primary);
+        text-decoration: none;
+    }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

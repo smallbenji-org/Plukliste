@@ -50,12 +50,8 @@ namespace PluckFish.Controllers
 
             if (!result.Succeeded)
             {
-                var errors = new List<string>();
-                if (result.IsLockedOut) errors.Add("Locked out");
-                if (result.IsNotAllowed) errors.Add("Not allowed");
-                if (result.RequiresTwoFactor) errors.Add("Requires two factor");
-                errors.Add("Invalid login attempt.");
-                return Unauthorized(errors);
+                ViewData["Error"] = "Ugyldigt brugernavn eller adgangskode.";
+                return View("Login");
             }
 
             return RedirectToAction("Index", "Home");

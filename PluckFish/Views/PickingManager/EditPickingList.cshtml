@@ -64,12 +64,19 @@
                         <tr>
                             <td>@item.Product.Name</td>
                             <td>
-                                <form class="quantity-form">
-                                    <input type="number" class="form-control quantity-input" value="@item.Amount" />
+                                <form asp-action="SaveProductInPickingList" method="post" class="quantity-form">
+                                    <input type="hidden" name="productId" value="@item.Product.ProductID" />
+                                    <input type="hidden" name="pickingListId" value="@Model.CurrentPickingList.Id" />
+
+                                    <input type="number"
+                                           name="productAmount"
+                                           class="form-control quantity-input"
+                                           value="@item.Amount" />
+
+                                    <button type="submit" class="action-btn btn-save">Gem</button>
                                 </form>
                             </td>
                             <td class="action-cell">
-                                <button type="submit" class="action-btn btn-save">Gem</button>
                                 <form asp-action="RemoveProductFromPickingList" method="post">
                                     <input type="hidden" name="productId" value="@item.Product.ProductID" />
                                     <input type="hidden" name="pickingListId" value="@Model.CurrentPickingList.Id" />

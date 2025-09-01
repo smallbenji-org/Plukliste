@@ -28,19 +28,16 @@ namespace PluckFish.Components
 
         public void AddProductToPickingList(PickingList plukliste, Item item)
         {
-            string sql = "SELECT 1 FROM picking_list_items where picking_list_id = @listId AND product_Id = @productId";
-            using IDbConnection db = dbConnection;
-            var reader = db.ExecuteReader(sql, new
-            {
-                listId = plukliste.Id,
-                productId = item.Product.ProductID
-            });
+            List<Item> pickingListItems = GetPickingListItems(plukliste.Id);
+            var selectedItems = pickingListItems
+            .Where(x => x.Product.ProductID == item.Product.ProductID)
+            .ToList();
 
-            DataTable tb = new DataTable();
-            tb.Load(reader);
-            if (tb.Rows.Count > 0) 
+
+            using IDbConnection db = dbConnection;
+            if (selectedItems.Count > 0) 
             {
-                sql = "UPDATE picking_list_items SET amount = amount+@amount WHERE picking_list_id = @listId AND product_Id = @productId";
+                string sql = "UPDATE picking_list_items SET amount = amount+@amount WHERE picking_list_id = @listId AND product_Id = @productId";
                 db.Execute(sql, new
                 {
                     listId = plukliste.Id,
@@ -50,7 +47,7 @@ namespace PluckFish.Components
             }
             else
             {
-                sql = "INSERT INTO picking_list_items (picking_list_id, product_id, type, amount) VALUES (@listId, @productId, @type, @amount)";
+                string sql = "INSERT INTO picking_list_items (picking_list_id, product_id, type, amount) VALUES (@listId, @productId, @type, @amount)";
                 db.Execute(sql, new
                 {
                     listId = plukliste.Id,

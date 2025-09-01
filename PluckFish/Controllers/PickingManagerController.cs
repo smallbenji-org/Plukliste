@@ -113,6 +113,24 @@ namespace PluckFish.Controllers
             return View(retval);
         }
 
+        [HttpPost]
+        public IActionResult RemoveProductFromPickingList([FromForm] string productId, [FromForm] int pickingListId)
+        {
+            List<PickingList> pickingLists = pickingListRepository.GetAllPickingList();
+            PickingList pickingList = pickingLists.FirstOrDefault(pl => pl.Id == pickingListId);
+            pickingList.Lines = pickingListRepository.GetPickingListItems(pickingListId);
+            Item item = pickingList.Lines.FirstOrDefault(i => i.Product.ProductID == productId);
+            if (pickingList != null && item != null)
+            {
+                pickingListRepository.DeleteProductFromPickingList(pickingList, item);
+            }
+            else
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(EditPickingList), new { id = pickingList.Id });
+        }
+
         public IActionResult Test()
         {
             List<PickingList> list = pickingListRepository.GetAllPickingList();

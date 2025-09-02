@@ -91,6 +91,14 @@
     </div>
 </div>
 
+<div id="errorModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Fejl</h2>
+        <p id="errorMessage"></p>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -110,6 +118,23 @@
                     }
                 });
             });
+
+            const modal = document.getElementById('errorModal');
+            const closeButton = modal.querySelector('.close-button');
+
+            function closeModal() {
+                modal.style.display = 'none';
+            }
+
+            if (closeButton) {
+                closeButton.addEventListener('click', closeModal);
+            }
+
+            window.addEventListener('click', function (event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
         });
 
         const productContainer = document.getElementById("produkter");
@@ -123,12 +148,38 @@
                 const formData = new FormData();
                 formData.append("prodId", productId);
                 formData.append("listId", @Model.CurrentPickingList.Id);
-                const response = await fetch("/EditPickinglist/AddProductToPickingList", {
-                    method: "post",
-                    body: formData
-                });
 
-                if (response.ok) {document.location.reload()};
+                try {
+                    const response = await fetch("/PickingManager/AddProductToPickingList", {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                        }
+                    });
+
+                    if (response.ok) {
+                        document.location.reload();
+                    } else {
+                        const modal = document.getElementById('errorModal');
+                        const errorMessageElement = document.getElementById('errorMessage');
+                        let errorText = 'Der opstod en ukendt fejl under tilføjelse af produktet.';
+                        try {
+                            const errorData = await response.json();
+                            if (errorData && errorData.message) {
+                                errorText = errorData.message;
+                            }
+                        } catch (e) {
+
+                        }
+                        errorMessageElement.textContent = errorText;
+                        modal.style.display = 'block';
+                    }
+                } catch (error) {
+                    const modal = document.getElementById('errorModal');
+                    const errorMessageElement = document.getElementById('errorMessage');
+                    errorMessageElement.textContent = 'Netværksfejl eller serveren kunne ikke nås.';
+                    modal.style.display = 'block';
+                }
             })
         });
     </script>

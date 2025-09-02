@@ -83,16 +83,16 @@ namespace PluckFish.Controllers
             ApplicationUser user = new ApplicationUser
             {
                 UserName = username,
-                FullName = "Benjamin Falch",
                 Email = username
             };
             IdentityResult result = await userManager.CreateAsync(user, password);
 
             if (!result.Succeeded)
             {
-                return BadRequest(result.Errors);
+                ViewData["Error"] = string.Join("\n", result.Errors.Select(e => e.Description));
+                return View("Register");
             }
-            
+
             return RedirectToAction("Login");
         }
 

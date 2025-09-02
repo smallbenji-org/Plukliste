@@ -18,6 +18,7 @@ namespace PluckFish.Components.Cache
         public Item GetItemStock(string prodId)
         {
             //return stockRepository.GetItemStock(prodId);
+
             // CACHE VIRKER IKKE
             var cached = cache.GetOrCreate($"itemStock_{prodId}", entry =>
             {

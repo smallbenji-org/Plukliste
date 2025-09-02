@@ -182,5 +182,16 @@
                 }
             })
         });
+
+
+        document.getElementById("productSearch").addEventListener("input", function () {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll("#produkter tr");
+
+            rows.forEach(row => {
+                let productName = row.querySelector("td").textContent.toLowerCase();
+                row.style.display = productName.includes(filter) ? "" : "none";
+            });
+        });
     </script>
 }

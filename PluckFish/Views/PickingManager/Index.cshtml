@@ -9,8 +9,7 @@
     <div class="card eighty-percent">
         <div class="pluklist-selector">
             <div class="selector-controls">
-                @using (Html.BeginForm("HandlePickingList", "PickingManager", FormMethod.Post))
-                {
+                <form asp-action="HandlePickingList" method="post">
                     <select class="list-dropdown" id="listSelector" name="id">
                         @if (!Model.PickingListSelected)
                         {
@@ -27,14 +26,13 @@
                             <option value="@list.Id">@list.Id - @list.Name - @list.Forsendelse</option>
                         }
                     </select>
-                }
+                </form>
             </div>
         </div>
     </div>
-        <a href="@Url.Action("CreatePickingList", "PickingManager")" class="card-button twenty-percent">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
-            <span>Opret Plukliste</span>
-        </a>
+    <form asp-action="CreatePickingList" method="post" class="card-button twenty-percent">
+        <button class="create-btn" type="submit"><svg class="create-svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>Opret plucklist</button>
+    </form>
 </div>
 
 <script>
@@ -92,8 +90,13 @@
                 </table>
             </div>
             <div class="action-buttons">
-                <a href="@Url.Action("Index", "PickingManager")" class="action-btn btn-secondary">Anuller</a>
-                <a href="@Url.Action("EditPickingList", "PickingManager", new { id = Model.SelectedPickingList.Id })" class="action-btn btn-edit">Rediger</a>
+                <form asp-action="Index" method="post">
+                    <button type="submit" class="action-btn btn-danger">Anuller</button>
+                </form>
+                <form asp-action="EditPickingList" method="post">
+                    <input type="hidden" name="id" value="@Model.SelectedPickingList.Id" />
+                    <button type="submit" class="action-btn btn-edit">Rediger</button>
+                </form>
                 <form asp-action="Toggle" method="post" style="display: inline;">
                     <input type="hidden" name="id" value="@Model.SelectedPickingList.Id" />
                     <button type="submit" class="action-btn btn-primary">Færdig</button>

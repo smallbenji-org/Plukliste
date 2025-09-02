@@ -44,6 +44,11 @@ namespace PluckFish.Components.Cache
             });
         }
 
+        public List<Product> GetBareboneProductsInStock()
+        {
+            return stockRepository.GetBareboneProductsInStock();
+        }
+
         public void OrderStock(List<Item> orderedStock)
         {
             throw new NotImplementedException();

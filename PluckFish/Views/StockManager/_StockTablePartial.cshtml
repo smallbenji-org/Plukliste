@@ -1,6 +1,16 @@
 @model PluckFish.Controllers.StockViewModel
 
 <div class="table-responsive" id="table-content">
+
+    @if (Model.filter == "All")
+    {
+        <form asp-action="ItemOrder" method="post">
+            <button type="submit" name="order" value="Newest">Newest</button>
+            <button type="submit" name="order" value="Oldest">Oldest</button>
+            <button type="submit" name="order" value="Highest">Quantity highest to lowest</button>
+            <button type="submit" name="order" value="Lowest">Quantity lowest to highest</button>
+        </form>
+    }
     <table class="vare-table">
         <thead>
             <tr>

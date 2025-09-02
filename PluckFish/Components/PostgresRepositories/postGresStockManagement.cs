@@ -8,12 +8,12 @@ using System.Net.NetworkInformation;
 
 namespace PluckFish.Components
 {
-    public class postGresStockManagement : IStockRepository
+    public class PostGresStockManagement : IStockRepository
     {
         private readonly PostGres postGres;
         private readonly IConfiguration config;
 
-        public postGresStockManagement(PostGres postGres, IConfiguration config)
+        public PostGresStockManagement(PostGres postGres, IConfiguration config)
         {
             this.postGres = postGres;
             this.config = config;

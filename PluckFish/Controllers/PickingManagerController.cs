@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using PluckFish.Components;
 using PluckFish.Interfaces;
 using PluckFish.Models;
 using System.Diagnostics;
+using System.Net;
 using System.Text.Json;
 
 namespace PluckFish.Controllers
@@ -79,16 +81,16 @@ namespace PluckFish.Controllers
         {
             PickingList pickingList = pickingListRepository.GetPickingList(listId);
             Item item = stockRepository.GetItemStock(prodId);
-          
+
             if (!item.RestVare)
             {
                 int sum = pickingListRepository.GetSumOfItemInAllPickingLists(prodId);
-                if (item.Amount <= sum) { return BadRequest(); }
+                if (item.Amount <= sum) { return BadRequest("Not enough in stock"); }
             }
 
             item.Amount = 1;
-            pickingListRepository.AddProductToPickingList(pickingList, item);
-
+            pickingListRepository.AddProductToPickingList(pickingList, item);  
+            
             return Ok();
         }
 
@@ -126,7 +128,23 @@ namespace PluckFish.Controllers
 
             retval.CurrentPickingList = pickingListRepository.GetPickingList(id);
             retval.Items = pickingListRepository.GetPickingListItems(id);
-            retval.Products = productRepository.getAll().ToList();
+            //retval.Products = productRepository.getAll().ToList();
+            List<Item> pickingListItems = productRepository.GetSumOfUsedItemsInPickingLists();
+            List<Item> stockItems = stockRepository.GetStock();
+
+            List<Product> products = new List<Product>();
+            foreach(Item item in stockItems)
+            {
+                if (item.RestVare) { products.Add(item.Product); continue; }
+
+                Item listItem = pickingListItems
+                .FirstOrDefault(x => x.Product.ProductID == item.Product.ProductID);
+
+                if (listItem == null) { if (item.Amount > 0) { products.Add(item.Product); } continue; }
+
+                if (item.Amount > listItem.Amount) { products.Add(listItem.Product); }
+            }
+            retval.Products = products;
 
             return View(retval);
         }

@@ -1308,3 +1308,60 @@ h2 {
 span.antal {
     margin-right: 28%;
 }
+
+#productSearch {
+    width: 29vw;
+}
+
+@media (orientation: portrait) and (min-width: 769px) {
+    header, main {
+        width: 90%;
+    }
+
+    .card.half-size {
+        width: 100%;
+    }
+
+    .card.quarter-size {
+        width: 48%;
+    }
+
+    .card.three-quarters-size {
+        width: 100%;
+    }
+
+    .row {
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+    }
+
+        .row .card {
+            width: 96.75%;
+        }
+
+    .top-bar-container {
+        flex-direction: column;
+    }
+
+    .eighty-percent,
+    .twenty-percent {
+        width: 100%;
+    }
+
+    .stats-container {
+        width: 100%;
+    }
+
+    .stat-card-value {
+        font-size: 2em;
+    }
+
+    .list-dropdown {
+        width: 97.1%;
+    }
+
+    #productSearch {
+        width: 38vw;
+    }
+}

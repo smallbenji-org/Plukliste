@@ -26,5 +26,10 @@ namespace PluckFish.Components
         {
             return products.Where(x => x.ProductID.Equals(productId)).FirstOrDefault();
         }
+
+        public List<Item> GetSumOfUsedItemsInPickingLists()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

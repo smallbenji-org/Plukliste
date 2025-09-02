@@ -52,5 +52,36 @@ namespace PluckFish {
             using IDbConnection db = dbConnection;
             return db.Query<Product>(sql);
         }
+
+        public List<Item> GetSumOfUsedItemsInPickingLists()
+        {
+            string sql = @"
+               SELECT
+               t1.product_id,
+               t2.name,
+               SUM(amount) as sum1
+               FROM picking_list_items t1
+               LEFT JOIN products t2 ON t1.product_id = t2.productid
+               GROUP BY t1.product_id, t2.name
+            ";
+
+            using IDbConnection db = dbConnection;
+            var reader = db.ExecuteReader(sql, new { });
+            DataTable tb = new DataTable();
+            tb.Load(reader);
+
+            List<Item> items = new List<Item>();
+            foreach (DataRow row in tb.Rows)
+            {
+                items.Add(new Item
+                {
+                    Product = new Product { ProductID = row["product_id"].ToString(), Name = row["name"].ToString() },
+                    Amount = int.Parse(row["sum1"].ToString())
+                });
+
+            }
+
+            return items;
+        }
     }
 }

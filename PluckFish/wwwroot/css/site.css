@@ -398,6 +398,15 @@ main {
     transition: background-color 0.3s ease;
 }
 
+.btn-danger {
+    background-color: red;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: darkred;
+}
+
 .btn-edit {
     background-color: limegreen;
     color: white;
@@ -1106,6 +1115,7 @@ h2 {
     width: 20%;
     margin: 0;
     margin-top: 2vh;
+    padding: .5% !important;
 }
 
 .card-button {
@@ -1115,14 +1125,10 @@ h2 {
     color: var(--text-primary);
     box-shadow: var(--shadow);
     padding: 1vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
     text-decoration: none;
     transition: all 0.2s ease-in-out;
-    gap: 0.5rem;
-    font-size: 0.9em;
+    gap: 1rem;
     font-weight: 500;
 }
 
@@ -1134,6 +1140,8 @@ h2 {
 
     .card-button svg {
         color: var(--accent-color);
+        width: 2em;
+        height: 2em;
     }
 
 .pagination-container {
@@ -1307,4 +1315,24 @@ h2 {
 
 span.antal {
     margin-right: 28%;
+}
+
+.create-btn {
+    background-color: transparent;
+    color: white;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    border: none;
+    width: 100%;
+    font-size: 1.1em;
+    height: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3em;
+}
+
+.create-btn:hover {
+    cursor: pointer;
 }

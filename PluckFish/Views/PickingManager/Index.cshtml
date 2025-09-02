@@ -5,100 +5,100 @@
     List<PickingList> notDoneLists = Model.PickingLists.FindAll(lists => lists.IsDone == false);
 }
 
-    <div class="top-bar-container">
-        <div class="card eighty-percent">
-            <div class="pluklist-selector">
-                <div class="selector-controls">
-                    @using (Html.BeginForm("HandlePickingList", "PickingManager", FormMethod.Post))
-                    {
-                        <select class="list-dropdown" id="listSelector" name="id">
-                            @if (!Model.PickingListSelected)
-                            {
-                                <option value="" selected>-- Vælg en plukliste --</option>
-                            }
+<div class="top-bar-container">
+    <div class="card eighty-percent">
+        <div class="pluklist-selector">
+            <div class="selector-controls">
+                @using (Html.BeginForm("HandlePickingList", "PickingManager", FormMethod.Post))
+                {
+                    <select class="list-dropdown" id="listSelector" name="id">
+                        @if (!Model.PickingListSelected)
+                        {
+                            <option value="" selected>-- Vælg en plukliste --</option>
+                        }
 
-                            @foreach (var list in notDoneLists)
+                        @foreach (var list in notDoneLists)
+                        {
+                            if (Model.SelectedPickingList != null && list.Id.Equals(Model.SelectedPickingList.Id))
                             {
-                                if (Model.SelectedPickingList != null && list.Id.Equals(Model.SelectedPickingList.Id))
-                                {
-                                    <option value="@list.Id" selected>@list.Id - @list.Name - @list.Forsendelse</option>
-                                    continue;
-                                }
-                                <option value="@list.Id">@list.Id - @list.Name - @list.Forsendelse</option>
+                                <option value="@list.Id" selected>@list.Id - @list.Name - @list.Forsendelse</option>
+                                continue;
                             }
-                        </select>
-                    }
-                </div>
+                            <option value="@list.Id">@list.Id - @list.Name - @list.Forsendelse</option>
+                        }
+                    </select>
+                }
             </div>
         </div>
+    </div>
         <a href="@Url.Action("CreatePickingList", "PickingManager")" class="card-button twenty-percent">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
             <span>Opret Plukliste</span>
         </a>
-    </div>
+</div>
 
-    <script>
-        document.getElementById("listSelector").addEventListener("change", function () {
-            if (this.value) {
-                this.form.submit();
-            }
-        });
-    </script>
+<script>
+    document.getElementById("listSelector").addEventListener("change", function () {
+        if (this.value) {
+            this.form.submit();
+        }
+    });
+</script>
 
-    @if (Model.PickingListSelected)
-    {
-        <div class="row">
-            <div class="card quarter-size">
-                <div class="customer-details" id="customerInfo">
-                    <div class="detail-row">
-                        <span class="label">Name:</span>
-                        <span class="value" id="customerName">@Model.SelectedPickingList.Name</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Forsendelse:</span>
-                        <span class="value" id="customerForsendelse">@Model.SelectedPickingList.Forsendelse</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Adresse:</span>
-                        <span class="value" id="customerAdresse">@Model.SelectedPickingList.Adresse</span>
-                    </div>
+@if (Model.PickingListSelected)
+{
+    <div class="row">
+        <div class="card quarter-size">
+            <div class="customer-details" id="customerInfo">
+                <div class="detail-row">
+                    <span class="label">Name:</span>
+                    <span class="value" id="customerName">@Model.SelectedPickingList.Name</span>
                 </div>
-            </div>
-
-            <div class="card three-quarters-size">
-                <div class="pluk-table-container">
-                    <table class="pluk-table">
-                        <thead>
-                            <tr>
-                                <th>ProductID</th>
-                                <th>Title</th>
-                                <th>Type</th>
-                                <th>Amount</th>
-                                <th>Tjek</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.SelectedPickingList.Lines)
-                            {
-                                <tr>
-                                    <td>@item.Product.ProductID</td>
-                                    <td>@item.Product.Name</td>
-                                    <td>@item.Type</td>
-                                    <td>@item.Amount</td>
-                                    <td><input type="checkbox" class="form-checkbox"></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                <div class="detail-row">
+                    <span class="label">Forsendelse:</span>
+                    <span class="value" id="customerForsendelse">@Model.SelectedPickingList.Forsendelse</span>
                 </div>
-                <div class="action-buttons">
-                    <a href="@Url.Action("Index", "PickingManager")" class="action-btn btn-secondary">Anuller</a>
-                    <a href="@Url.Action("EditPickingList", "PickingManager", new { id = Model.SelectedPickingList.Id })" class="action-btn btn-edit">Rediger</a>
-                    <form asp-action="Toggle" method="post" style="display: inline;">
-                        <input type="hidden" name="id" value="@Model.SelectedPickingList.Id" />
-                        <button type="submit" class="action-btn btn-primary">Færdig</button>
-                    </form>
+                <div class="detail-row">
+                    <span class="label">Adresse:</span>
+                    <span class="value" id="customerAdresse">@Model.SelectedPickingList.Adresse</span>
                 </div>
             </div>
         </div>
-    }
+
+        <div class="card three-quarters-size">
+            <div class="pluk-table-container">
+                <table class="pluk-table">
+                    <thead>
+                        <tr>
+                            <th>ProductID</th>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Tjek</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.SelectedPickingList.Lines)
+                        {
+                            <tr>
+                                <td>@item.Product.ProductID</td>
+                                <td>@item.Product.Name</td>
+                                <td>@item.Type</td>
+                                <td>@item.Amount</td>
+                                <td><input type="checkbox" class="form-checkbox"></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="action-buttons">
+                <a href="@Url.Action("Index", "PickingManager")" class="action-btn btn-secondary">Anuller</a>
+                <a href="@Url.Action("EditPickingList", "PickingManager", new { id = Model.SelectedPickingList.Id })" class="action-btn btn-edit">Rediger</a>
+                <form asp-action="Toggle" method="post" style="display: inline;">
+                    <input type="hidden" name="id" value="@Model.SelectedPickingList.Id" />
+                    <button type="submit" class="action-btn btn-primary">Færdig</button>
+                </form>
+            </div>
+        </div>
+    </div>
+}

@@ -33,7 +33,6 @@ namespace PluckFish.Components
             .Where(x => x.Product.ProductID == item.Product.ProductID)
             .ToList();
 
-
             using IDbConnection db = dbConnection;
             if (selectedItems.Count > 0) 
             {
@@ -91,6 +90,28 @@ namespace PluckFish.Components
             string sql = "SELECT id, name, forsendelse, adresse, isDone FROM picking_lists";
             DataTable tb = DapperHelper.loadTb(sql, dbConnection);
             return getPickingLists(tb);
+        }
+
+        public int GetSumOfItemInAllPickingLists(string productId)
+        {
+            string sql = "SELECT SUM(amount) AS \"sum\" FROM picking_list_items WHERE product_id = @productId";
+            using IDbConnection db = dbConnection;
+            var reader = db.ExecuteReader(sql, new
+            {
+                productId = productId
+            });
+
+            DataTable tb = new DataTable();
+            tb.Load(reader);
+
+            if (tb.Rows.Count > 0) {
+                DataRow row = tb.Rows[0];
+                string test = row["sum"].ToString();
+                int.TryParse(row["sum"].ToString(), out int sum);
+                return sum;
+            }
+
+            return 0;
         }
 
         public PickingList GetPickingList(int id)

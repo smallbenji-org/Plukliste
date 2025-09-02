@@ -13,5 +13,6 @@ namespace PluckFish.Interfaces
         List<PickingList> GetAllPickingList();
         PickingList GetPickingList(int id);
         List<Item> GetPickingListItems(int pickingListId);
+        int GetSumOfItemInAllPickingLists(string productId);
     }
 }

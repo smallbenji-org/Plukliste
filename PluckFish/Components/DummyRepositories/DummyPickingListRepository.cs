@@ -50,7 +50,10 @@ namespace PluckFish.Components
                 found.Amount = amount;
             }
         }
-
+        public int GetSumOfItemInAllPickingLists(string productId)
+        {
+            throw new NotImplementedException();
+        }
         public void UpdatePickingList(PickingList plukliste)
         {
             throw new NotImplementedException();

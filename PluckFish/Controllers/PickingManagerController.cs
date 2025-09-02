@@ -79,7 +79,15 @@ namespace PluckFish.Controllers
         {
             PickingList pickingList = pickingListRepository.GetPickingList(listId);
             Item item = stockRepository.getItemStock(prodId);
+          
+            if (!item.RestVare)
+            {
+                int sum = pickingListRepository.GetSumOfItemInAllPickingLists(prodId);
+                if (item.Amount <= sum) { return BadRequest(); }
+            }
+
             item.Amount = 1;
+
             pickingListRepository.AddProductToPickingList(pickingList, item);
 
             return Ok();

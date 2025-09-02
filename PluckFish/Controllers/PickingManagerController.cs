@@ -92,7 +92,7 @@ namespace PluckFish.Controllers
             return Ok();
         }
 
-        [Route("HandlePickingList")]
+        [HttpPost]
         public IActionResult HandlePickingList([FromForm] string id)
         {
             return RedirectToAction(nameof(GetPickingList), new { Id = id });
@@ -104,7 +104,7 @@ namespace PluckFish.Controllers
             return View();
         }
 
-        [HttpPost("CreatePickinglist")]
+        [HttpPost]
         public IActionResult CreatePickingList([FromForm] string name, [FromForm] string shipping, [FromForm] string address)
         {
             PickingList pickingList = new PickingList();
@@ -119,7 +119,7 @@ namespace PluckFish.Controllers
             return RedirectToAction(nameof(GetPickingList), new { Id = lastId });
         }
 
-        [Route("EditPickinglist/{id}")]
+        [HttpPost]
         public IActionResult EditPickingList(int id)
         {
             EditPickingListViewModel retval = new EditPickingListViewModel();

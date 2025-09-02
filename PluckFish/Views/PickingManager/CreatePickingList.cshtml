@@ -4,13 +4,13 @@
 
 <form method="post" asp-action="CreatePickingList" class="login-container">
     <div class="form-group">
-        <input class="form-control" type="text" name="name" placeholder="Navn" />
+        <input class="form-control" type="text" name="name" placeholder="Navn" required />
     </div>
     <div class="form-group">
-        <input class="form-control" type="text" name="shipping" placeholder="Forsendelse" />
+        <input class="form-control" type="text" name="shipping" placeholder="Forsendelse" required />
     </div>
     <div class="form-group">
-        <input class="form-control" type="text" name="address" placeholder="Addresse" />
+        <input class="form-control" type="text" name="address" placeholder="Addresse" required />
     </div>
     <input class="btn-login" type="submit" value="Opret" />
 </form>

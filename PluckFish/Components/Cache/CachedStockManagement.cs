@@ -17,13 +17,21 @@ namespace PluckFish.Components.Cache
 
         public Item getItemStock(string prodId)
         {
-            return stockRepository.getItemStock(prodId);
+            //return stockRepository.getItemStock(prodId);
             // CACHE VIRKER IKKE
-            return cache.GetOrCreate($"itemStock_{prodId}", entry =>
+            var cached = cache.GetOrCreate($"itemStock_{prodId}", entry =>
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
                 return stockRepository.getItemStock(prodId);
             });
+
+            return new Item
+            {
+                Product = new Product { Name = cached.Product.Name, ProductID = cached.Product.ProductID},
+                Type = cached.Type,
+                Amount = cached.Amount,
+                RestVare = cached.RestVare
+            };
         }
 
         public List<Item> getStock(string whereClause = "")

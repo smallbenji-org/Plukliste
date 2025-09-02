@@ -87,7 +87,6 @@ namespace PluckFish.Controllers
             }
 
             item.Amount = 1;
-
             pickingListRepository.AddProductToPickingList(pickingList, item);
 
             return Ok();

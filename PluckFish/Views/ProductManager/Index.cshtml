@@ -1,4 +1,4 @@
-@model IEnumerable<PluckFish.Models.Product>
+@model PluckFish.Controllers.ProductViewModel
 @{
     ViewData["Title"] = "Produktstyring";
 }
@@ -24,28 +24,38 @@
 
 <div class="card">
     <h2>Eksisterende Produkter</h2>
-    <table class="vare-table">
-        <thead>
-            <tr>
-                <th>Produkt ID</th>
-                <th>Produktnavn</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in Model)
-            {
-                <tr>
-                    <td>@product.ProductID</td>
-                    <td>@product.Name</td>
-                    <td>
-                        <form asp-action="Delete" method="post" class="remove-form">
-                            <input type="hidden" name="prodID" value="@product.ProductID" />
-                            <button type="submit" class="remove-btn">Fjern</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="form-group search-container wide" style="margin-bottom: 1rem;">
+        <input type="text" id="productSearch" class="form-control" placeholder="Søg Varer...">
+        <div class="search-icon">
+            <svg data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
+            </svg>
+        </div>
+    </div>
+    <div id="product-table-container">
+        @await Html.PartialAsync("~/Views/ProductManager/_ProductTablePartial.cshtml", Model)
+    </div>
 </div>
+
+<script>
+    const tableContainer = document.getElementById("product-table-container");
+
+    async function loadTable(url) {
+        try {
+            const response = await fetch(url);
+            const html = await response.text();
+            tableContainer.innerHTML = html;
+            window.history.pushState({ path: url }, '', url.replace('GetProductTable', 'ScrollPage'));
+        } catch (error) {
+            console.error('Failed to load table content:', error);
+        }
+    }
+
+    tableContainer.addEventListener("click", function (e) {
+        if (e.target.closest('.pagination a')) {
+            e.preventDefault();
+            const link = e.target.closest('.pagination a');
+            loadTable(link.href);
+        }
+    });
+</script>

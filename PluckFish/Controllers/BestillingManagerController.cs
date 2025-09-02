@@ -16,7 +16,7 @@ namespace PluckFish.Controllers
 
         public IActionResult Index()
         {
-            var varer = _stockRepository.getStock().Take(15);
+            var varer = _stockRepository.GetStock().Take(15);
 
             var viewModel = new BestillingManagerViewModel
             {

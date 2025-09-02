@@ -15,14 +15,14 @@ namespace PluckFish.Components.Cache
             this.cache = cache;
         }
 
-        public Item getItemStock(string prodId)
+        public Item GetItemStock(string prodId)
         {
-            //return stockRepository.getItemStock(prodId);
+            //return stockRepository.GetItemStock(prodId);
             // CACHE VIRKER IKKE
             var cached = cache.GetOrCreate($"itemStock_{prodId}", entry =>
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
-                return stockRepository.getItemStock(prodId);
+                return stockRepository.GetItemStock(prodId);
             });
 
             return new Item
@@ -34,16 +34,16 @@ namespace PluckFish.Components.Cache
             };
         }
 
-        public List<Item> getStock(string whereClause = "")
+        public List<Item> GetStock(string whereClause = "")
         {
             return cache.GetOrCreate($"getStock_all", entry =>
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2);
-                return stockRepository.getStock(whereClause);
+                return stockRepository.GetStock(whereClause);
             });
         }
 
-        public void orderStock(List<Item> orderedStock)
+        public void OrderStock(List<Item> orderedStock)
         {
             throw new NotImplementedException();
         }
@@ -66,16 +66,16 @@ namespace PluckFish.Components.Cache
             stockRepository.RetractStock(prodId, retractNum);
         }
 
-        public void saveStock(Item savedStock)
+        public void SaveStock(Item savedStock)
         {
             cache.Remove($"itemStock_{savedStock.Product.ProductID}");
             cache.Remove("getStock_all");
-            stockRepository.saveStock(savedStock);
+            stockRepository.SaveStock(savedStock);
         }
 
-        public bool stockExist(string prodId)
+        public bool StockExist(string prodId)
         {
-            return stockRepository.stockExist(prodId);
+            return stockRepository.StockExist(prodId);
         }
     }
 }

@@ -76,7 +76,7 @@ namespace PluckFish.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost("EditPickinglist/AddProductToPickingList")]
+        [HttpPost]
         public IActionResult AddProductToPickingList(string prodId, int listId)
         {
             PickingList pickingList = pickingListRepository.GetPickingList(listId);

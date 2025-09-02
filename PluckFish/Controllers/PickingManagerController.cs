@@ -78,7 +78,7 @@ namespace PluckFish.Controllers
         public IActionResult AddProductToPickingList(string prodId, int listId)
         {
             PickingList pickingList = pickingListRepository.GetPickingList(listId);
-            Item item = stockRepository.getItemStock(prodId);
+            Item item = stockRepository.GetItemStock(prodId);
           
             if (!item.RestVare)
             {

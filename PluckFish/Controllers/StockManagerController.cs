@@ -16,7 +16,7 @@ namespace PluckFish.Controllers
         }
         private (List<Item> pageItems, int currentPage, int totalPages) getPage(int nextPage, string filter = "All")
         {
-            List<Item> items = stockRepository.getStock();
+            List<Item> items = stockRepository.GetStock();
             if (filter == "VisVare")
             {
                 items = items.Where(x => !x.RestVare).ToList();
@@ -72,7 +72,7 @@ namespace PluckFish.Controllers
 
             item.Product.ProductID = prodId;
             item.Amount = amount;
-            stockRepository.saveStock(item);
+            stockRepository.SaveStock(item);
 
             return RedirectToAction(nameof(Index));
         }

@@ -21,7 +21,7 @@ namespace PluckFish.Components
 
         private IDbConnection dbConnection => new NpgsqlConnection(config.GetConnectionString("defaultConnection"));
 
-        public List<Item> getStock(string whereClause = "")
+        public List<Item> GetStock(string whereClause = "")
         {
             string sql = "SELECT t1.productId AS \"product_id\", t1.name, COALESCE(t2.amount, 0) AS \"amount\", COALESCE(t2.restVare, false) AS \"restVare\" FROM products t1 LEFT JOIN stock t2 ON t2.product_id = t1.productId"+whereClause;
             DataTable tb = DapperHelper.loadTb(sql, dbConnection);
@@ -29,7 +29,7 @@ namespace PluckFish.Components
             return items;
         }
 
-        public Item getItemStock(string prodId)
+        public Item GetItemStock(string prodId)
         {
             string sql = "SELECT t1.productId AS \"product_id\", t1.name, COALESCE(t2.amount, 0) AS \"amount\", COALESCE(t2.restVare, false) AS \"restVare\" FROM products t1 LEFT JOIN stock t2 ON t2.product_id = t1.productId WHERE t1.productId = @product_id";
             using IDbConnection db = dbConnection;
@@ -55,7 +55,7 @@ namespace PluckFish.Components
 
             return item;
         }
-        public bool stockExist(string prodId)
+        public bool StockExist(string prodId)
         {
             string sql = "SELECT 1 FROM stock WHERE product_id = @product_id";
             using IDbConnection db = dbConnection;
@@ -74,7 +74,7 @@ namespace PluckFish.Components
             return false;
         }
 
-        public void orderStock(List<Item> orderedStock)
+        public void OrderStock(List<Item> orderedStock)
         {
             throw new NotImplementedException();
         }
@@ -92,7 +92,7 @@ namespace PluckFish.Components
 
         public void RetractStock(string prodId, int retractNum)
         {
-            Item item = getItemStock(prodId);
+            Item item = GetItemStock(prodId);
             if (item == null) { return; }
             if (item.Amount - retractNum < 0 && item.RestVare == false) { return; }
 
@@ -133,10 +133,10 @@ namespace PluckFish.Components
             return true;
         }
 
-        public void saveStock(Item savedStock)
+        public void SaveStock(Item savedStock)
         {
             string sql = $"UPDATE stock SET amount = @amount, restVare = @restVare WHERE product_id = @product_id";
-            if (!stockExist(savedStock.Product.ProductID))
+            if (!StockExist(savedStock.Product.ProductID))
             {
                 sql = "INSERT INTO stock (product_id, amount, restVare) VALUES (@product_id, @amount, @restVare)";
             }

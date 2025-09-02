@@ -29,23 +29,6 @@ namespace PluckFish.Components
             return items;
         }
 
-        public List<Product> GetBareboneProductsInStock()
-        {
-            string sql = "SELECT t1.productId, t1.Name FROM products t1 JOIN stock t2 ON t2.product_id = t1.productId JOIN (    SELECT product_id, SUM(amount) AS total_amount    FROM picking_list_items    GROUP BY product_id) t3 ON t3.product_id = t1.productId WHERE t2.amount > t3.total_amount;";
-
-            using IDbConnection db = dbConnection;
-            var reader = db.ExecuteReader(sql, new{});
-            DataTable tb = new DataTable();
-            tb.Load(reader);
-
-            List<Product> products = new List<Product>();
-            foreach (DataRow row in tb.Rows) 
-            {
-                products.Add(new Product { ProductID = row["productId"].ToString(), Name = row["Name"].ToString() });
-            }
-            return products;
-        }
-
         public Item GetItemStock(string prodId)
         {
             string sql = "SELECT t1.productId AS \"product_id\", t1.name, COALESCE(t2.amount, 0) AS \"amount\", COALESCE(t2.restVare, false) AS \"restVare\" FROM products t1 LEFT JOIN stock t2 ON t2.product_id = t1.productId WHERE t1.productId = @product_id";

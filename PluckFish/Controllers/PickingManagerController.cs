@@ -129,7 +129,22 @@ namespace PluckFish.Controllers
             retval.CurrentPickingList = pickingListRepository.GetPickingList(id);
             retval.Items = pickingListRepository.GetPickingListItems(id);
             //retval.Products = productRepository.getAll().ToList();
-            retval.Products = stockRepository.GetBareboneProductsInStock();
+            List<Item> pickingListItems = productRepository.GetSumOfUsedItemsInPickingLists();
+            List<Item> stockItems = stockRepository.GetStock();
+
+            List<Product> products = new List<Product>();
+            foreach(Item item in stockItems)
+            {
+                if (item.RestVare) { products.Add(item.Product); continue; }
+
+                Item listItem = pickingListItems
+                .FirstOrDefault(x => x.Product.ProductID == item.Product.ProductID);
+
+                if (listItem == null) { if (item.Amount > 0) { products.Add(item.Product); } continue; }
+
+                if (item.Amount > listItem.Amount) { products.Add(listItem.Product); }
+            }
+            retval.Products = products;
 
             return View(retval);
         }

@@ -14,15 +14,9 @@ namespace PluckFish.Controllers
         {
             this.stockRepository = stockRepository;
         }
-        private (List<Item> pageItems, int currentPage, int totalPages) getPage(int nextPage, string filter = "All", string searchText = "")
+        private (List<Item> pageItems, int currentPage, int totalPages) getPage(int nextPage, string filter = "All")
         {
             List<Item> items = stockRepository.GetStock();
-            if (searchText != "")
-            {
-                searchText = searchText.ToLowerInvariant();
-                items = items.Where(x => x.Product.Name.ToLowerInvariant().Contains(searchText)).ToList();
-            }
-
             if (filter == "VisVare")
             {
                 items = items.Where(x => !x.RestVare).ToList();
@@ -52,10 +46,10 @@ namespace PluckFish.Controllers
             return View(retval);
         }
 
-        public IActionResult GetStockTable(int nextPage, string filter = "All", string searchText = "")
+        public IActionResult GetStockTable(int nextPage, string filter = "All")
         {
             var model = new StockViewModel();
-            (model.stockInventory, model.currentPage, model.TotalPages) = getPage(nextPage, filter, searchText);
+            (model.stockInventory, model.currentPage, model.TotalPages) = getPage(nextPage, filter);
             model.filter = filter;
             return PartialView("_StockTablePartial", model);
         }
@@ -124,6 +118,7 @@ namespace PluckFish.Controllers
             (retval.stockInventory, retval.currentPage, retval.TotalPages) = getPage(retval.currentPage, retval.filter);
             return View("Index", retval);
         }
+
     }
     public class StockViewModel()
     {

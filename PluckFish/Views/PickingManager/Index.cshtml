@@ -93,7 +93,7 @@
                 <form asp-action="Index" method="post">
                     <button type="submit" class="action-btn btn-danger">Anuller</button>
                 </form>
-                <form asp-action="EditPickingList" method="post">
+                <form asp-action="EditPickingList" method="get">
                     <input type="hidden" name="id" value="@Model.SelectedPickingList.Id" />
                     <button type="submit" class="action-btn btn-edit">Rediger</button>
                 </form>

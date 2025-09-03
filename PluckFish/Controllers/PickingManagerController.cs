@@ -121,7 +121,7 @@ namespace PluckFish.Controllers
             return RedirectToAction(nameof(GetPickingList), new { Id = lastId });
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult EditPickingList(int id)
         {
             EditPickingListViewModel retval = new EditPickingListViewModel();

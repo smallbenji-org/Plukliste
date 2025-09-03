@@ -89,9 +89,9 @@ namespace PluckFish.Controllers
             }
 
             item.Amount = 1;
-            pickingListRepository.AddProductToPickingList(pickingList, item);  
-            
-            return Ok();
+            pickingListRepository.AddProductToPickingList(pickingList, item);
+
+            return RedirectToAction(nameof(EditPickingList), new { id = listId });
         }
 
         [HttpPost]
@@ -121,7 +121,7 @@ namespace PluckFish.Controllers
             return RedirectToAction(nameof(GetPickingList), new { Id = lastId });
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult EditPickingList(int id)
         {
             EditPickingListViewModel retval = new EditPickingListViewModel();
@@ -183,11 +183,12 @@ namespace PluckFish.Controllers
             return RedirectToAction(nameof(EditPickingList), new { id = pickingList.Id });
         }
 
-        public IActionResult Test()
+        [HttpPost]
+        public IActionResult SaveProductInPickingList([FromForm] string productId, [FromForm] int pickingListId)
         {
-            List<PickingList> list = pickingListRepository.GetAllPickingList();
-            return Ok(list); // <-- Let ASP.NET handle serialization
+            return View();
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

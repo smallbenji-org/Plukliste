@@ -266,7 +266,7 @@ namespace PluckFish.Controllers
                 {
                     using (StreamReader reader = new StreamReader(file.OpenReadStream()))
                     {
-                        XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(PickingList));
+                        XmlSerializer serializer = new XmlSerializer(typeof(PickingList));
                         pickingList = (PickingList)serializer.Deserialize(reader);
                     }
                 }

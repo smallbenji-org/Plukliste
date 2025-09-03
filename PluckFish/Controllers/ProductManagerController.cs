@@ -89,12 +89,11 @@ namespace PluckFish.Controllers
                 if (product != null)
                 {
                     productRepository.AddProduct(product);
-                    string lastId = productRepository.getAll().Last().ProductID;
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    return BadRequest("Failed to deserialize the picking list.");
+                    return BadRequest("Failed to deserialize the product.");
                 }
             }
             else if (extension == ".csv")
@@ -120,28 +119,17 @@ namespace PluckFish.Controllers
                             ItemType type = typeStr == "print" ? ItemType.Print : ItemType.Fysisk;
                             bool restVare = restVareStr == "true";
                             product = productRepository.getProduct(prodId);
-                            if (product != null)
-                            {
-                                Item item = new Item
-                                {
-                                    Product = product,
-                                    Amount = amount,
-                                    Type = type,
-                                    RestVare = restVare
-                                };
-                            }
                         }
                     }
                 }
                 if (product != null)
                 {
                     productRepository.AddProduct(product);
-                    string lastId = productRepository.getAll().Last().ProductID;
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    return BadRequest("Failed to deserialize the picking list.");
+                    return BadRequest("Failed to deserialize the product.");
                 }
             }
             else if (extension == ".xml")
@@ -161,12 +149,11 @@ namespace PluckFish.Controllers
                 if (product != null)
                 {
                     productRepository.AddProduct(product);
-                    string lastId = productRepository.getAll().Last().ProductID;
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    return BadRequest("Failed to deserialize the picking list.");
+                    return BadRequest("Failed to deserialize the product.");
                 }
             }
             else

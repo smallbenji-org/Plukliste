@@ -32,6 +32,11 @@
             </svg>
         </div>
     </div>
+    <form asp-action="ImportProduct" enctype="multipart/form-data" method="post">
+        <input type="file" name="file" value="@Model.File" required />
+        <input type="submit" />
+    </form>
+
     <div id="product-table-container">
         @await Html.PartialAsync("~/Views/ProductManager/_ProductTablePartial.cshtml", Model)
     </div>

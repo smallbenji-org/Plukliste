@@ -5,6 +5,8 @@ using PluckFish.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Xml.Serialization;
 
 namespace PluckFish.Controllers
 {
@@ -13,6 +15,7 @@ namespace PluckFish.Controllers
         public List<Product> Products { get; set; } = new List<Product>();
         public int CurrentPage { get; set; } = 1;
         public int TotalPages { get; set; }
+        public IFormFile File { get; set; }
     }
 
     [Authorize]
@@ -63,10 +66,119 @@ namespace PluckFish.Controllers
             return View("Index", viewModel);
         }
 
+        public IActionResult ImportProduct([FromForm] IFormFile file)
+        {
+            Product product = new Product();
+
+            string extension = Path.GetExtension(file.FileName).ToLower();
+
+            if (extension == ".json")
+            {
+                using (StreamReader reader = new StreamReader(file.OpenReadStream()))
+                {
+                    string jsonContent = reader.ReadToEnd();
+                    try
+                    {
+                        product = JsonSerializer.Deserialize<Product>(jsonContent);
+                    }
+                    catch (JsonException ex)
+                    {
+                        return BadRequest("Invalid JSON format: " + ex.Message);
+                    }
+                }
+                if (product != null)
+                {
+                    productRepository.AddProduct(product);
+                    string lastId = productRepository.getAll().Last().ProductID;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return BadRequest("Failed to deserialize the picking list.");
+                }
+            }
+            else if (extension == ".csv")
+            {
+                using (StreamReader reader = new StreamReader(file.OpenReadStream()))
+                {
+                    string line;
+                    bool isFirstLine = true;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (isFirstLine)
+                        {
+                            isFirstLine = false;
+                            continue;
+                        }
+                        string[] values = line.Split(',');
+                        if (values.Length >= 4)
+                        {
+                            string prodId = values[0].Trim();
+                            if (!int.TryParse(values[1].Trim(), out int amount)) { amount = 1; }
+                            string typeStr = values[2].Trim().ToLower();
+                            string restVareStr = values[3].Trim().ToLower();
+                            ItemType type = typeStr == "print" ? ItemType.Print : ItemType.Fysisk;
+                            bool restVare = restVareStr == "true";
+                            product = productRepository.getProduct(prodId);
+                            if (product != null)
+                            {
+                                Item item = new Item
+                                {
+                                    Product = product,
+                                    Amount = amount,
+                                    Type = type,
+                                    RestVare = restVare
+                                };
+                            }
+                        }
+                    }
+                }
+                if (product != null)
+                {
+                    productRepository.AddProduct(product);
+                    string lastId = productRepository.getAll().Last().ProductID;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return BadRequest("Failed to deserialize the picking list.");
+                }
+            }
+            else if (extension == ".xml")
+            {
+                try
+                {
+                    using (StreamReader reader = new StreamReader(file.OpenReadStream()))
+                    {
+                        XmlSerializer serializer = new XmlSerializer(typeof(Product));
+                        product = (Product)serializer.Deserialize(reader);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Invalid XML format: " + ex.Message);
+                }
+                if (product != null)
+                {
+                    productRepository.AddProduct(product);
+                    string lastId = productRepository.getAll().Last().ProductID;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return BadRequest("Failed to deserialize the picking list.");
+                }
+            }
+            else
+            {
+                return BadRequest("Unsupported file format.");
+            }
+        }
+
         [HttpPost]
         public IActionResult Index([FromForm] string prodName, [FromForm] string prodID)
         {
-            productRepository.AddProduct(new Models.Product { Name = prodName, ProductID = prodID });
+            productRepository.AddProduct(new Product { Name = prodName, ProductID = prodID });
 
             return RedirectToAction("Index");
         }

@@ -31,7 +31,7 @@
         </div>
     </div>
     <form asp-action="ImportPickingList" enctype="multipart/form-data" method="post">
-        <input type="file" name="file" value="@Model.File" />
+        <input type="file" name="file" value="@Model.File" required />
         <input type="submit" />
     </form>
 

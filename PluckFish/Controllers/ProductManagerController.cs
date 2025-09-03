@@ -30,7 +30,8 @@ namespace PluckFish.Controllers
             List<Product> products = productRepository.getAll().ToList();
             if (searchText != "")
             {
-                products = products.Where(x => x.Name.ToLower().Contains(searchText)).ToList();
+                searchText = searchText.ToLowerInvariant();
+                products = products.Where(x => x.Name.ToLowerInvariant().Contains(searchText)).ToList();
             }
 
             int pageSize = 15;

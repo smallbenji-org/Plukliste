@@ -19,7 +19,8 @@ namespace PluckFish.Controllers
             List<Item> items = stockRepository.GetStock();
             if (searchText != "")
             {
-                items = items.Where(x => x.Product.Name.ToLower().Contains(searchText)).ToList();
+                searchText = searchText.ToLowerInvariant();
+                items = items.Where(x => x.Product.Name.ToLowerInvariant().Contains(searchText)).ToList();
             }
 
             if (filter == "VisVare")

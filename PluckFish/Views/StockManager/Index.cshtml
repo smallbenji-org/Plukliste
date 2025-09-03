@@ -6,7 +6,9 @@
 <div class="card">
     <div class="row2">
         <div class="form-group search-container wide" style="margin-bottom: 1rem;">
-            <input type="text" id="productSearch" class="form-control" placeholder="Søg Varer..." style="width: 25vw;">
+            <form id="searchForm" method="post" asp-action="GetStockTable">
+                <input type="text" name="searchText" id="searchBox" class="form-control" placeholder="Søg Varer...">
+            </form>
             <div class="search-icon">
                 <svg data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
@@ -134,28 +136,11 @@
             body: formData
         });
 
-        if (response.ok) {
-            const currentUrl = new URL(window.location.href);
-            const nextPage = currentUrl.searchParams.get('nextPage') || '1';
-            const filter = currentUrl.searchParams.get('filter') || 'All';
-            const reloadUrl = `@Url.Action("GetStockTable", "StockManager")?nextPage=${nextPage}&filter=${filter}`;
-            await loadTable(reloadUrl);
-
-            redigerFormContainer.classList.add("hidden");
-            tomForm.classList.remove("hidden");
-        }
-    });
-  
-        // Initial setup
-        initializeEditButtons();
-
-        document.getElementById("productSearch").addEventListener("input", function () {
-            let filter = this.value.toLowerCase();
-            let rows = document.querySelectorAll("#produkter tr");
-
-            rows.forEach(row => {
-                let productName = row.querySelector(".produktnavn").textContent.toLowerCase();
-                row.style.display = productName.includes(filter) ? "" : "none";
-            });
+        document.getElementById("searchForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const url = this.action + "?nextPage=1";
+            loadTable(url);
         });
+
+        initializeEditButtons();
     </script>

@@ -145,5 +145,15 @@
 
         // Initial setup
         initializeEditButtons();
+
+        document.getElementById("productSearch").addEventListener("input", function () {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll("#produkter tr");
+
+            rows.forEach(row => {
+                let productName = row.querySelector(".produktnavn").textContent.toLowerCase();
+                row.style.display = productName.includes(filter) ? "" : "none";
+            });
+        });
     </script>
 </main>

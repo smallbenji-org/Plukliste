@@ -1343,6 +1343,11 @@ span.antal {
 }
 
 @media (orientation: portrait) and (min-width: 769px) {
+
+    header {
+        height: 5vh;
+    }
+
     header, main {
         width: 90%;
     }

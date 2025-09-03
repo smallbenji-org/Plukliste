@@ -41,7 +41,10 @@
                         <tr>
                             <td>@prod.Name</td>
                             <td>
-                                <button class="action-btn btn-add" data-productid="@prod.ProductID">Tilføj</button>
+                                <form asp-action="AddProductToPickingList" method="post">
+                                    <input type="hidden" name="listId" value="@Model.CurrentPickingList.Id" />
+                                    <button class="action-btn btn-add" name="prodId" value="@prod.ProductID">Tilføj</button>
+                                </form>
                             </td>
                         </tr>
                     }
@@ -64,7 +67,7 @@
                         <tr>
                             <td>@item.Product.Name</td>
                             <td>
-                                <form asp-action="SaveProductInPickingList" method="post" class="quantity-form">
+                                <form asp-action="SaveProductInPickingList" method="post" class="quantity-form" id="SaveProduct   ">
                                     <input type="hidden" name="productId" value="@item.Product.ProductID" />
                                     <input type="hidden" name="pickingListId" value="@Model.CurrentPickingList.Id" />
 
@@ -87,6 +90,10 @@
                     }
                 </tbody>
             </table>
+            <form action="SaveProductsInPickingList" method="post">
+                <input type="hidden" name="" value="" />
+                <button type="submit"></button>
+            </form>
         </div>
     </div>
 </div>
@@ -99,99 +106,33 @@
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const itemRows = document.querySelectorAll('.table-wrapper:last-child tbody tr');
-            itemRows.forEach(row => {
-                const input = row.querySelector('.quantity-input');
-                const saveBtn = row.querySelector('.btn-save');
-                const initialValue = input.value;
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const itemRows = document.querySelectorAll('.table-wrapper:last-child tbody tr');
+        itemRows.forEach(row => {
+            const input = row.querySelector('.quantity-input');
+            const saveBtn = row.querySelector('.btn-save');
+            const initialValue = input.value;
 
-                saveBtn.disabled = true;
+            saveBtn.disabled = true;
 
-                input.addEventListener('input', () => {
-                    if (input.value !== initialValue) {
-                        saveBtn.disabled = false;
-                    } else {
-                        saveBtn.disabled = true;
-                    }
-                });
-            });
-
-            const modal = document.getElementById('errorModal');
-            const closeButton = modal.querySelector('.close-button');
-
-            function closeModal() {
-                modal.style.display = 'none';
-            }
-
-            if (closeButton) {
-                closeButton.addEventListener('click', closeModal);
-            }
-
-            window.addEventListener('click', function (event) {
-                if (event.target === modal) {
-                    closeModal();
+            input.addEventListener('input', () => {
+                if (input.value !== initialValue) {
+                    saveBtn.disabled = false;
+                } else {
+                    saveBtn.disabled = true;
                 }
             });
         });
+    });
 
-        const productContainer = document.getElementById("produkter");
-        const productButtons = productContainer.querySelectorAll("button");
-        productButtons.forEach(btn => {
-            btn.addEventListener('click', async function (e)
-            {
-                const productId = this.dataset.productid;
-                console.log("Tilføjer "+productId);
+    document.getElementById("productSearch").addEventListener("input", function () {
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll("#produkter tr");
 
-                const formData = new FormData();
-                formData.append("prodId", productId);
-                formData.append("listId", @Model.CurrentPickingList.Id);
-
-                try {
-                    const response = await fetch("/PickingManager/AddProductToPickingList", {
-                        method: "POST",
-                        body: formData,
-                        headers: {
-                        }
-                    });
-
-                    if (response.ok) {
-                        document.location.reload();
-                    } else {
-                        const modal = document.getElementById('errorModal');
-                        const errorMessageElement = document.getElementById('errorMessage');
-                        let errorText = 'Der opstod en ukendt fejl under tilføjelse af produktet.';
-                        try {
-                            const errorData = await response.json();
-                            if (errorData && errorData.message) {
-                                errorText = errorData.message;
-                            }
-                        } catch (e) {
-
-                        }
-                        errorMessageElement.textContent = errorText;
-                        modal.style.display = 'block';
-                    }
-                } catch (error) {
-                    const modal = document.getElementById('errorModal');
-                    const errorMessageElement = document.getElementById('errorMessage');
-                    errorMessageElement.textContent = 'Netværksfejl eller serveren kunne ikke nås.';
-                    modal.style.display = 'block';
-                }
-            })
+        rows.forEach(row => {
+            let productName = row.querySelector("td").textContent.toLowerCase();
+            row.style.display = productName.includes(filter) ? "" : "none";
         });
-
-
-        document.getElementById("productSearch").addEventListener("input", function () {
-            let filter = this.value.toLowerCase();
-            let rows = document.querySelectorAll("#produkter tr");
-
-            rows.forEach(row => {
-                let productName = row.querySelector("td").textContent.toLowerCase();
-                row.style.display = productName.includes(filter) ? "" : "none";
-            });
-        });
-    </script>
-}
+    });
+</script>

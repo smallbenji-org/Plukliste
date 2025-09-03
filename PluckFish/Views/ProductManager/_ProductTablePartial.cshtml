@@ -8,12 +8,12 @@
             <th></th>
         </tr>
     </thead>
-    <tbody id="produkter">
+    <tbody>
         @foreach (var product in Model.Products)
         {
             <tr>
                 <td data-label="Produkt Id">@product.ProductID</td>
-                <td data-label="Produktnavn" class="produktnavn">@product.Name</td>
+                <td data-label="Produktnavn">@product.Name</td>
                 <td data-label="Slet">
                     <form asp-controller="ProductManager" asp-action="Delete" method="post" onsubmit="return confirm('Er du sikker på, at du vil slette dette produkt?');">
                         <input type="hidden" name="prodID" value="@product.ProductID" />

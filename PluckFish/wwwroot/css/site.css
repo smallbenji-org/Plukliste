@@ -1111,6 +1111,12 @@ h2 {
     margin-top: 2vh;
 }
 
+.sixty-percent {
+    width: 60%;
+    margin: 0;
+    margin-top: 2vh;
+}
+
 .twenty-percent {
     width: 20%;
     margin: 0;
@@ -1140,8 +1146,8 @@ h2 {
 
     .card-button svg {
         color: var(--accent-color);
-        width: 2em;
-        height: 2em;
+        width: 1.2em;
+        height: 1.2em;
     }
 
 .pagination-container {
@@ -1343,6 +1349,11 @@ span.antal {
 }
 
 @media (orientation: portrait) and (min-width: 769px) {
+
+    header {
+        height: 5vh;
+    }
+
     header, main {
         width: 90%;
     }
@@ -1394,4 +1405,25 @@ span.antal {
         width: 38vw;
     }
 
+}
+
+.row2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    height: 5vh;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.btn-eksport {
+    background-color: orange;
+    color: white;
+}
+
+.btn-eksport:hover {
+    background-color: darkgoldenrod;
 }

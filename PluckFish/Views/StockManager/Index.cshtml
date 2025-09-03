@@ -3,9 +3,8 @@
     ViewData["Title"] = "Lagersystem";
 }
 
-<main>
-    <div class="card">
-
+<div class="card">
+    <div class="row2">
         <div class="form-group search-container wide" style="margin-bottom: 1rem;">
             <form id="searchForm" method="post" asp-action="GetStockTable">
                 <input type="text" name="searchText" id="searchBox" class="form-control" placeholder="Søg Varer...">
@@ -16,136 +15,126 @@
                 </svg>
             </div>
         </div>
-        <div class="area">
-            @{
-                var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
-                var filter = Model.filter;
-            }
-
-            <div class="sort-options">
-                <form asp-action="Index" data-filter="All">
-                    <button type="submit" class="sort-btn @(filter == "All" ? "active" : "")">Alle Varer</button>
-                </form>
-                <form asp-action="VisRestVare" data-filter="VisRestVare">
-                    <button type="submit" class="sort-btn @(filter == "VisRestVare" ? "active" : "")">Vis kun rest vare</button>
-                </form>
-                <form asp-action="VisVare" data-filter="VisVare">
-                    <button type="submit" class="sort-btn @(filter == "VisVare" ? "active" : "")">Vis kun ikke rest vare</button>
-                </form>
-            </div>
-        </div>
-        <div id="stock-table-container">
-            @await Html.PartialAsync("_StockTablePartial", Model)
-        </div>
-    </div>
-
-    <div class="card" id="tomForm">
-        <h2>Rediger vare</h2>
-        <p class="edit-placeholder">Vælg en vare fra listen for at redigere.</p>
-    </div>
-
-    <div class="card hidden" id="redigerForm">
-        <h2 id="redigerTitel">Rediger vare ()</h2>
-        <form class="edit-form" method="post" action="/StockManager/Result">
-            <div class="form-group">
-                <label for="vare-maengde">Vare mængde</label>
-                <input type="number" id="vare-maengde" class="form-control" value="1" min="0">
-            </div>
-            <div class="form-group-inline">
-                <input type="checkbox" id="rest-vare" class="form-checkbox">
-                <label for="rest-vare">Rest vare</label>
-            </div>
-            <button type="submit" class="confirm-btn">Gem ændringer</button>
+        <form asp-action="" method="post" class="card-button twenty-percent no-margin">
+            <button class="create-btn" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>Importer fil</button>
         </form>
     </div>
-
-    <script>
-        const redigerFormContainer = document.getElementById("redigerForm");
-        const redigerForm = redigerFormContainer.querySelector("form");
-        const redigerFormTitel = document.getElementById("redigerTitel");
-        const tomForm = document.getElementById("tomForm");
-        const tableContainer = document.getElementById("stock-table-container");
-
-        function initializeEditButtons() {
-            const editButtons = tableContainer.querySelectorAll(".edit-btn");
-            editButtons.forEach(btn => {
-                btn.addEventListener("click", () => {
-                    const productId = btn.dataset.productid;
-                    const amount = btn.dataset.amount;
-                    const restVare = btn.dataset.restvare === "True";
-
-                    redigerFormContainer.dataset.productId = productId;
-                    document.getElementById("vare-maengde").value = amount;
-                    document.getElementById("rest-vare").checked = restVare;
-
-                    tomForm.classList.add("hidden");
-                    redigerFormTitel.innerText = "Rediger vare (" + productId + ")";
-                    redigerFormContainer.classList.remove("hidden");
-
-                    redigerFormTitel.scrollIntoView({ behavior: 'smooth' });
-                });
-            });
+    <div class="area">
+        @{
+            var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+            var filter = Model.filter;
         }
 
-        async function loadTable(url) {
-            try {
-                const searchText = document.getElementById("searchBox").value;
-                const response = await fetch(url+"&searchText="+searchText);
-                const html = await response.text();
-                tableContainer.innerHTML = html;
-                initializeEditButtons();
-                window.history.pushState({ path: url }, '', url.replace('GetStockTable', 'ScrollPage'));
-            } catch (error) {
-                console.error('Failed to load table content:', error);
-            }
-        }
+        <div class="sort-options">
+            <form asp-action="Index" data-filter="All">
+                <button type="submit" class="sort-btn @(filter == "All" ? "active" : "")">Alle Varer</button>
+            </form>
+            <form asp-action="VisRestVare" data-filter="VisRestVare">
+                <button type="submit" class="sort-btn @(filter == "VisRestVare" ? "active" : "")">Vis kun rest vare</button>
+            </form>
+            <form asp-action="VisVare" data-filter="VisVare">
+                <button type="submit" class="sort-btn @(filter == "VisVare" ? "active" : "")">Vis kun ikke rest vare</button>
+            </form>
+        </div>
+    </div>
+    <div id="stock-table-container">
+        @await Html.PartialAsync("_StockTablePartial", Model)
+    </div>
+</div>
 
-        tableContainer.addEventListener("click", function (e) {
-            if (e.target.closest('.pagination a')) {
-                e.preventDefault();
-                const link = e.target.closest('.pagination a');
-                loadTable(link.href);
-            }
-        });
+<div class="card" id="tomForm">
+    <h2>Rediger vare</h2>
+    <p class="edit-placeholder">Vælg en vare fra listen for at redigere.</p>
+</div>
 
-        document.querySelectorAll('.sort-options form').forEach(form => {
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                const filter = this.dataset.filter;
-                const url = `@Url.Action("GetStockTable", "StockManager")?nextPage=1&filter=${filter}`;
-                loadTable(url);
+<div class="card hidden" id="redigerForm">
+    <h2 id="redigerTitel">Rediger vare ()</h2>
+    <form class="edit-form" method="post" action="/StockManager/Result">
+        <div class="form-group">
+            <label for="vare-maengde">Vare mængde</label>
+            <input type="number" id="vare-maengde" class="form-control" value="1" min="0">
+        </div>
+        <div class="form-group-inline">
+            <input type="checkbox" id="rest-vare" class="form-checkbox">
+            <label for="rest-vare">Rest vare</label>
+        </div>
+        <button type="submit" class="confirm-btn">Gem ændringer</button>
+    </form>
+</div>
 
-                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
-                this.querySelector('.sort-btn').classList.add('active');
+<script>
+    const redigerFormContainer = document.getElementById("redigerForm");
+    const redigerForm = redigerFormContainer.querySelector("form");
+    const redigerFormTitel = document.getElementById("redigerTitel");
+    const tomForm = document.getElementById("tomForm");
+    const tableContainer = document.getElementById("stock-table-container");
+
+    function initializeEditButtons() {
+        const editButtons = tableContainer.querySelectorAll(".edit-btn");
+        editButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const productId = btn.dataset.productid;
+                const amount = btn.dataset.amount;
+                const restVare = btn.dataset.restvare === "True";
+
+                redigerFormContainer.dataset.productId = productId;
+                document.getElementById("vare-maengde").value = amount;
+                document.getElementById("rest-vare").checked = restVare;
+
+                tomForm.classList.add("hidden");
+                redigerFormTitel.innerText = "Rediger vare (" + productId + ")";
+                redigerFormContainer.classList.remove("hidden");
+
+                redigerFormTitel.scrollIntoView({ behavior: 'smooth' });
             });
         });
+    }
 
-        redigerForm.addEventListener("submit", async (e) => {
+    async function loadTable(url) {
+        try {
+            const response = await fetch(url);
+            const html = await response.text();
+            tableContainer.innerHTML = html;
+            initializeEditButtons();
+            window.history.pushState({ path: url }, '', url.replace('GetStockTable', 'ScrollPage'));
+        } catch (error) {
+            console.error('Failed to load table content:', error);
+        }
+    }
+
+    tableContainer.addEventListener("click", function (e) {
+        if (e.target.closest('.pagination a')) {
             e.preventDefault();
+            const link = e.target.closest('.pagination a');
+            loadTable(link.href);
+        }
+    });
 
-            const productId = redigerFormContainer.dataset.productId;
-            const formData = new FormData();
-            formData.append("prodId", productId);
-            formData.append("amount", document.getElementById("vare-maengde").value);
-            formData.append("restVare", document.getElementById("rest-vare").checked);
+    document.querySelectorAll('.sort-options form').forEach(form => {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const filter = this.dataset.filter;
+            const url = `@Url.Action("GetStockTable", "StockManager")?nextPage=1&filter=${filter}`;
+            loadTable(url);
 
-            const response = await fetch(redigerForm.action, {
-                method: redigerForm.method,
-                body: formData
-            });
-
-            if (response.ok) {
-                const currentUrl = new URL(window.location.href);
-                const nextPage = currentUrl.searchParams.get('nextPage') || '1';
-                const filter = currentUrl.searchParams.get('filter') || 'All';
-                const reloadUrl = `@Url.Action("GetStockTable", "StockManager")?nextPage=${nextPage}&filter=${filter}`;
-                await loadTable(reloadUrl);
-
-                redigerFormContainer.classList.add("hidden");
-                tomForm.classList.remove("hidden");
-            }
+            document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+            this.querySelector('.sort-btn').classList.add('active');
         });
+    });
 
+    redigerForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const productId = redigerFormContainer.dataset.productId;
+        const formData = new FormData();
+        formData.append("prodId", productId);
+        formData.append("amount", document.getElementById("vare-maengde").value);
+        formData.append("restVare", document.getElementById("rest-vare").checked);
+
+        const response = await fetch(redigerForm.action, {
+            method: redigerForm.method,
+            body: formData
+        });
 
         document.getElementById("searchForm").addEventListener("submit", function (e) {
             e.preventDefault();
@@ -153,7 +142,5 @@
             loadTable(url);
         });
 
-        // Initial setup
         initializeEditButtons();
     </script>
-</main>

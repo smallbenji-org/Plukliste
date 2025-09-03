@@ -6,6 +6,7 @@ using PluckFish.Models;
 using System.Diagnostics;
 using System.Net;
 using System.Text.Json;
+using System.Xml.Serialization;
 
 namespace PluckFish.Controllers
 {
@@ -40,10 +41,6 @@ namespace PluckFish.Controllers
             return View(retval);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [Route("PickingList/{Id}")]
         public IActionResult GetPickingList(int Id)
@@ -184,6 +181,114 @@ namespace PluckFish.Controllers
         }
 
         [HttpPost]
+        public IActionResult ImportPickingList([FromForm] IFormFile file)
+        {
+            PickingList pickingList = new PickingList();
+
+            string extension = Path.GetExtension(file.FileName).ToLower();
+
+            if (extension == ".json")
+            {
+                using (StreamReader reader = new StreamReader(file.OpenReadStream()))
+                {
+                    string jsonContent = reader.ReadToEnd();
+                    try
+                    {
+                        pickingList = JsonSerializer.Deserialize<PickingList>(jsonContent);
+                    }
+                    catch (JsonException ex)
+                    {
+                        return BadRequest("Invalid JSON format: " + ex.Message);
+                    }
+                }
+                if (pickingList != null)
+                {
+                    pickingListRepository.AddPickingList(pickingList);
+                    int lastId = pickingListRepository.GetAllPickingList().Last().Id;
+                    return RedirectToAction(nameof(GetPickingList), new { Id = lastId });
+                }
+                else
+                {
+                    return BadRequest("Failed to deserialize the picking list.");
+                }
+            }
+            else if (extension == ".csv")
+            {
+                using (StreamReader reader = new StreamReader(file.OpenReadStream()))
+                {
+                    string line;
+                    bool isFirstLine = true;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (isFirstLine)    
+                        {
+                            isFirstLine = false;
+                            continue;
+                        }
+                        string[] values = line.Split(',');
+                        if (values.Length >= 4)
+                        {
+                            string prodId = values[0].Trim();
+                            if (!int.TryParse(values[1].Trim(), out int amount)) { amount = 1; }
+                            string typeStr = values[2].Trim().ToLower();
+                            string restVareStr = values[3].Trim().ToLower();
+                            ItemType type = typeStr == "print" ? ItemType.Print : ItemType.Fysisk;
+                            bool restVare = restVareStr == "true";
+                            Product product = productRepository.getProduct(prodId);
+                            if (product != null)
+                            {
+                                Item item = new Item
+                                {
+                                    Product = product,
+                                    Amount = amount,
+                                    Type = type,
+                                    RestVare = restVare
+                                };
+                                pickingList.AddItem(item);
+                            }
+                        }
+                    }
+                }
+                if (pickingList != null)
+                {
+                    pickingListRepository.AddPickingList(pickingList);
+                    int lastId = pickingListRepository.GetAllPickingList().Last().Id;
+                    return RedirectToAction(nameof(GetPickingList), new { Id = lastId });
+                }
+                else
+                {
+                    return BadRequest("Failed to deserialize the picking list.");
+                }
+            }
+            else if (extension == ".xml")
+            {
+                try
+                {
+                    using (StreamReader reader = new StreamReader(file.OpenReadStream()))
+                    {
+                        XmlSerializer serializer = new XmlSerializer(typeof(PickingList));
+                        pickingList = (PickingList)serializer.Deserialize(reader);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Invalid XML format: " + ex.Message);
+                }
+                if (pickingList != null)
+                {
+                    pickingListRepository.AddPickingList(pickingList);
+                    int lastId = pickingListRepository.GetAllPickingList().Last().Id;
+                    return RedirectToAction(nameof(GetPickingList), new { Id = lastId });
+                }
+                else
+                {
+                    return BadRequest("Failed to deserialize the picking list.");
+                }
+            }
+            else
+            {
+                return BadRequest("Unsupported file format.");
+            }
         public IActionResult SaveProductInPickingList([FromForm] string productId, [FromForm] int pickingListId)
         {
             return View();
@@ -202,6 +307,7 @@ namespace PluckFish.Controllers
         public List<PickingList> PickingLists { get; set; }
         public bool PickingListSelected { get; set; } = false;
         public PickingList SelectedPickingList { get; set; }
+        public IFormFile File { get; set; }
     }
 
     public class EditPickingListViewModel
@@ -210,4 +316,5 @@ namespace PluckFish.Controllers
         public List<Item> Items { get; set; }
         public PickingList CurrentPickingList { get; set; }
     }
+
 }

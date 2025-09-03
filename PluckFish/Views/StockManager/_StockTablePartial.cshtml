@@ -22,12 +22,12 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="produkter">
             @foreach (Item item in Model.stockInventory)
             {
                 <tr>
                     <td data-label="Produkt Id">@item.Product.ProductID</td>
-                    <td data-label="Produkt navn">@item.Product.Name</td>
+                    <td data-label="Produkt navn" class="produktnavn">@item.Product.Name</td>
                     <td data-label="Type">@item.Type</td>
                     <td data-label="Amount">@item.Amount</td>
                     <td class="checkbox-cell" data-label="Rest vare">

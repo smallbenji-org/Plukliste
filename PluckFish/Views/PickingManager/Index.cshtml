@@ -6,7 +6,7 @@
 }
 
 <div class="top-bar-container">
-    <div class="card eighty-percent">
+    <div class="card sixty-percent">
         <div class="pluklist-selector">
             <div class="selector-controls">
                 <form asp-action="HandlePickingList" method="post">
@@ -36,7 +36,10 @@
     </form>
 
     <form asp-action="CreatePickingList" method="post" class="card-button twenty-percent">
-        <button class="create-btn" type="submit"><svg class="create-svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>Opret plucklist</button>
+        <button class="create-btn" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-clipboard-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" /><path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" /><path d="M10 14h4" /><path d="M12 12v4" /></svg>Opret plukliste</button>
+    </form>
+    <form asp-action="CreatePickingList" method="post" class="card-button twenty-percent">
+        <button class="create-btn" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>Importer fil</button>
     </form>
 </div>
 
@@ -95,10 +98,14 @@
                 </table>
             </div>
             <div class="action-buttons">
+                <form asp-action="" method="post" style="display: inline;">
+                    <input type="hidden" name="id" value="@Model.SelectedPickingList.Id" />
+                    <button type="submit" class="action-btn btn-eksport">Eksporter</button>
+                </form>
                 <form asp-action="Index" method="post">
                     <button type="submit" class="action-btn btn-danger">Anuller</button>
                 </form>
-                <form asp-action="EditPickingList" method="post">
+                <form asp-action="EditPickingList" method="get">
                     <input type="hidden" name="id" value="@Model.SelectedPickingList.Id" />
                     <button type="submit" class="action-btn btn-edit">Rediger</button>
                 </form>

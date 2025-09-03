@@ -86,9 +86,9 @@ namespace PluckFish.Controllers
             }
 
             item.Amount = 1;
-            pickingListRepository.AddProductToPickingList(pickingList, item);  
-            
-            return Ok();
+            pickingListRepository.AddProductToPickingList(pickingList, item);
+
+            return RedirectToAction(nameof(EditPickingList), new { id = listId });
         }
 
         [HttpPost]
@@ -118,7 +118,7 @@ namespace PluckFish.Controllers
             return RedirectToAction(nameof(GetPickingList), new { Id = lastId });
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult EditPickingList(int id)
         {
             EditPickingListViewModel retval = new EditPickingListViewModel();
@@ -289,7 +289,11 @@ namespace PluckFish.Controllers
             {
                 return BadRequest("Unsupported file format.");
             }
+        public IActionResult SaveProductInPickingList([FromForm] string productId, [FromForm] int pickingListId)
+        {
+            return View();
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

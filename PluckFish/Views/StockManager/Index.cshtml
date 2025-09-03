@@ -92,7 +92,8 @@
 
     async function loadTable(url) {
         try {
-            const response = await fetch(url);
+             const searchText = document.getElementById("searchBox").value;
+             const response = await fetch(url+"&searchText="+searchText);
             const html = await response.text();
             tableContainer.innerHTML = html;
             initializeEditButtons();
@@ -135,12 +136,13 @@
             method: redigerForm.method,
             body: formData
         });
+    });
 
-        document.getElementById("searchForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-            const url = this.action + "?nextPage=1";
-            loadTable(url);
-        });
+   initializeEditButtons();
 
-        initializeEditButtons();
-    </script>
+   document.getElementById("searchForm").addEventListener("submit", function (e) {
+       e.preventDefault();
+       const url = this.action + "?nextPage=1";
+       loadTable(url);
+   });
+</script>

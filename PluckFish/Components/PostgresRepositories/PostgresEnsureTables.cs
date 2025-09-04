@@ -66,7 +66,8 @@ namespace PluckFish.Components
                 (
                     id SERIAL PRIMARY KEY,
                     userId TEXT REFERENCES users(id) ON DELETE CASCADE,
-                    token TEXT
+                    token TEXT,
+                    expirationDate TIMESTAMP DEFAULT (NOW() + INTERVAL '7 days')
                 );
             ");
         }

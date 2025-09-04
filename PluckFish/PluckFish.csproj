@@ -10,6 +10,7 @@
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="Npgsql" Version="9.0.3" />
     <PackageReference Include="Scrutor.AspNetCore" Version="3.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
 </Project>

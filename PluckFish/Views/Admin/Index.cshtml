@@ -1,0 +1,33 @@
+﻿<div class="card">
+    <div class="row2" style="height: auto; align-items: center;">
+        <h2 class="no-margin">Tokenhåndtering</h2>
+        <form asp-controller="Admin" asp-action="" method="post">
+            <button type="submit" class="btn-primary action-btn">Opret Token</button>
+        </form>
+    </div>
+
+    <table class="vare-table margin">
+        <thead>
+            <tr>
+                <th>Token</th>
+                <th>Dato?</th>
+                <th style="text-align: center;">Handlinger</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>token</td>
+                <td>token-date</td>
+                <td>
+                    <form asp-controller="Admin" asp-action="" method="post">
+                        <input type="hidden" name="tokenId" value="@* @token.Id *@"/>
+                        <button type="submit" class="remove-btn">Slet</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align:center;">Der findes ingen tokens.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

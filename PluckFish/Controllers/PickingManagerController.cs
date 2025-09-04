@@ -290,6 +290,7 @@ namespace PluckFish.Controllers
                 return BadRequest("Unsupported file format.");
             }
         }
+
         public IActionResult SaveProductInPickingList([FromForm] string productId, [FromForm] int pickingListId)
         {
             return View();

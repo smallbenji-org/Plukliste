@@ -99,6 +99,10 @@ namespace PluckFish.Controllers
 
         public IActionResult ItemsImport([FromForm] IFormFile file)
         {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file was uploaded or the file is empty.");
+            }
 
             List<Item> items = new List<Item>();
 
@@ -135,11 +139,16 @@ namespace PluckFish.Controllers
             {
                 using (StreamReader reader = new StreamReader(file.OpenReadStream()))
                 {
-                    string[] lines = reader.ReadToEnd().Split('\n');
+                    string[] lines = reader.ReadToEnd().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
 
                     foreach (string line in lines.Skip(1)) // drenge vi skipper altså headeren
                     {
                         string[] values = line.Split(',');
+
+                        if (values.Length < 4)
+                        {
+                            continue; 
+                        }
 
                         string prodId = values[0].Trim();
                         if (!int.TryParse(values[1].Trim(), out int amount)) { amount = 1; }

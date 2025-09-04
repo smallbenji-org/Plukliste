@@ -33,6 +33,7 @@ namespace PluckFish.Controllers
             this.productRepository = productRepository;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var retval = new PickingListViewModel();
@@ -42,6 +43,7 @@ namespace PluckFish.Controllers
         }
 
 
+        [HttpGet]
         [Route("PickingList/{Id}")]
         public IActionResult GetPickingList(int Id)
         {
@@ -97,6 +99,7 @@ namespace PluckFish.Controllers
             return RedirectToAction(nameof(GetPickingList), new { Id = id });
         }
 
+        [HttpGet]
         [Route("CreatePickinglist")]
         public IActionResult CreatePickingList()
         {

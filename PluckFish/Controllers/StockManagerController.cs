@@ -138,7 +138,7 @@ namespace PluckFish.Controllers
             {
                 using (StreamReader reader = new StreamReader(file.OpenReadStream()))
                 {
-                    string[] lines = reader.ReadToEnd().Split('\n');
+                    string[] lines = reader.ReadToEnd().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (string line in lines.Skip(1)) // drenge vi skipper altså headeren
                     {

@@ -97,8 +97,11 @@ namespace PluckFish.Controllers
             return View("Index", retval);
         }
 
-        public IActionResult ItemsImport([FromForm] IFormFile file)
         {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file was uploaded or the file is empty.");
+            }
 
             List<Item> items = new List<Item>();
 

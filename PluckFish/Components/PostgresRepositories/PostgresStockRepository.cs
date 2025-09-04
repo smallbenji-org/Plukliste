@@ -6,12 +6,12 @@ using System.Data;
 
 namespace PluckFish.Components
 {
-    public class PostGresStockManagement : IStockRepository
+    public class PostgresStockRepository : IStockRepository
     {
         private readonly PostGres postGres;
         private readonly IConfiguration config;
 
-        public PostGresStockManagement(PostGres postGres, IConfiguration config)
+        public PostgresStockRepository(PostGres postGres, IConfiguration config)
         {
             this.postGres = postGres;
             this.config = config;

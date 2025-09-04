@@ -33,6 +33,7 @@
                         <a class="nav-link @(currentController == "StockManager" ? "active" : "")" asp-controller="StockManager" asp-action="Index">Lagersystem</a>
                         <a class="nav-link @(currentController == "ProductManager" ? "active" : "")" asp-controller="ProductManager" asp-action="Index">Produktstyring</a>
                         <a class="nav-link @(currentController == "BestillingManager" ? "active" : "")" asp-controller="BestillingManager" asp-action="Index">Bestilling</a>
+                        <a class="nav-link @(currentController == "Admin" ? "active" : "")" asp-controller="Admin" asp-action="Index">Tokens</a>
                     </nav>
 
                 </div>
@@ -40,7 +41,7 @@
             </header>
         }
 
-        <main role="main" class="pb-3 @(ViewData["Title"].ToString() == "Pluksystem" ? "picking-manager-page" : "") @(ViewData["Title"].ToString() == "Produktstyring" ? "product-manager-page" : "") @(ViewData["Title"].ToString() == "Lagersystem" ? "stock-manager-page" : "") @(ViewData["Title"].ToString() == "Bestilling" ? "bestilling-manager-page" : "")">
+        <main role="main" class="pb-3 @(ViewData["Title"].ToString() == "Pluksystem" ? "picking-manager-page" : "") @(ViewData["Title"].ToString() == "Produktstyring" ? "product-manager-page" : "") @(ViewData["Title"].ToString() == "Lagersystem" ? "stock-manager-page" : "") @(ViewData["Title"].ToString() == "Bestilling" ? "bestilling-manager-page" : "") @(ViewData["Title"].ToString() == "Administration" ? "admin-page" : "")">
             @RenderBody()
         </main>
     </div>

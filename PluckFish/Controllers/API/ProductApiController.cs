@@ -1,6 +1,5 @@
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using PluckFish.Attributes;
 using PluckFish.Interfaces;
 using PluckFish.Models;
 
@@ -8,6 +7,7 @@ namespace PluckFish.Controllers
 {
     [ApiController]
     [Route("api/v1/products")]
+    [ApiTokenAuth]
     public class ProductApiController : Controller
     {
         private readonly IProductRepository productRepository;

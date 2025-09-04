@@ -5,6 +5,8 @@ using PluckFish.Models;
 using PluckFish.Auth;
 using Microsoft.Extensions.Caching.Memory;
 using PluckFish.Components.Cache;
+using PluckFish.Interfaces.API;
+using PluckFish.Components.PostgresRepositories.API;
 
 namespace PluckFish
 {
@@ -42,6 +44,8 @@ namespace PluckFish
 
                 builder.Services.AddScoped<IStockRepository, PostgresStockRepository>();
                 builder.Services.Decorate<IStockRepository, CachedStockRepository>();
+
+                builder.Services.AddScoped<IVerificationApi, PostgresApiTokenRepository>();
 
                 builder.Services.AddTransient<PostGres>();
             }

@@ -26,9 +26,7 @@
     <h2>Eksisterende Produkter</h2>
     <div class="row2">
         <div class="form-group search-container wide" style="margin-bottom: 1rem;">
-            <form id="searchForm" method="post" asp-action="GetProductTable">
-                <input type="text" name="searchText" id="searchBox" class="form-control" placeholder="Søg Varer...">
-            </form>
+            <input type="text" id="productSearch" class="form-control" placeholder="Søg Varer..." style="width: 25vw;">
             <div class="search-icon">
                 <svg data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
@@ -52,8 +50,7 @@
 
     async function loadTable(url) {
         try {
-            const searchText = document.getElementById("searchBox").value;
-            const response = await fetch(url+"&searchText="+searchText);
+            const response = await fetch(url);
             const html = await response.text();
             tableContainer.innerHTML = html;
             window.history.pushState({ path: url }, '', url.replace('GetProductTable', 'ScrollPage'));
@@ -70,9 +67,13 @@
         }
     });
 
-     document.getElementById("searchForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-            const url = this.action + "?nextPage=1";
-            loadTable(url);
-        });
+    document.getElementById("productSearch").addEventListener("input", function () {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#produkter tr");
+
+    rows.forEach(row => {
+        let productName = row.querySelector(".produktnavn").textContent.toLowerCase();
+        row.style.display = productName.includes(filter) ? "" : "none";
+            });
+    });
 </script>

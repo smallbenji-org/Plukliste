@@ -220,7 +220,7 @@ namespace PluckFish.Controllers
                     bool isFirstLine = true;
                     while ((line = reader.ReadLine()) != null)
                     {
-                        if (isFirstLine)    
+                        if (isFirstLine)
                         {
                             isFirstLine = false;
                             continue;
@@ -289,6 +289,7 @@ namespace PluckFish.Controllers
             {
                 return BadRequest("Unsupported file format.");
             }
+        }
         public IActionResult SaveProductInPickingList([FromForm] string productId, [FromForm] int pickingListId)
         {
             return View();

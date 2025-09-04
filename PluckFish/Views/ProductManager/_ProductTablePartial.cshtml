@@ -17,7 +17,7 @@
                 <td data-label="Slet">
                     <form asp-controller="ProductManager" asp-action="Delete" method="post" onsubmit="return confirm('Er du sikker på, at du vil slette dette produkt?');">
                         <input type="hidden" name="prodID" value="@product.ProductID" />
-                        <button type="submit" class="delete-btn">Slet</button>
+                        <button type="submit" class="action-btn btn-danger">Slet</button>
                     </form>
                 </td>
             </tr>

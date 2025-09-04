@@ -142,8 +142,12 @@ namespace PluckFish.Controllers
 
                     foreach (string line in lines.Skip(1)) // drenge vi skipper altså headeren
                     {
-                        string[] values = line.Split(',');
 
+                        // Ensure the line has at least 4 columns before processing
+                        if (values.Length < 4)
+                        {
+                            continue; // Skip malformed lines
+                        }
                         string prodId = values[0].Trim();
                         if (!int.TryParse(values[1].Trim(), out int amount)) { amount = 1; }
                         string typeStr = values[2].Trim().ToLower();

@@ -5,6 +5,15 @@ namespace PluckFish.Components.PostgresRepositories.API
 {
     public class PostgresApiTokenRepository : IVerificationApi
     {
+
+        private readonly PostGres postGres;
+        private readonly IConfiguration config;
+
+        public PostgresApiTokenRepository(PostGres postGres, IConfiguration config)
+        {
+            this.postGres = postGres;
+            this.config = config;
+        }
         public bool Verify(string token)
         {
             // Getting all API Tokens
@@ -24,6 +33,8 @@ namespace PluckFish.Components.PostgresRepositories.API
             List<ApiToken> tokens = new List<ApiToken>();
 
             ApiToken testToken = new ApiToken("123"); // Mit test data
+            tokens.Add(testToken);
+            testToken = new ApiToken("1234"); // Mit test data
             tokens.Add(testToken);
 
             return tokens;

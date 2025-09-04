@@ -73,7 +73,7 @@ namespace PluckFish.Controllers
 
         public IActionResult ImportProduct([FromForm] IFormFile file)
         {
-            Product product = new Product();
+            List<Product> product = new List<Product>();
 
             string extension = Path.GetExtension(file.FileName).ToLower();
 
@@ -84,7 +84,7 @@ namespace PluckFish.Controllers
                     string jsonContent = reader.ReadToEnd();
                     try
                     {
-                        product = JsonSerializer.Deserialize<Product>(jsonContent);
+                        product = JsonSerializer.Deserialize<List<Product>>(jsonContent);
                     }
                     catch (JsonException ex)
                     {
@@ -93,7 +93,10 @@ namespace PluckFish.Controllers
                 }
                 if (product != null)
                 {
-                    productRepository.AddProduct(product);
+                    foreach (Product prod in product)
+                    {
+                        productRepository.AddProduct(prod);
+                    }
                     return RedirectToAction("Index");
                 }
                 else
@@ -105,31 +108,27 @@ namespace PluckFish.Controllers
             {
                 using (StreamReader reader = new StreamReader(file.OpenReadStream()))
                 {
-                    string line;
-                    bool isFirstLine = true;
-                    while ((line = reader.ReadLine()) != null)
+                    string[] lines = reader.ReadToEnd().Split('\n');
+                    
+                    foreach (string line in lines.Skip(1)) // drenge vi skipper altså headeren
                     {
-                        if (isFirstLine)
-                        {
-                            isFirstLine = false;
-                            continue;
-                        }
                         string[] values = line.Split(',');
-                        if (values.Length >= 4)
+
+                        Product prod = new Product
                         {
-                            string prodId = values[0].Trim();
-                            if (!int.TryParse(values[1].Trim(), out int amount)) { amount = 1; }
-                            string typeStr = values[2].Trim().ToLower();
-                            string restVareStr = values[3].Trim().ToLower();
-                            ItemType type = typeStr == "print" ? ItemType.Print : ItemType.Fysisk;
-                            bool restVare = restVareStr == "true";
-                            product = productRepository.getProduct(prodId);
-                        }
+                            ProductID = values[0],
+                            Name = values[1]
+                        };
+                        product.Add(prod);
                     }
+
                 }
                 if (product != null)
                 {
-                    productRepository.AddProduct(product);
+                    foreach (Product prod in product)
+                    {
+                        productRepository.AddProduct(prod);
+                    }
                     return RedirectToAction("Index");
                 }
                 else
@@ -143,8 +142,8 @@ namespace PluckFish.Controllers
                 {
                     using (StreamReader reader = new StreamReader(file.OpenReadStream()))
                     {
-                        XmlSerializer serializer = new XmlSerializer(typeof(Product));
-                        product = (Product)serializer.Deserialize(reader);
+                        XmlSerializer serializer = new XmlSerializer(typeof(List<Product>));
+                        product = (List<Product>)serializer.Deserialize(reader);
                     }
                 }
                 catch (Exception ex)
@@ -153,7 +152,10 @@ namespace PluckFish.Controllers
                 }
                 if (product != null)
                 {
-                    productRepository.AddProduct(product);
+                    foreach (Product prod in product)
+                    {
+                        productRepository.AddProduct(prod);
+                    }
                     return RedirectToAction("Index");
                 }
                 else

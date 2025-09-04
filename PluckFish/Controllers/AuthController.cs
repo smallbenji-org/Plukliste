@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PluckFish.Attributes;
 using PluckFish.Models;
 
 namespace PluckFish.Controllers
 {
     [ApiController]
+    [HideFromSwagger]
     [Route("Auth")]
     public class AuthController : Controller
     {

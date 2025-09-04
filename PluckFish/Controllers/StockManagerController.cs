@@ -97,7 +97,6 @@ namespace PluckFish.Controllers
             return View("Index", retval);
         }
 
-        public IActionResult ItemsImport([FromForm] IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
@@ -143,12 +142,13 @@ namespace PluckFish.Controllers
 
                     foreach (string line in lines.Skip(1)) // drenge vi skipper altså headeren
                     {
-                        string[] values = line.Split(',');
-
+                        string[] values = lines.Split(',');
+                        
                         if (values.Length < 4)
                         {
                             continue; 
                         }
+
 
                         string prodId = values[0].Trim();
                         if (!int.TryParse(values[1].Trim(), out int amount)) { amount = 1; }

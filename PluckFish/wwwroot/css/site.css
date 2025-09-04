@@ -1344,6 +1344,10 @@ span.antal {
     cursor: pointer;
 }
 
+#uploadForm .create-btn {
+    height: 100%;
+}
+
 #productSearch {
     width: 29vw;
 }

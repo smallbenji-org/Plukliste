@@ -90,7 +90,7 @@
 
     async function loadTable(url) {
         try {
-            const response = await fetch(url);
+             const response = await fetch(url + "&searchText=" + encodeURIComponent(searchText));
             const html = await response.text();
             tableContainer.innerHTML = html;
             initializeEditButtons();
@@ -133,29 +133,15 @@
             method: redigerForm.method,
             body: formData
         });
-
-        if (response.ok) {
-            const currentUrl = new URL(window.location.href);
-            const nextPage = currentUrl.searchParams.get('nextPage') || '1';
-            const filter = currentUrl.searchParams.get('filter') || 'All';
-            const reloadUrl = `@Url.Action("GetStockTable", "StockManager")?nextPage=${nextPage}&filter=${filter}`;
-            await loadTable(reloadUrl);
-
-            redigerFormContainer.classList.add("hidden");
-            tomForm.classList.remove("hidden");
-        }
     });
-  
-        // Initial setup
-        initializeEditButtons();
 
-        document.getElementById("productSearch").addEventListener("input", function () {
-            let filter = this.value.toLowerCase();
-            let rows = document.querySelectorAll("#produkter tr");
 
-            rows.forEach(row => {
-                let productName = row.querySelector(".produktnavn").textContent.toLowerCase();
-                row.style.display = productName.includes(filter) ? "" : "none";
-            });
-        });
-    </script>
+   initializeEditButtons();
+
+   document.getElementById("searchForm").addEventListener("submit", function (e) {
+       e.preventDefault();
+       const url = this.action + "?nextPage=1";
+       loadTable(url);
+   });
+</script>
+

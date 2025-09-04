@@ -42,6 +42,13 @@
                 Importer produkter
             </label>
             <input type="file" id="fileInput" name="file" required style="display: none;" />
+
+        <form asp-action="ImportProduct" enctype="multipart/form-data" method="post" class="card-button twenty-percent" id="uploadForm">
+            <label for="fileInput" class="create-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                Importer produkter
+            </label>
+            <input type="file" id="fileInput" name="file" required style="display: none;" />
         </form>
     </div>
 
@@ -79,14 +86,9 @@
         }
     });
 
-    document.getElementById("productSearch").addEventListener("input", function () {
-    let filter = this.value.toLowerCase();
-    let rows = document.querySelectorAll("#produkter tr");
-
-    rows.forEach(row => {
-        let productName = row.querySelector(".produktnavn").textContent.toLowerCase();
-        row.style.display = productName.includes(filter) ? "" : "none";
-            });
+    document.getElementById("searchForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const url = this.action + "?nextPage=1";
+        loadTable(url);
     });
-
 </script>

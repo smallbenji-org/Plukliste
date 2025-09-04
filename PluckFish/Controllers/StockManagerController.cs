@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PluckFish.Components;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PluckFish.Interfaces;
 using PluckFish.Models;
-using System.Collections.Generic;
 
 namespace PluckFish.Controllers
 {
+    [Authorize]
     public class StockManagerController : Controller
     {
         private readonly IStockRepository stockRepository;

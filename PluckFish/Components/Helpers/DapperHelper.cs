@@ -2,7 +2,6 @@
 using Npgsql;
 using PluckFish.Models;
 using System.Data;
-using System.Data.Common;
 
 namespace PluckFish.Components
 {

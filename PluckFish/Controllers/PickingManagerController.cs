@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PluckFish.Components;
 using PluckFish.Interfaces;
 using PluckFish.Models;
 using System.Diagnostics;
-using System.Net;
 using System.Text.Json;
 using System.Xml.Serialization;
 
 namespace PluckFish.Controllers
 {
+    [Authorize]
     public class PickingManagerController : Controller
     {
         private readonly ILogger<PickingManagerController> _logger;
@@ -130,7 +130,7 @@ namespace PluckFish.Controllers
             List<Item> stockItems = stockRepository.GetStock();
 
             List<Product> products = new List<Product>();
-            foreach(Item item in stockItems)
+            foreach (Item item in stockItems)
             {
                 if (item.RestVare) { products.Add(item.Product); continue; }
 
@@ -166,7 +166,7 @@ namespace PluckFish.Controllers
 
         [HttpPost]
         public IActionResult SaveProductInPickingList([FromForm] string productId, [FromForm] int pickingListId, [FromForm] int productAmount)
-        {        
+        {
             List<PickingList> pickingLists = pickingListRepository.GetAllPickingList();
             PickingList pickingList = pickingLists.FirstOrDefault(pl => pl.Id == pickingListId);
             pickingList.Lines = pickingListRepository.GetPickingListItems(pickingListId);
@@ -176,7 +176,7 @@ namespace PluckFish.Controllers
             {
                 int sumOfItem = pickingListRepository.GetSumOfItemInAllPickingLists(productId);
                 Item stockItem = stockRepository.GetItemStock(productId);
-                if (!stockItem.RestVare && stockItem.Amount < (sumOfItem-item.Amount)+productAmount) { return RedirectToAction(nameof(EditPickingList), new { id = pickingListId }); }
+                if (!stockItem.RestVare && stockItem.Amount < (sumOfItem - item.Amount) + productAmount) { return RedirectToAction(nameof(EditPickingList), new { id = pickingListId }); }
 
 
                 pickingListRepository.UpdateItemInPickingList(pickingList, item, productAmount);

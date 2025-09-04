@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PluckFish.Interfaces;
 using PluckFish.ViewModels;
-using System.Linq;
 
 namespace PluckFish.Controllers
 {
+    [Authorize]
     public class BestillingManagerController : Controller
     {
         private readonly IStockRepository _stockRepository;

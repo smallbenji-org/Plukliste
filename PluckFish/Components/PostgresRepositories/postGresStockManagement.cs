@@ -3,8 +3,6 @@ using Npgsql;
 using PluckFish.Interfaces;
 using PluckFish.Models;
 using System.Data;
-using System.Data.Common;
-using System.Net.NetworkInformation;
 
 namespace PluckFish.Components
 {

@@ -90,8 +90,7 @@
 
     async function loadTable(url) {
         try {
-             const searchText = document.getElementById("searchBox").value;
-             const response = await fetch(url+"&searchText="+searchText);
+             const response = await fetch(url + "&searchText=" + encodeURIComponent(searchText));
             const html = await response.text();
             tableContainer.innerHTML = html;
             initializeEditButtons();

@@ -166,7 +166,7 @@ namespace PluckFish.Controllers
 
         [HttpPost]
         public IActionResult SaveProductInPickingList([FromForm] string productId, [FromForm] int pickingListId, [FromForm] int productAmount)
-        {
+        {        
             List<PickingList> pickingLists = pickingListRepository.GetAllPickingList();
             PickingList pickingList = pickingLists.FirstOrDefault(pl => pl.Id == pickingListId);
             pickingList.Lines = pickingListRepository.GetPickingListItems(pickingListId);
@@ -174,6 +174,11 @@ namespace PluckFish.Controllers
 
             if (pickingList != null && pickingList != null)
             {
+                int sumOfItem = pickingListRepository.GetSumOfItemInAllPickingLists(productId);
+                Item stockItem = stockRepository.GetItemStock(productId);
+                if (!stockItem.RestVare && stockItem.Amount < (sumOfItem-item.Amount)+productAmount) { return RedirectToAction(nameof(EditPickingList), new { id = pickingListId }); }
+
+
                 pickingListRepository.UpdateItemInPickingList(pickingList, item, productAmount);
             }
 

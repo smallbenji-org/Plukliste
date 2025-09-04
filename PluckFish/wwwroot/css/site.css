@@ -1427,3 +1427,8 @@ span.antal {
 .btn-eksport:hover {
     background-color: darkgoldenrod;
 }
+
+.h-1 {
+    width: auto !important;
+    margin-top: 0 !important;
+}

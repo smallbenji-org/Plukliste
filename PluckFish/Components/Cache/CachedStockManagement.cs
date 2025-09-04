@@ -4,12 +4,12 @@ using PluckFish.Models;
 
 namespace PluckFish.Components.Cache
 {
-    public class CachedStockManagement : IStockRepository
+    public class CachedStockRepository : IStockRepository
     {
         private readonly IStockRepository stockRepository;
         private readonly IMemoryCache cache;
 
-        public CachedStockManagement(IStockRepository stockRepository, IMemoryCache cache)
+        public CachedStockRepository(IStockRepository stockRepository, IMemoryCache cache)
         {
             this.stockRepository = stockRepository;
             this.cache = cache;

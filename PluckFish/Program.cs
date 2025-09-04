@@ -40,8 +40,8 @@ namespace PluckFish
                 builder.Services.AddScoped<IProductRepository, PostgresProductRepository>();
                 builder.Services.Decorate<IProductRepository, CachedProductRepository>();
 
-                builder.Services.AddScoped<IStockRepository, PostGresStockManagement>();
-                builder.Services.Decorate<IStockRepository, CachedStockManagement>();
+                builder.Services.AddScoped<IStockRepository, PostgresStockRepository>();
+                builder.Services.Decorate<IStockRepository, CachedStockRepository>();
 
                 builder.Services.AddTransient<PostGres>();
             }

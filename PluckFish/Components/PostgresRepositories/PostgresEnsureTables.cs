@@ -61,6 +61,14 @@ namespace PluckFish.Components
                     amount INTEGER NOT NULL DEFAULT 0,
                     restVare BOOLEAN NOT NULL DEFAULT FALSE
                 );
+
+                CREATE TABLE IF NOT EXISTS apiTokens 
+                (
+                    id SERIAL PRIMARY KEY,
+                    userId TEXT REFERENCES users(id) ON DELETE CASCADE,
+                    token TEXT,
+                    expirationDate TIMESTAMP DEFAULT (NOW() + INTERVAL '7 days')
+                );
             ");
         }
     }

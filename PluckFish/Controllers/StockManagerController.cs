@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using PluckFish.Interfaces;
 using PluckFish.Models;
+using System.Text.Json;
+using System.Xml.Serialization;
 
 namespace PluckFish.Controllers
 {
@@ -9,10 +11,12 @@ namespace PluckFish.Controllers
     public class StockManagerController : Controller
     {
         private readonly IStockRepository stockRepository;
+        private readonly IProductRepository productRepository;
 
-        public StockManagerController(IStockRepository stockRepository)
+        public StockManagerController(IStockRepository stockRepository, IProductRepository productRepository)
         {
             this.stockRepository = stockRepository;
+            this.productRepository = productRepository;
         }
         private (List<Item> pageItems, int currentPage, int totalPages) getPage(int nextPage, string filter = "All", string searchText = "")
         {
@@ -93,6 +97,125 @@ namespace PluckFish.Controllers
             return View("Index", retval);
         }
 
+        public IActionResult ItemsImport([FromForm] IFormFile file)
+        {
+
+            List<Item> items = new List<Item>();
+
+            string extension = Path.GetExtension(file.FileName).ToLower();
+
+            if (extension == ".json")
+            {
+                using (StreamReader reader = new StreamReader(file.OpenReadStream()))
+                {
+                    string jsonContent = reader.ReadToEnd();
+                    try
+                    {
+                        items = JsonSerializer.Deserialize<List<Item>>(jsonContent);
+                    }
+                    catch (JsonException ex)
+                    {
+                        return BadRequest("Invalid JSON format: " + ex.Message);
+                    }
+                }
+                if (items != null)
+                {
+                    foreach (Item item in items)
+                    {
+                        stockRepository.SaveStock(item);
+                    }
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return BadRequest("Failed to deserialize the items.");
+                }
+            }
+            else if (extension == ".csv")
+            {
+                using (StreamReader reader = new StreamReader(file.OpenReadStream()))
+                {
+                    string[] lines = reader.ReadToEnd().Split('\n');
+
+                    foreach (string line in lines.Skip(1)) // drenge vi skipper altså headeren
+                    {
+                        string[] values = line.Split(',');
+
+                        string prodId = values[0].Trim();
+                        if (!int.TryParse(values[1].Trim(), out int amount)) { amount = 1; }
+                        string typeStr = values[2].Trim().ToLower();
+                        string restVareStr = values[3].Trim().ToLower();
+                        ItemType type = typeStr == "print" ? ItemType.Print : ItemType.Fysisk;
+                        bool restVare = restVareStr == "true";
+                        Product product = null;
+                        try
+                        {
+                            product = productRepository.getProduct(prodId);
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            product = null;
+                        }
+
+                        if (product != null)
+                        {
+                            Item item = new Item
+                            {
+                                Product = product,
+                                Amount = amount,
+                                Type = type,
+                                RestVare = restVare
+                            };
+                            items.Add(item);
+                        }
+
+                    }
+                    if (items != null)
+                    {
+                        foreach (Item item in items)
+                        {
+                            stockRepository.SaveStock(item);
+                        }
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        return BadRequest("Failed to deserialize the items.");
+                    }
+                }
+            }
+            else if (extension == ".xml")
+            {
+                try
+                {
+                    using (StreamReader reader = new StreamReader(file.OpenReadStream()))
+                    {
+                        XmlSerializer serializer = new XmlSerializer(typeof(List<Item>));
+                        items = (List<Item>)serializer.Deserialize(reader);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Invalid XML format: " + ex.Message);
+                }
+                if (items != null)
+                {
+                    foreach (Item item in items)
+                    {
+                        stockRepository.SaveStock(item);
+                    }
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return BadRequest("Failed to deserialize the items.");
+                }
+            }
+            else
+            {
+                return BadRequest("Unsupported file format.");
+            }
+        }
 
         [HttpPost]
         public IActionResult Result(string prodId, int amount, bool restVare)

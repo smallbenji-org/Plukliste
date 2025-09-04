@@ -3,11 +3,11 @@
     public class ApiToken
     {
         public string Token { get; }
-        DateTime ExpirationDate { get; }
-        public ApiToken(string token) 
+        public DateTime ExpirationDate { get; }
+        public ApiToken(string token, DateTime expirationDate) 
         {
             Token = token;
-            ExpirationDate = DateTime.UtcNow;
+            ExpirationDate = expirationDate;
         }
     }
 }

@@ -1,7 +1,12 @@
-﻿<div class="card">
+﻿@model PluckFish.Controllers.AdminController.AdminViewModel
+@{
+    ViewData["Title"] = "Tokenhåndtering";
+}
+
+<div class="card">
     <div class="row2" style="height: auto; align-items: center;">
         <h2 class="no-margin">Tokenhåndtering</h2>
-        <form asp-controller="Admin" asp-action="" method="post">
+        <form asp-controller="Admin" asp-action="createToken" method="post">
             <button type="submit" class="btn-primary action-btn">Opret Token</button>
         </form>
     </div>
@@ -10,24 +15,30 @@
         <thead>
             <tr>
                 <th>Token</th>
-                <th>Dato?</th>
+                <th>Udløbsdato</th>
                 <th style="text-align: center;">Handlinger</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>token</td>
-                <td>token-date</td>
-                <td>
-                    <form asp-controller="Admin" asp-action="" method="post">
-                        <input type="hidden" name="tokenId" value="@* @token.Id *@"/>
-                        <button type="submit" class="remove-btn">Slet</button>
-                    </form>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3" style="text-align:center;">Der findes ingen tokens.</td>
-            </tr>
+        <tbody>                   
+                @foreach (PluckFish.Models.API.ApiToken apiToken in Model.Tokens)
+                {
+                <tr>
+                    <td>@apiToken.Token</td>
+                    <td>@apiToken.ExpirationDate</td>
+                    <td>
+                        <form asp-controller="Admin" asp-action="removeToken" method="post">
+                            <input type="hidden" name="token" value="@apiToken.Token" />
+                            <button type="submit" class="remove-btn">Slet</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            @if (Model.Tokens.Count == 0)
+            {
+                <tr>
+                    <td colspan="3" style="text-align:center;">Der findes ingen tokens.</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

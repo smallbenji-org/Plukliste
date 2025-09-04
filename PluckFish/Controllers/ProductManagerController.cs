@@ -28,14 +28,9 @@ namespace PluckFish.Controllers
             this.productRepository = productRepository;
         }
 
-        private (List<Product> pageItems, int currentPage, int totalPages) GetPage(int nextPage, string searchText = "")
+        private (List<Product> pageItems, int currentPage, int totalPages) GetPage(int nextPage)
         {
             List<Product> products = productRepository.getAll().ToList();
-            if (searchText != "")
-            {
-                searchText = searchText.ToLowerInvariant();
-                products = products.Where(x => x.Name.ToLowerInvariant().Contains(searchText)).ToList();
-            }
 
             int pageSize = 15;
             int totalPages = (int)Math.Ceiling(decimal.Divide(products.Count, pageSize));
@@ -57,10 +52,10 @@ namespace PluckFish.Controllers
             return View(viewModel);
         }
 
-        public IActionResult GetProductTable(int nextPage, string searchText = "")
+        public IActionResult GetProductTable(int nextPage)
         {
             var model = new ProductViewModel();
-            (model.Products, model.CurrentPage, model.TotalPages) = GetPage(nextPage, searchText);
+            (model.Products, model.CurrentPage, model.TotalPages) = GetPage(nextPage);
             return PartialView("~/Views/ProductManager/_ProductTablePartial.cshtml", model);
         }
 

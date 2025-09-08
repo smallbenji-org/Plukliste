@@ -35,25 +35,6 @@
             </form>
         </div>
     </div>
-    <div class="controls-container">
-        <form asp-action="ItemsImport" enctype="multipart/form-data" method="post" id="uploadForm">
-            <label for="fileInput" class="create-btn card-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-                Importer varer
-            </label>
-            <input type="file" id="fileInput" name="file" required class="hidden" accept=".json,.csv,.xml" />
-        </form>
-        <form asp-action="ExportPickingList" method="post" style="display: inline;">
-            <input type="hidden" name="filter" value="@Model.filter" />
-            <input type="hidden" name="searchText" id="exportSearchText" />
-            <select class="action-btn btn-eksport" id="eksportList" name="formatType">
-                <option value="" selected disabled>-- Vælg en eksport format --</option>
-                <option value=".json">JSON</option>
-                <option value=".csv">CSV</option>
-                <option value=".xml">XML</option>
-            </select>
-        </form>
-    </div>
     <div id="stock-table-container">
         @await Html.PartialAsync("_StockTablePartial", Model)
     </div>

@@ -6,28 +6,6 @@
         background-color: #f0f8ff;
     }
 </style>
-<div class="sort-options" id="orderBtns">
-    <form asp-action="ItemOrder" method="post">
-        <input type="hidden" name="order" value="Newest" />
-        <input type="hidden" name="filter" value=@Model.filter />
-        <button type="submit" name="order" value="Newest" class="sort-btn-small">Newest</button>
-    </form>
-    <form asp-action="ItemOrder" method="post">
-        <input type="hidden" name="order" value="Oldest" />
-        <input type="hidden" name="filter" value=@Model.filter />
-        <button type="submit" name="order" value="Oldest" class="sort-btn-small">Oldest</button>
-    </form>
-    <form asp-action="ItemOrder" method="post">
-        <input type="hidden" name="order" value="Highest" />
-        <input type="hidden" name="filter" value=@Model.filter />
-        <button type="submit" name="order" value="Highest" class="sort-btn-small">Quantity highest to lowest</button>
-    </form>
-    <form asp-action="ItemOrder" method="post">
-        <input type="hidden" name="order" value="Lowest" />
-        <input type="hidden" name="filter" value=@Model.filter />
-        <button type="submit" name="order" value="Lowest" class="sort-btn-small">Quantity lowest to highest</button>
-    </form>
-</div>
 <div class="table-responsive" id="table-content">
     @if (Model.filter == "All")
     {
@@ -39,23 +17,25 @@
         </form>
     }
 
-    <form asp-action="ItemsImport" enctype="multipart/form-data" method="post" class="card-button twenty-percent" id="uploadForm">
-        <label for="fileInput" class="create-btn card-button2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-            Importer varer
-        </label>
-        <input type="file" id="fileInput" name="file" required style="display: none;" accept=".json,.csv,.xml" />
-    </form>
-    <form asp-action="ExportPickingList" method="post" style="display: inline;">
-        <input type="hidden" name="filter" value="@Model.filter" />
-        <input type="hidden" name="searchText" id="exportSearchText" />
-        <select class="action-btn btn-eksport" id="eksportList" name="formatType">
-            <option value="" selected>-- Vælg en eksport format for alle  --</option>
-            <option value=".json">JSON</option>
-            <option value=".csv">CSV</option>
-            <option value=".xml">XML</option>
-        </select>
-    </form>
+    <div class="controls-container">
+        <form asp-action="ItemsImport" enctype="multipart/form-data" method="post" class="card-button twenty-percent" id="uploadForm">
+            <label for="fileInput" class="create-btn card-button2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                Importer varer
+            </label>
+            <input type="file" id="fileInput" name="file" required style="display: none;" accept=".json,.csv,.xml" />
+        </form>
+        <form asp-action="ExportPickingList" method="post" style="display: inline;">
+            <input type="hidden" name="filter" value="@Model.filter" />
+            <input type="hidden" name="searchText" id="exportSearchText" />
+            <select class="action-btn btn-eksport" id="eksportList" name="formatType">
+                <option value="" selected disabled>-- Vælg en eksport format --</option>
+                <option value=".json">JSON</option>
+                <option value=".csv">CSV</option>
+                <option value=".xml">XML</option>
+            </select>
+        </form>
+    </div>
 
     <script>
         const uploadForm = document.getElementById("uploadForm");

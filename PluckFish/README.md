@@ -54,9 +54,3 @@ PluckFish is a warehouse management web application built with ASP.NET Core. It 
 2. Create a feature branch
 3. Commit your changes
 4. Push and create a pull request
-
-## License
-MIT License
-
-## Contact
-For questions or support, contact the repository owner via GitHub.

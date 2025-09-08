@@ -209,7 +209,7 @@ main {
     vertical-align: middle;
 }
 
-    .confirm-btn {
+.confirm-btn {
     padding: 0.75rem;
     background-color: var(--accent-color);
     color: white;
@@ -235,7 +235,7 @@ main {
 
 .sort-options {
     display: flex;
-    gap: 1.5rem;
+    gap: .75rem;
     margin-bottom: 1rem;
     padding-left: 0.5rem;
     width: 40vw;
@@ -260,6 +260,22 @@ main {
     .sort-btn.active {
         color: var(--text-primary);
         border-bottom: 2px solid var(--accent-color);
+    }
+
+.sort-btn-small {
+    background-color: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: all 0.2s ease-in-out;
+}
+
+    .sort-btn-small:hover {
+        background-color: var(--hover-bg);
+        color: var(--text-primary);
     }
 
 .area {
@@ -326,9 +342,11 @@ main {
 #customerName {
     font-size: 0.9em;
 }
+
 #customerForsendelse {
     font-size: 0.9em;
 }
+
 #customerAdresse {
     font-size: 0.9em;
 }
@@ -383,10 +401,10 @@ main {
     padding-top: 1rem;
 }
 
-.action-buttons form {
-    display: flex;
-    gap: 0.5rem;
-}
+    .action-buttons form {
+        display: flex;
+        gap: 0.5rem;
+    }
 
 .action-btn {
     padding: 0.5rem 1rem;
@@ -403,18 +421,18 @@ main {
     color: white;
 }
 
-.btn-danger:hover {
-    background-color: darkred;
-}
+    .btn-danger:hover {
+        background-color: darkred;
+    }
 
 .btn-edit {
     background-color: limegreen;
     color: white;
 }
 
-.btn-edit:hover {
-    background-color: green;
-}
+    .btn-edit:hover {
+        background-color: green;
+    }
 
 .btn-primary {
     background-color: var(--accent-color);
@@ -444,20 +462,17 @@ main {
 .search-container {
     position: relative;
     max-width: 400px;
+    display: flex;
+    align-items: center;
 }
 
 .search-icon {
     position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
+    left: 0.6vw;
+    top: 1vh;
     color: var(--text-secondary);
     width: 20px;
     height: 20px;
-}
-
-.search-container .form-control {
-    padding-left: 40px;
 }
 
 .table-container {
@@ -515,9 +530,9 @@ main {
         background-color: #218838;
     }
 
-    .detail-row:last-child {
-        margin-bottom: 0;
-    }
+.detail-row:last-child {
+    margin-bottom: 0;
+}
 
 .remove-btn {
     background-color: red;
@@ -1041,15 +1056,15 @@ h2 {
         justify-content: center;
     }
 
-    .pagination a, .pagination span {
-        padding: 0.5rem 0.75rem;
-        font-size: 1.2em;
-        border-radius: 8px;
-    }
+        .pagination a, .pagination span {
+            padding: 0.5rem 0.75rem;
+            font-size: 1.2em;
+            border-radius: 8px;
+        }
 
-    .pagination li {
-        margin-bottom: 0.5rem;
-    }
+        .pagination li {
+            margin-bottom: 0.5rem;
+        }
 }
 
 .stats-container {
@@ -1165,37 +1180,37 @@ h2 {
     gap: 0.5rem;
 }
 
-.pagination a, .pagination span {
-    display: block;
-    padding: 0.75rem 1rem;
-    background-color: var(--secondary-bg);
-    color: var(--text-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 0.5vw;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 0.9em;
-}
+    .pagination a, .pagination span {
+        display: block;
+        padding: 0.75rem 1rem;
+        background-color: var(--secondary-bg);
+        color: var(--text-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 0.5vw;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 0.9em;
+    }
 
-.pagination a:hover {
-    background-color: var(--hover-bg);
-    color: var(--text-primary);
-    border-color: var(--accent-color);
-}
+        .pagination a:hover {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+        }
 
-.pagination .active a {
-    background-color: var(--accent-color);
-    color: var(--text-primary);
-    border-color: var(--accent-color);
-    cursor: default;
-}
+    .pagination .active a {
+        background-color: var(--accent-color);
+        color: var(--text-primary);
+        border-color: var(--accent-color);
+        cursor: default;
+    }
 
-.pagination .disabled span {
-    background-color: var(--primary-bg);
-    color: var(--text-secondary);
-    cursor: not-allowed;
-    opacity: 0.6;
-}
+    .pagination .disabled span {
+        background-color: var(--primary-bg);
+        color: var(--text-secondary);
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
 
 .modal {
     display: none;
@@ -1333,16 +1348,16 @@ span.antal {
     border: none;
     width: 100%;
     font-size: 1.1em;
-    height: stretch;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.3em;
+    height: 100%;
 }
 
-.create-btn:hover {
-    cursor: pointer;
-}
+    .create-btn:hover {
+        cursor: pointer;
+    }
 
 #uploadForm .create-btn {
     height: 100%;
@@ -1408,7 +1423,6 @@ span.antal {
     #productSearch {
         width: 38vw;
     }
-
 }
 
 .row2 {
@@ -1424,15 +1438,42 @@ span.antal {
 }
 
 .btn-eksport {
-    background-color: orange;
-    color: white;
+    background-color: var(--secondary-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23929090' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+    margin-left: 13%;
 }
 
-.btn-eksport:hover {
-    background-color: darkgoldenrod;
-}
+    .btn-eksport:hover {
+        background-color: var(--hover-bg);
+        border-color: var(--accent-color);
+    }
 
 .h-1 {
     width: auto !important;
     margin-top: 0 !important;
 }
+
+.controls-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+    .controls-container .card-button {
+        padding: 0.5rem 1rem;
+        margin-top: 0;
+    }
+
+    .controls-container .action-btn {
+        height: 100%;
+    }

@@ -1,14 +1,15 @@
-using PluckFish.Components;
-using PluckFish.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using PluckFish.Models;
-using PluckFish.Auth;
-using Microsoft.Extensions.Caching.Memory;
-using PluckFish.Components.Cache;
-using PluckFish.Interfaces.API;
-using PluckFish.Components.PostgresRepositories.API;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.OpenApi.Models;
 using PluckFish.Attributes;
+using PluckFish.Auth;
+using PluckFish.Components;
+using PluckFish.Components.Cache;
+using PluckFish.Components.PostgresRepositories.API;
+using PluckFish.Interfaces;
+using PluckFish.Interfaces.API;
+using PluckFish.Models;
 
 namespace PluckFish
 {
@@ -68,6 +69,31 @@ namespace PluckFish
                         return false;
 
                     return ApiDesc.ActionDescriptor.EndpointMetadata.Any(m => m is ApiControllerAttribute && !(m is HideFromSwaggerAttribute));
+                });
+
+                // JWT bearer token.
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
+                    Name = "X-API-TOKEN",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
                 });
             });
 

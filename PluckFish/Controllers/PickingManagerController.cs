@@ -100,8 +100,7 @@ namespace PluckFish.Controllers
         {
             return RedirectToAction(nameof(GetPickingList), new { Id = id });
         }
-
-        [HttpGet]
+     
         [Route("CreatePickinglist")]
         public IActionResult CreatePickingList()
         {

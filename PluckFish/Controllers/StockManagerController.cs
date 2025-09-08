@@ -73,11 +73,10 @@ namespace PluckFish.Controllers
         }
 
         [HttpPost]
-        public IActionResult ItemOrder([FromForm] string order)
+        public IActionResult ItemOrder([FromForm] string order, [FromForm] string filter = "All")
         {
             StockViewModel retval = new StockViewModel();
-            (retval.stockInventory, retval.currentPage, retval.TotalPages) = getPage(0);
-
+            (retval.stockInventory, retval.currentPage, retval.TotalPages) = getPage(0, filter);
 
             List<Item> items = stockRepository.GetStock();
 
@@ -95,6 +94,7 @@ namespace PluckFish.Controllers
                     retval.stockInventory = retval.stockInventory.OrderBy(x => x.Amount).ToList();
                     break;
             }
+            retval.filter = filter;
             return View("Index", retval);
         }
 

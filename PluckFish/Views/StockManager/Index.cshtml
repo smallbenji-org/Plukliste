@@ -35,20 +35,6 @@
             </form>
         </div>
     </div>
-    <div class="sort-options">
-        <form asp-action="ItemOrder" method="post">
-            <button type="submit" name="order" value="Newest" class="sort-btn-small">Newest</button>
-        </form>
-        <form asp-action="ItemOrder" method="post">
-            <button type="submit" name="order" value="Oldest" class="sort-btn-small">Oldest</button>
-        </form>
-        <form asp-action="ItemOrder" method="post">
-            <button type="submit" name="order" value="Highest" class="sort-btn-small">Quantity highest to lowest</button>
-        </form>
-        <form asp-action="ItemOrder" method="post">
-            <button type="submit" name="order" value="Lowest" class="sort-btn-small">Quantity lowest to highest</button>
-        </form>
-    </div>
     <div class="controls-container">
         <form asp-action="ItemsImport" enctype="multipart/form-data" method="post" id="uploadForm">
             <label for="fileInput" class="create-btn card-button">

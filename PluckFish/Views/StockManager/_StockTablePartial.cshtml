@@ -6,7 +6,28 @@
         background-color: #f0f8ff;
     }
 </style>
-
+<div class="sort-options" id="orderBtns">
+    <form asp-action="ItemOrder" method="post">
+        <input type="hidden" name="order" value="Newest" />
+        <input type="hidden" name="filter" value=@Model.filter />
+        <button type="submit" name="order" value="Newest" class="sort-btn-small">Newest</button>
+    </form>
+    <form asp-action="ItemOrder" method="post">
+        <input type="hidden" name="order" value="Oldest" />
+        <input type="hidden" name="filter" value=@Model.filter />
+        <button type="submit" name="order" value="Oldest" class="sort-btn-small">Oldest</button>
+    </form>
+    <form asp-action="ItemOrder" method="post">
+        <input type="hidden" name="order" value="Highest" />
+        <input type="hidden" name="filter" value=@Model.filter />
+        <button type="submit" name="order" value="Highest" class="sort-btn-small">Quantity highest to lowest</button>
+    </form>
+    <form asp-action="ItemOrder" method="post">
+        <input type="hidden" name="order" value="Lowest" />
+        <input type="hidden" name="filter" value=@Model.filter />
+        <button type="submit" name="order" value="Lowest" class="sort-btn-small">Quantity lowest to highest</button>
+    </form>
+</div>
 <div class="table-responsive" id="table-content">
     @if (Model.filter == "All")
     {

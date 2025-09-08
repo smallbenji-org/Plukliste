@@ -17,7 +17,7 @@
     </div>
 
     <div class="form-group search-container" style="margin-top: 1rem;">
-        <input type="text" id="productSearch" class="form-control" placeholder="Søg produkter...">
+        <input type="text" id="productSearch" class="form-control" placeholder="Sï¿½g produkter...">
         <div class="search-icon">
             <svg data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
@@ -43,7 +43,7 @@
                             <td>
                                 <form asp-action="AddProductToPickingList" method="post">
                                     <input type="hidden" name="listId" value="@Model.CurrentPickingList.Id" />
-                                    <button class="action-btn btn-add" name="prodId" value="@prod.ProductID">Tilføj</button>
+                                    <button class="action-btn btn-add" name="prodId" value="@prod.ProductID">Tilfï¿½j</button>
                                 </form>
                             </td>
                         </tr>
@@ -53,11 +53,11 @@
         </div>
         <div class="table-wrapper">
             <h3>Varer</h3>
-            <table class="pluk-table">
+            <table class="pluk-table products-table">
                 <thead>
                     <tr>
                         <th>Produkt</th>
-                        <th>Mængde</th>
+                        <th>Mï¿½ngde</th>
                         <th>Handling</th>
                     </tr>
                 </thead>
@@ -90,10 +90,7 @@
                     }
                 </tbody>
             </table>
-            <form action="SaveProductsInPickingList" method="post">
-                <input type="hidden" name="" value="" />
-                <button type="submit"></button>
-            </form>
+            <button class="action-btn btn-primary" onclick="saveAll()">Save All</button>
         </div>
     </div>
 </div>
@@ -135,4 +132,28 @@
             row.style.display = productName.includes(filter) ? "" : "none";
         });
     });
+
+    function saveAll() {
+        var obj = {};
+
+        document.querySelectorAll(".products-table .quantity-form").forEach(x => {
+            var productId = x.querySelector("input[name=productId]").value;
+            var amount = x.querySelector("input[name=productAmount]").value;
+        
+            obj[productId] = amount;
+        });
+
+        fetch("/PickingManager/EditPickingList/SaveAll", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj)
+        }).then(x => {
+            if (x.ok){
+                document.location.reload();
+            }
+        });
+    }
+
 </script>

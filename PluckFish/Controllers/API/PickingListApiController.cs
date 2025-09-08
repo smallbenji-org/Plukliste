@@ -22,24 +22,28 @@ namespace PluckFish.Controllers
             this.stockRepository = stockRepository;
         }
 
-        [HttpGet("GetPickingLists")]
-        public IActionResult GetPickingLists()
+        [HttpGet]
+        public IActionResult GetAll()
         {
             return Ok(pickingListRepository.GetAllPickingList());
         }
 
-        [HttpGet("GetPickinglist")]
-        public IActionResult GetPickinglist([FromBody] int pickinglistId)
+        [HttpGet("{id}")]
+        public IActionResult GetPickinglist(int id)
         {
-            return Ok(pickingListRepository.GetPickingList(pickinglistId));
+            var pickingList = pickingListRepository.GetPickingList(id);
+
+            pickingList.Lines = pickingListRepository.GetPickingListItems(id);
+
+            return Ok(pickingList);
         }
 
-        [HttpDelete("DeleteProductFromPickingList/{pickingListId}")]
-        public IActionResult DeleteProductFromPickingList(int pickingListId, [FromBody] Item item)
+        [HttpDelete("{id}/items")]
+        public IActionResult DeleteProductFromPickingList(int id, [FromBody] Item item)
         {
             try
             {
-                var pickingList = pickingListRepository.GetPickingList(pickingListId);
+                var pickingList = pickingListRepository.GetPickingList(id);
 
                 pickingListRepository.DeleteProductFromPickingList(pickingList, item);
 
@@ -51,12 +55,19 @@ namespace PluckFish.Controllers
             }
         }
 
-        [HttpPut("AddProductToPickingList/{pickingListId}")]
-        public IActionResult AddProductToPickingList(int pickingListId, [FromBody] Item item)
+        [HttpGet("{id}/items")]
+        public IActionResult GetItemsFromPickinglist(int id)
+        {
+            return Ok(pickingListRepository.GetPickingListItems(id));
+        }
+
+
+        [HttpPost("{id}/items")]
+        public IActionResult AddProductToPickingList(int id, [FromBody] Item item)
         {
             try
             {
-                var pickingList = pickingListRepository.GetPickingList(pickingListId);
+                var pickingList = pickingListRepository.GetPickingList(id);
 
                 pickingListRepository.AddProductToPickingList(pickingList, item);
 
@@ -68,8 +79,8 @@ namespace PluckFish.Controllers
             }
         }
 
-        [HttpPost("TogglePickinglistItem")]
-        public IActionResult TogglePickingListItem([FromBody] int id)
+        [HttpPost("{id}/toggle")]
+        public IActionResult TogglePickingList(int id)
         {
             var pickinglist = pickingListRepository.GetPickingList(id);
 
@@ -89,30 +100,30 @@ namespace PluckFish.Controllers
             return Ok();
         }
 
-        [HttpPost("AddProductToPickingList/{listId}")]
-        public IActionResult AddProductToPickingList([FromBody] string prodId, int listId)
-        {
-            PickingList pickingList = pickingListRepository.GetPickingList(listId);
-            Item item = stockRepository.GetItemStock(prodId);
-
-            if (!item.RestVare)
-            {
-                int sum = pickingListRepository.GetSumOfItemInAllPickingLists(prodId);
-                if (item.Amount <= sum) { return BadRequest("Not enough in stock"); }
-            }
-
-            item.Amount = 1;
-            pickingListRepository.AddProductToPickingList(pickingList, item);
-
-            return Ok();
-        }
-
-        [HttpPost("CreatePickingList")]
-        public IActionResult CreatePickingList([FromBody] PickingList pickingList)
+        [HttpPut("{id}/items/{productId}")]
+        public IActionResult EditProduct(int id, string productId, [FromBody] Item item)
         {
             try
             {
-                pickingListRepository.AddPickingList(pickingList);
+                var pickingList = pickingListRepository.GetPickingList(id);
+
+                pickingListRepository.UpdateItemInPickingList(pickingList, item, item.Amount);
+
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut]
+        public IActionResult EditPickinglist([FromBody] PickingList pl)
+        {
+            try
+            {
+                pickingListRepository.UpdatePickingList(pl);
+
                 return Ok();
             }
             catch

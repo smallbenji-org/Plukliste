@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using PluckFish.Interfaces;
 using PluckFish.Interfaces.API;
 using PluckFish.Models;
 using PluckFish.Models.API;

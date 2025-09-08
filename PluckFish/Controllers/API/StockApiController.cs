@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PluckFish.Attributes;
 using PluckFish.Interfaces;
-using PluckFish.Interfaces.API;
 using PluckFish.Models;
 
 namespace PluckFish.Controllers.API

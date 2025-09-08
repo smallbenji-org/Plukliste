@@ -5,6 +5,7 @@ using PluckFish.Interfaces;
 using PluckFish.Models;
 using System.Diagnostics;
 using System.Text.Json;
+using System.Web;
 using System.Xml.Serialization;
 
 namespace PluckFish.Controllers
@@ -302,6 +303,31 @@ namespace PluckFish.Controllers
         public IActionResult SaveProductInPickingList([FromForm] string productId, [FromForm] int pickingListId)
         {
             return View();
+        }
+
+        [HttpPost("PickingManager/EditPickingList/SaveAll")]
+        public IActionResult SaveAll([FromBody] Dictionary<string, string> values)
+        {
+            var uri = new Uri(Request.Headers.Referer);
+
+            var query = HttpUtility.ParseQueryString(uri.Query);
+
+            var pickinglistId = query["id"];
+
+            var pickinglist = pickingListRepository.GetPickingList(int.Parse(pickinglistId));    
+
+            foreach (var item in values)
+            {
+                pickingListRepository.UpdateItemInPickingList(pickinglist, new Item()
+                {
+                    Product = new Product
+                    {
+                        ProductID = item.Key
+                    }
+                }, int.Parse(item.Value));
+            }
+
+            return Ok(values);
         }
 
 

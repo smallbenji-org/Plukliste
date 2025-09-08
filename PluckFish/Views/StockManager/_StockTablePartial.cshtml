@@ -11,15 +11,15 @@
     @if (Model.filter == "All")
     {
         <form asp-action="ItemOrder" method="post">
-            <button type="submit" name="order" value="Newest">Newest</button>
-            <button type="submit" name="order" value="Oldest">Oldest</button>
-            <button type="submit" name="order" value="Highest">Quantity highest to lowest</button>
-            <button type="submit" name="order" value="Lowest">Quantity lowest to highest</button>
+            <button type="submit" name="order" value="Newest" class="sort-btn-small">Newest</button>
+            <button type="submit" name="order" value="Oldest" class="sort-btn-small">Oldest</button>
+            <button type="submit" name="order" value="Highest" class="sort-btn-small">Quantity highest to lowest</button>
+            <button type="submit" name="order" value="Lowest" class="sort-btn-small">Quantity lowest to highest</button>
         </form>
     }
 
-    <form asp-action="ItemsImport" enctype="multipart/form-data" method="post" class="card-button twenty-percent h-1" id="uploadForm">
-        <label for="fileInput" class="create-btn">
+    <form asp-action="ItemsImport" enctype="multipart/form-data" method="post" class="card-button twenty-percent" id="uploadForm">
+        <label for="fileInput" class="create-btn card-button2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
             Importer varer
         </label>

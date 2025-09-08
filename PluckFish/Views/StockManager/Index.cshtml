@@ -35,6 +35,39 @@
             </form>
         </div>
     </div>
+    <div class="sort-options">
+        <form asp-action="ItemOrder" method="post">
+            <button type="submit" name="order" value="Newest" class="sort-btn-small">Newest</button>
+        </form>
+        <form asp-action="ItemOrder" method="post">
+            <button type="submit" name="order" value="Oldest" class="sort-btn-small">Oldest</button>
+        </form>
+        <form asp-action="ItemOrder" method="post">
+            <button type="submit" name="order" value="Highest" class="sort-btn-small">Quantity highest to lowest</button>
+        </form>
+        <form asp-action="ItemOrder" method="post">
+            <button type="submit" name="order" value="Lowest" class="sort-btn-small">Quantity lowest to highest</button>
+        </form>
+    </div>
+    <div class="controls-container">
+        <form asp-action="ItemsImport" enctype="multipart/form-data" method="post" id="uploadForm">
+            <label for="fileInput" class="create-btn card-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                Importer varer
+            </label>
+            <input type="file" id="fileInput" name="file" required class="hidden" accept=".json,.csv,.xml" />
+        </form>
+        <form asp-action="ExportPickingList" method="post" style="display: inline;">
+            <input type="hidden" name="filter" value="@Model.filter" />
+            <input type="hidden" name="searchText" id="exportSearchText" />
+            <select class="action-btn btn-eksport" id="eksportList" name="formatType">
+                <option value="" selected disabled>-- Vælg en eksport format --</option>
+                <option value=".json">JSON</option>
+                <option value=".csv">CSV</option>
+                <option value=".xml">XML</option>
+            </select>
+        </form>
+    </div>
     <div id="stock-table-container">
         @await Html.PartialAsync("_StockTablePartial", Model)
     </div>
@@ -66,6 +99,8 @@
      const redigerFormTitel = document.getElementById("redigerTitel");
      const tomForm = document.getElementById("tomForm");
      const tableContainer = document.getElementById("stock-table-container");
+     const uploadForm = document.getElementById("uploadForm");
+     const fileInput = document.getElementById("fileInput");
 
      function initializeEditButtons() {
          const editButtons = tableContainer.querySelectorAll(".edit-btn");
@@ -113,11 +148,15 @@
          form.addEventListener('submit', function (e) {
              e.preventDefault();
              const filter = this.dataset.filter;
-             const url = `@Url.Action("GetStockTable", "StockManager")?nextPage=1&filter=${filter}`;
-             loadTable(url);
+             if (filter) {
+                 const url = `@Url.Action("GetStockTable", "StockManager")?nextPage=1&filter=${filter}`;
+                 loadTable(url);
 
-             document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
-             this.querySelector('.sort-btn').classList.add('active');
+                 document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                 this.querySelector('.sort-btn').classList.add('active');
+             } else {
+                 this.submit();
+             }
          });
      });
 
@@ -134,6 +173,12 @@
              method: redigerForm.method,
              body: formData
          });
+
+         if (response.ok) {
+             const currentFilter = document.querySelector('.sort-btn.active').closest('form').dataset.filter || 'All';
+             const url = `@Url.Action("GetStockTable", "StockManager")?nextPage=1&filter=${currentFilter}`;
+             loadTable(url);
+         }
      });
 
 
@@ -144,5 +189,37 @@
         const url = this.action + "?nextPage=1";
         loadTable(url);
     });
-</script>
 
+    fileInput.addEventListener("change", function () {
+        if (this.value) {
+            uploadForm.submit();
+        }
+    });
+
+    uploadForm.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        uploadForm.classList.add("drag-over");
+    });
+
+    uploadForm.addEventListener("dragleave", () => {
+        uploadForm.classList.remove("drag-over");
+    });
+
+    uploadForm.addEventListener("drop", (event) => {
+        event.preventDefault();
+        uploadForm.classList.remove("drag-over");
+
+        if (event.dataTransfer.files.length > 0) {
+            fileInput.files = event.dataTransfer.files;
+            const changeEvent = new Event('change', { bubbles: true });
+            fileInput.dispatchEvent(changeEvent);
+        }
+    });
+
+    document.getElementById("eksportList").addEventListener("change", function () {
+        if (this.value) {
+            document.getElementById("exportSearchText").value = document.getElementById("searchBox").value;
+            this.form.submit();
+        }
+    });
+</script>

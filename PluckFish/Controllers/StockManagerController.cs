@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PluckFish.Interfaces;
 using PluckFish.Models;
+using System.Text;
 using System.Text.Json;
 using System.Xml.Serialization;
 
@@ -255,6 +256,61 @@ namespace PluckFish.Controllers
             retval.filter = "VisRestVare";
             (retval.stockInventory, retval.currentPage, retval.TotalPages) = getPage(retval.currentPage, retval.filter);
             return View("Index", retval);
+        }
+
+        [HttpPost]
+        public IActionResult ExportPickingList(string formatType, string filter = "All", string searchText = "")
+        {
+            List<Item> items = stockRepository.GetStock();
+
+            if (filter == "VisVare")
+            {
+                items = items.Where(x => !x.RestVare).ToList();
+            }
+            else if (filter == "VisRestVare")
+            {
+                items = items.Where(x => x.RestVare).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                items = items.Where(x => x.Product.Name.ToLowerInvariant().Contains(searchText.ToLowerInvariant())).ToList();
+            }
+
+            string fileName = $"stock-{DateTime.Now:yyyyMMddHHmmss}{formatType}";
+            string contentType;
+            byte[] fileContents;
+
+            switch (formatType)
+            {
+                case ".json":
+                    contentType = "application/json";
+                    fileContents = JsonSerializer.SerializeToUtf8Bytes(items, new JsonSerializerOptions { WriteIndented = true });
+                    break;
+                case ".csv":
+                    contentType = "text/csv";
+                    var builder = new StringBuilder();
+                    builder.AppendLine("ProductID,Name,Type,Amount,RestVare");
+                    foreach (var item in items)
+                    {
+                        builder.AppendLine($"{item.Product.ProductID},{item.Product.Name},{item.Type},{item.Amount},{item.RestVare}");
+                    }
+                    fileContents = Encoding.UTF8.GetBytes(builder.ToString());
+                    break;
+                case ".xml":
+                    contentType = "application/xml";
+                    var serializer = new XmlSerializer(typeof(List<Item>));
+                    using (var writer = new StringWriter())
+                    {
+                        serializer.Serialize(writer, items);
+                        fileContents = Encoding.UTF8.GetBytes(writer.ToString());
+                    }
+                    break;
+                default:
+                    return BadRequest("Unsupported format type.");
+            }
+
+            return File(fileContents, contentType, fileName);
         }
 
     }

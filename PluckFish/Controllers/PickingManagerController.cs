@@ -93,6 +93,7 @@ namespace PluckFish.Controllers
             return RedirectToAction(nameof(EditPickingList), new { id = listId });
         }
 
+
         [HttpPost]
         public IActionResult HandlePickingList([FromForm] string id)
         {
@@ -187,6 +188,51 @@ namespace PluckFish.Controllers
 
             return RedirectToAction(nameof(EditPickingList), new { id = pickingList.Id });
         }
+
+        [HttpPost("ExportPickingList")]
+        public IActionResult ExportPickingList([FromForm] int id, [FromForm] string formatType)
+        {
+            PickingList pickingList = pickingListRepository.GetPickingList(id);
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "PickingLists");
+
+            if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "PickingLists")))
+            {
+                path = Path.Combine(Directory.GetCurrentDirectory(), "PickingLists");
+                Directory.CreateDirectory(path);
+            }
+
+            if (formatType == ".json")
+            {
+                using (StreamWriter sw = new StreamWriter($"{path}/PickingList{id}.json"))
+                {
+                    string jsonString = JsonSerializer.Serialize(pickingList, new JsonSerializerOptions { WriteIndented = true });
+                    sw.Write(jsonString);
+                }
+            }
+            else if (formatType == ".csv")
+            {
+                using (StreamWriter sw = new StreamWriter($"{path}/PickingList{id}.csv"))
+                {
+                    sw.Write($"{pickingList.Id},{pickingList.Name},{pickingList.Forsendelse},{pickingList.Adresse},{pickingList.IsDone}");
+
+                    sw.WriteLine("ProductID,Amount,Type,RestVare");
+                    foreach (var item in pickingList.Lines)
+                    {
+                        sw.WriteLine($"{item.Product.ProductID},{item.Amount},{item.Type},{item.RestVare}");
+                    }
+                }
+            }
+            else if (formatType == ".xml")
+            {
+                using (StreamWriter sw = new StreamWriter($"{path}/PickingList{id}.xml"))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(PickingList));
+                    serializer.Serialize(sw, pickingList);
+                }
+            }
+            return View();
+        }
+
 
         [HttpPost]
         public IActionResult ImportPickingList([FromForm] IFormFile file)

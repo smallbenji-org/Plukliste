@@ -230,7 +230,7 @@ namespace PluckFish.Controllers
                     serializer.Serialize(sw, pickingList);
                 }
             }
-            return View();
+            return RedirectToAction(nameof(GetPickingList), new { Id = id });
         }
 
 

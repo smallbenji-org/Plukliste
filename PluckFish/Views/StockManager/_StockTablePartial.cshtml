@@ -28,52 +28,6 @@
         </form>
     </div>
 
-    <script>
-        const uploadForm = document.getElementById("uploadForm");
-        const fileInput = document.getElementById("fileInput");
-
-        if (document.getElementById("listSelector")) {
-            document.getElementById("listSelector").addEventListener("change", function () {
-                if (this.value) {
-                    this.form.submit();
-                }
-            });
-        }
-
-        fileInput.addEventListener("change", function () {
-            if (this.value) {
-                uploadForm.submit();
-            }
-        });
-
-        uploadForm.addEventListener("dragover", (event) => {
-            event.preventDefault();
-            uploadForm.classList.add("drag-over");
-        });
-
-        uploadForm.addEventListener("dragleave", () => {
-            uploadForm.classList.remove("drag-over");
-        });
-
-        uploadForm.addEventListener("drop", (event) => {
-            event.preventDefault();
-            uploadForm.classList.remove("drag-over");
-
-            if (event.dataTransfer.files.length > 0) {
-                fileInput.files = event.dataTransfer.files;
-                const changeEvent = new Event('change', { bubbles: true });
-                fileInput.dispatchEvent(changeEvent);
-            }
-        });
-
-        document.getElementById("eksportList").addEventListener("change", function () {
-            if (this.value) {
-                document.getElementById("exportSearchText").value = document.getElementById("searchBox").value;
-                this.form.submit();
-            }
-        })
-    </script>
-
     <table class="vare-table">
         <thead>
             <tr>
